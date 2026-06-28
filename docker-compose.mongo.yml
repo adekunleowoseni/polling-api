@@ -1,0 +1,23 @@
+# Local MongoDB when Atlas SSL fails from this VPS.
+# Start: docker compose -f docker-compose.yml -f docker-compose.mongo.yml up -d --build
+
+services:
+  api:
+    environment:
+      MONGODB_URI: mongodb://mongodb:27017
+      MONGODB_DB_NAME: poll-live-feed
+    depends_on:
+      mongodb:
+        condition: service_started
+
+  mongodb:
+    # 4.4 works on VPS CPUs without AVX (MongoDB 5+ requires AVX and crashes immediately).
+    image: mongo:4.4
+    container_name: lado-poll-mongo
+    restart: unless-stopped
+    command: ["mongod", "--wiredTigerCacheSizeGB", "0.25"]
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

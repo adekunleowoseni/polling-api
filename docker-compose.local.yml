@@ -1,0 +1,29 @@
+# Optional: local MongoDB container (use when NOT using MongoDB Atlas)
+# Start with: docker compose -f docker-compose.yml -f docker-compose.local.yml up -d --build
+
+services:
+  api:
+    environment:
+      MONGODB_URI: mongodb://app:app@mongodb:27017/?authSource=admin
+    depends_on:
+      mongodb:
+        condition: service_healthy
+
+  mongodb:
+    image: mongo:7
+    container_name: lado-poll-mongo
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: app
+      MONGO_INITDB_ROOT_PASSWORD: app
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "-u", "app", "-p", "app", "--authenticationDatabase", "admin", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 20s
+
+volumes:
+  mongo_data:

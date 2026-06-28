@@ -1,0 +1,8 @@
+# Last-resort Atlas fix: use host network stack instead of Docker bridge.
+# Start: docker compose -f docker-compose.yml -f docker-compose.host.yml up -d --build
+# API will listen on host 127.0.0.1:8000 directly.
+
+services:
+  api:
+    network_mode: host
+    ports: []

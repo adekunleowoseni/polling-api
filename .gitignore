@@ -1,0 +1,16 @@
+.env
+.env.*
+!.env.example
+.venv
+__pycache__
+**/__pycache__
+*.py[cod]
+storage/snaps/*
+!storage/snaps/.gitkeep
+mongo-backup/
+.pytest_cache
+.mypy_cache
+.ruff_cache
+
+# Keep these — Railway needs them:
+# Dockerfile, requirements.txt, railway.toml, app/

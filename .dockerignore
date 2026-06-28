@@ -1,0 +1,16 @@
+.venv
+__pycache__
+**/__pycache__
+*.py[cod]
+*.pyo
+.env
+.env.*
+!.env.example
+storage/snaps/*
+.git
+.gitignore
+deploy
+*.md
+.pytest_cache
+.mypy_cache
+.ruff_cache

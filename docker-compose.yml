@@ -1,0 +1,22 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lado-poll-api
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:8000:8000"
+    env_file:
+      - .env
+    # Broken IPv6 on many VPS hosts causes Atlas TLS failures — prefer IPv4 only.
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
+      net.ipv6.conf.default.disable_ipv6: 1
+    volumes:
+      - snaps_data:/app/storage/snaps
+      # Uncomment if using Google Document AI (path on host):
+      # - ./service-account.json:/app/service-account.json:ro
+
+volumes:
+  snaps_data:

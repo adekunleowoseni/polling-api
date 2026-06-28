@@ -1,0 +1,15 @@
+.venv
+__pycache__
+**/__pycache__
+.env
+.env.*
+storage/
+mongo-backup/
+deploy/
+.git
+*.md
+.pytest_cache
+.mypy_cache
+.ruff_cache
+
+# Keep: Dockerfile, requirements.txt, railway.toml, app/, migrate.py

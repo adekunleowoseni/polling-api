@@ -1,0 +1,23 @@
+# systemd unit — install:
+#   sudo cp lado-poll.service /etc/systemd/system/lado-poll.service
+#   sudo nano /etc/systemd/system/lado-poll.service   # fix User, paths
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now lado-poll
+#   sudo systemctl status lado-poll
+
+[Unit]
+Description=Lado Poll Monitor API (FastAPI)
+After=network.target mongod.service
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=/home/USER/edumatrix/poll
+EnvironmentFile=/home/USER/edumatrix/poll/.env
+ExecStart=/home/USER/edumatrix/poll/.venv/bin/uvicorn app.main:app --host 127.0.0.1 --port 8000 --proxy-headers --forwarded-allow-ips=*
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
