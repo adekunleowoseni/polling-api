@@ -23,8 +23,16 @@ class Settings(BaseSettings):
     google_documentai_processor_id: str = ""
     super_admin_email: str = "admin@ogun.monitor"
     super_admin_password: str = "ChangeMeAdmin123!"
-    # Comma-separated browser origins allowed to call the API (Vercel + local dev).
+    # Comma-separated browser origins, or * for all (no cookies).
     cors_origins: str = "http://localhost:3000"
+
+    @property
+    def cors_origin_list(self) -> list[str]:
+        return [o.strip().rstrip("/") for o in self.cors_origins.split(",") if o.strip()]
+
+    @property
+    def cors_allow_all(self) -> bool:
+        return "*" in self.cors_origin_list
 
     @model_validator(mode="after")
     def normalize_mongodb_db_name(self) -> "Settings":
