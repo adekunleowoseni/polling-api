@@ -46,6 +46,11 @@ app.include_router(geo_router)
 app.include_router(feed_snaps_router)
 
 
+@app.get("/health")
+async def health() -> dict[str, str]:
+    return {"status": "ok"}
+
+
 @app.on_event("startup")
 async def on_startup() -> None:
     ensure_snaps_dir()
