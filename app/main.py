@@ -1,4 +1,6 @@
 from datetime import datetime, timezone
+import asyncio
+import logging
 from typing import Any
 
 from fastapi import Depends, FastAPI, File, HTTPException, UploadFile, WebSocket, WebSocketDisconnect
@@ -28,6 +30,9 @@ from .schemas import (
 )
 from .settings import settings
 
+logger = logging.getLogger(__name__)
+_db_ready = False
+
 app = FastAPI(title="Registration Scanner API")
 
 _cors_origins = [o.strip() for o in settings.cors_origins.split(",") if o.strip()]
@@ -48,15 +53,27 @@ app.include_router(feed_snaps_router)
 
 @app.get("/health")
 async def health() -> dict[str, str]:
-    return {"status": "ok"}
+    return {"status": "ok", "db": "ready" if _db_ready else "initializing"}
+
+
+async def _init_database() -> None:
+    global _db_ready
+    try:
+        db = get_database()
+        await ensure_schema(db)
+        await ensure_super_admin(db)
+        _db_ready = True
+        logger.info("Database ready")
+    except Exception:
+        logger.exception("Database initialization failed")
+        _db_ready = False
 
 
 @app.on_event("startup")
 async def on_startup() -> None:
     ensure_snaps_dir()
-    db = get_database()
-    await ensure_schema(db)
-    await ensure_super_admin(db)
+    # Do not block HTTP startup on MongoDB (Railway healthcheck needs /health quickly).
+    asyncio.create_task(_init_database())
 
 
 def _doc_to_out(doc: dict[str, Any]) -> RegistrationOut:
