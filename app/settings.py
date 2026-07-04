@@ -25,6 +25,10 @@ class Settings(BaseSettings):
     super_admin_password: str = "ChangeMeAdmin123!"
     # Comma-separated browser origins, or * for all (no cookies).
     cors_origins: str = "http://localhost:3000"
+    # LiveKit WebRTC (leave empty to disable realtime A/V).
+    livekit_url: str = ""
+    livekit_api_key: str = ""
+    livekit_api_secret: str = ""
 
     @property
     def cors_origin_list(self) -> list[str]:

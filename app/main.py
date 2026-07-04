@@ -19,6 +19,7 @@ from .feed_snap_storage import ensure_snaps_dir
 from .feed_snaps_router import router as feed_snaps_router
 from .geo_router import router as geo_router
 from .polling_units_router import router as polling_units_router
+from .webrtc_router import router as webrtc_router
 from .schemas import (
     DailyTrend,
     LiveActivity,
@@ -52,6 +53,7 @@ app.include_router(agents_router)
 app.include_router(admin_router)
 app.include_router(geo_router)
 app.include_router(feed_snaps_router)
+app.include_router(webrtc_router)
 
 
 @app.get("/health")

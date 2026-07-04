@@ -1,0 +1,21 @@
+# Optional self-hosted LiveKit for WebRTC.
+# Start with:
+#   docker compose -f docker-compose.yml -f docker-compose.mongo.yml -f docker-compose.livekit.yml up -d --build
+#
+# Then set in .env:
+#   LIVEKIT_URL=ws://localhost:7880
+#   LIVEKIT_API_KEY=devkey
+#   LIVEKIT_API_SECRET=secret
+#
+# For production, use LiveKit Cloud or put LiveKit behind HTTPS/WSS on your domain.
+
+services:
+  livekit:
+    image: livekit/livekit-server:latest
+    container_name: lado-poll-livekit
+    restart: unless-stopped
+    command: --dev --bind 0.0.0.0
+    ports:
+      - "7880:7880"
+      - "7881:7881"
+      - "7882:7882/udp"

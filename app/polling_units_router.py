@@ -30,7 +30,10 @@ def _as_utc(dt: datetime | None) -> datetime | None:
     return dt.astimezone(timezone.utc)
 
 
-def _stream_status(last_frame_at: datetime | None) -> str:
+def _stream_status(doc: dict[str, Any]) -> str:
+    if doc.get("webrtc_live"):
+        return "live"
+    last_frame_at = doc.get("last_frame_at")
     if not last_frame_at:
         return "offline"
     aware = _as_utc(last_frame_at)
@@ -50,7 +53,7 @@ def _doc_to_out(doc: dict[str, Any]) -> PollingUnitOut:
         lga=doc["lga"],
         people_count=int(doc.get("people_count", 0)),
         peak_people_count=int(doc.get("peak_people_count", 0)),
-        stream_status=_stream_status(last_frame_at),
+        stream_status=_stream_status(doc),
         device_type=doc.get("device_type", "meta_rayban"),
         last_frame_at=_as_utc(last_frame_at),
         created_at=_as_utc(doc["created_at"]) or doc["created_at"],
@@ -259,7 +262,7 @@ async def correct_people_count(
         },
     )
 
-    stream_status = _stream_status(doc.get("last_frame_at"))
+    stream_status = _stream_status(doc)
     await feed_manager.update_people_count(code.lower(), corrected, stream_status)
 
     updated = await db[POLLING_UNITS_COLLECTION].find_one({"_id": doc["_id"]})

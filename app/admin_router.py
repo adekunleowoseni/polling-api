@@ -181,7 +181,7 @@ async def admin_update_people_count(
     )
     from .polling_units_router import _stream_status
 
-    stream_status = _stream_status(doc.get("last_frame_at"))
+    stream_status = _stream_status(doc)
     await feed_manager.update_people_count(normalized, corrected, stream_status)
 
     updated = await db[POLLING_UNITS_COLLECTION].find_one({"_id": doc["_id"]})
@@ -204,7 +204,7 @@ async def admin_force_offline(
 
     await db[POLLING_UNITS_COLLECTION].update_one(
         {"_id": doc["_id"]},
-        {"$set": {"last_frame_at": None}},
+        {"$set": {"last_frame_at": None, "webrtc_live": False}},
     )
     await feed_manager.clear_frame(normalized)
     return {"status": "offline", "code": normalized}
