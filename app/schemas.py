@@ -202,6 +202,8 @@ class AdminAgentOut(BaseModel):
     ward: str | None = None
     created_at: datetime
     polling_units: list[AdminAgentUnitOut] = []
+    data_claim_limit: int = 1
+    data_claims_used: int = 0
 
 
 class AdminAgentSummary(BaseModel):
@@ -213,7 +215,61 @@ class AdminAgentSummary(BaseModel):
     created_at: datetime
     polling_unit_count: int
     live_unit_count: int
+    data_claim_limit: int = 1
+    data_claims_used: int = 0
+
+
+class AgentDataClaimLimitUpdate(BaseModel):
+    data_claim_limit: int = Field(..., ge=0, le=1000)
+
+
+class DataClaimQuotaOut(BaseModel):
+    data_claim_limit: int
+    data_claims_used: int
+    data_claims_remaining: int
 
 
 class AgentPollingUnitOut(PollingUnitOut):
     ingest_token: str
+
+
+class DataPlanOut(BaseModel):
+    network: str
+    service_id: str
+    variation_code: str
+    name: str
+    amount: float
+    enabled: bool = True
+
+
+class DataPlanEnableItem(BaseModel):
+    network: str = Field(..., min_length=2, max_length=20)
+    variation_code: str = Field(..., min_length=1, max_length=80)
+    name: str = Field(..., min_length=1, max_length=200)
+    amount: float = Field(..., ge=0)
+    enabled: bool = True
+
+
+class DataPlansUpdate(BaseModel):
+    plans: list[DataPlanEnableItem]
+
+
+class DataCreditRequest(BaseModel):
+    phone: str = Field(..., min_length=10, max_length=15)
+    network: str = Field(..., min_length=2, max_length=20)
+    variation_code: str = Field(..., min_length=1, max_length=80)
+
+
+class DataCreditOut(BaseModel):
+    id: str
+    phone: str
+    network: str
+    plan_name: str
+    variation_code: str
+    amount: float
+    request_id: str
+    status: str
+    created_at: datetime
+    agent_id: str | None = None
+    agent_name: str | None = None
+    agent_email: str | None = None

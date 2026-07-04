@@ -5,6 +5,8 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from .models import (
     ADMINS_COLLECTION,
     AGENTS_COLLECTION,
+    DATA_CREDITS_COLLECTION,
+    DATA_PLANS_COLLECTION,
     DETECTED_FACES_COLLECTION,
     FEED_SNAPS_COLLECTION,
     POLLING_UNITS_COLLECTION,
@@ -27,6 +29,13 @@ async def ensure_schema(db: AsyncIOMotorDatabase) -> None:
     await db[FEED_SNAPS_COLLECTION].create_index([("polling_unit_id", 1), ("created_at", -1)])
     await db[ADMINS_COLLECTION].create_index("email", unique=True)
     await db[ADMINS_COLLECTION].create_index("api_token", unique=True)
+    await db[DATA_PLANS_COLLECTION].create_index(
+        [("network", 1), ("variation_code", 1)],
+        unique=True,
+    )
+    await db[DATA_CREDITS_COLLECTION].create_index("agent_id")
+    await db[DATA_CREDITS_COLLECTION].create_index("request_id", unique=True)
+    await db[DATA_CREDITS_COLLECTION].create_index([("created_at", -1)])
 
 
 async def run_migration() -> str:

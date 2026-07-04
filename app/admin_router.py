@@ -16,6 +16,7 @@ from .feed_snap_storage import snap_file_path
 from .models import (
     ADMINS_COLLECTION,
     AGENTS_COLLECTION,
+    DATA_CREDITS_COLLECTION,
     DETECTED_FACES_COLLECTION,
     FEED_SNAPS_COLLECTION,
     POLLING_UNITS_COLLECTION,
@@ -33,11 +34,27 @@ from .schemas import (
     AdminPasswordUpdate,
     AdminSessionOut,
     AgentAssignmentUpdate,
+    AgentDataClaimLimitUpdate,
     AgentOut,
     FeedSnapOut,
     PeopleCountUpdate,
     PollingUnitOut,
 )
+
+CLAIM_STATUSES = ("delivered", "successful", "success", "pending")
+
+
+async def _agent_data_claims_used(db: AsyncIOMotorDatabase, agent_id: Any) -> int:
+    return await db[DATA_CREDITS_COLLECTION].count_documents(
+        {"agent_id": agent_id, "status": {"$in": list(CLAIM_STATUSES)}}
+    )
+
+
+def _agent_data_claim_limit(agent_doc: dict[str, Any]) -> int:
+    try:
+        return max(0, int(agent_doc.get("data_claim_limit", 1)))
+    except (TypeError, ValueError):
+        return 1
 
 router = APIRouter(prefix="/admin", tags=["admin"])
 
@@ -292,6 +309,7 @@ async def _build_admin_agent_out(agent_doc: dict[str, Any], db: AsyncIOMotorData
         for u in unit_docs
     ]
     base = agent_doc_to_out(agent_doc)
+    used = await _agent_data_claims_used(db, agent_doc["_id"])
     return AdminAgentOut(
         id=base.id,
         name=base.name,
@@ -300,6 +318,8 @@ async def _build_admin_agent_out(agent_doc: dict[str, Any], db: AsyncIOMotorData
         ward=base.ward,
         created_at=base.created_at,
         polling_units=units,
+        data_claim_limit=_agent_data_claim_limit(agent_doc),
+        data_claims_used=used,
     )
 
 
@@ -322,6 +342,7 @@ async def admin_list_agents(
             {"agent_id": oid, "last_frame_at": {"$gte": cutoff}}
         )
         base = agent_doc_to_out(agent_doc)
+        used = await _agent_data_claims_used(db, oid)
         results.append(
             AdminAgentSummary(
                 id=base.id,
@@ -332,6 +353,8 @@ async def admin_list_agents(
                 created_at=base.created_at,
                 polling_unit_count=unit_count,
                 live_unit_count=live_count,
+                data_claim_limit=_agent_data_claim_limit(agent_doc),
+                data_claims_used=used,
             )
         )
 
@@ -354,6 +377,33 @@ async def admin_get_agent(
     if not agent_doc:
         raise HTTPException(status_code=404, detail="Agent not found.")
     return await _build_admin_agent_out(agent_doc, db)
+
+
+@router.patch("/agents/{agent_id}/data-claims", response_model=AdminAgentOut)
+async def admin_set_data_claim_limit(
+    agent_id: str,
+    payload: AgentDataClaimLimitUpdate,
+    admin: dict[str, Any] = Depends(get_current_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> AdminAgentOut:
+    _ = admin
+    try:
+        oid = ObjectId(agent_id)
+    except InvalidId as exc:
+        raise HTTPException(status_code=400, detail="Invalid agent id.") from exc
+
+    agent = await db[AGENTS_COLLECTION].find_one({"_id": oid})
+    if not agent:
+        raise HTTPException(status_code=404, detail="Agent not found.")
+
+    await db[AGENTS_COLLECTION].update_one(
+        {"_id": oid},
+        {"$set": {"data_claim_limit": int(payload.data_claim_limit)}},
+    )
+    updated = await db[AGENTS_COLLECTION].find_one({"_id": oid})
+    if not updated:
+        raise HTTPException(status_code=500, detail="Failed to read updated agent.")
+    return await _build_admin_agent_out(updated, db)
 
 
 @router.patch("/agents/{agent_id}/assignment", response_model=AgentOut)

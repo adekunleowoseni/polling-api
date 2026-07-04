@@ -29,6 +29,12 @@ class Settings(BaseSettings):
     livekit_url: str = ""
     livekit_api_key: str = ""
     livekit_api_secret: str = ""
+    # VTpass data subscription (https://vtpass.com/documentation/)
+    vtpass_api_key: str = ""
+    vtpass_public_key: str = ""
+    vtpass_secret_key: str = ""
+    # Use https://sandbox.vtpass.com/api for testing.
+    vtpass_base_url: str = "https://vtpass.com/api"
 
     @property
     def cors_origin_list(self) -> list[str]:

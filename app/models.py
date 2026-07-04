@@ -8,6 +8,7 @@ AGENTS_COLLECTION = "agents"
 """
 Agent documents:
   - _id, name, email, password_hash, api_token, lga, ward, created_at
+  - data_claim_limit (default 1; admin can increase)
 """
 
 POLLING_UNITS_COLLECTION = "polling_units"
@@ -35,4 +36,19 @@ ADMINS_COLLECTION = "admins"
 """
 Super admin accounts:
   - name, email, password_hash, api_token, role, created_at
+"""
+
+DATA_PLANS_COLLECTION = "data_plans"
+"""
+Admin-enabled VTpass data plans agents may claim:
+  - network (mtn|airtel|glo|9mobile)
+  - service_id, variation_code, name, amount
+  - enabled, updated_at
+"""
+
+DATA_CREDITS_COLLECTION = "data_credits"
+"""
+Agent data credit transactions via VTpass:
+  - agent_id, phone, network, service_id, variation_code, plan_name, amount
+  - request_id, status, vtpass_code, vtpass_response, created_at
 """
