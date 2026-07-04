@@ -10,6 +10,15 @@ def list_states() -> list[dict[str, str]]:
     return [{"code": "ogun", "name": OGUN_STATE}]
 
 
+@router.get("/states/ogun/summary")
+def ogun_geo_summary() -> dict[str, int | str]:
+    return {
+        "state": OGUN_STATE,
+        "lga_count": len(LGA_LIST),
+        "ward_count": sum(len(wards) for wards in OGUN_LGAS.values()),
+    }
+
+
 @router.get("/states/ogun/lgas")
 def list_ogun_lgas() -> list[str]:
     return LGA_LIST
