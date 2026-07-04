@@ -1,16 +1,12 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from functools import lru_cache
 
-import cv2
 import numpy as np
 
 SIMILARITY_THRESHOLD = 0.88
 DETECT_MAX_SIDE = 480
-
-_cascade = cv2.CascadeClassifier(
-    cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
-)
 
 
 @dataclass
@@ -20,7 +16,32 @@ class FaceDetectionResult:
     faces_in_frame: int
 
 
+@lru_cache(maxsize=1)
+def _cv2():
+    try:
+        import cv2
+    except ImportError as exc:
+        raise RuntimeError("OpenCV is not installed.") from exc
+    if not hasattr(cv2, "CascadeClassifier"):
+        raise RuntimeError(
+            "OpenCV install is broken (no CascadeClassifier). "
+            "Rebuild the image with opencv-python-headless and system libs."
+        )
+    return cv2
+
+
+@lru_cache(maxsize=1)
+def _cascade():
+    cv2 = _cv2()
+    path = cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
+    classifier = cv2.CascadeClassifier(path)
+    if classifier.empty():
+        raise RuntimeError(f"Failed to load Haar cascade from {path}")
+    return classifier
+
+
 def _embedding(face_gray: np.ndarray) -> np.ndarray:
+    cv2 = _cv2()
     resized = cv2.resize(face_gray, (64, 64))
     vec = resized.astype(np.float32).flatten()
     norm = float(np.linalg.norm(vec))
@@ -45,6 +66,7 @@ def process_frame_with_face_dedup(
     known_embeddings: list[list[float]],
     unique_total: int,
 ) -> tuple[FaceDetectionResult, list[list[float]]]:
+    cv2 = _cv2()
     arr = np.frombuffer(image_bytes, dtype=np.uint8)
     frame = cv2.imdecode(arr, cv2.IMREAD_COLOR)
     if frame is None:
@@ -58,7 +80,7 @@ def process_frame_with_face_dedup(
         scale = DETECT_MAX_SIDE / float(max(h, w))
         detect_gray = cv2.resize(gray, (int(w * scale), int(h * scale)))
 
-    faces = _cascade.detectMultiScale(
+    faces = _cascade().detectMultiScale(
         detect_gray,
         scaleFactor=1.15,
         minNeighbors=4,
