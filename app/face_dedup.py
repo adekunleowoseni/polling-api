@@ -6,6 +6,7 @@ import cv2
 import numpy as np
 
 SIMILARITY_THRESHOLD = 0.88
+DETECT_MAX_SIDE = 480
 
 _cascade = cv2.CascadeClassifier(
     cv2.data.haarcascades + "haarcascade_frontalface_default.xml"
@@ -17,7 +18,6 @@ class FaceDetectionResult:
     unique_total: int
     new_faces: int
     faces_in_frame: int
-    annotated_jpeg: bytes
 
 
 def _embedding(face_gray: np.ndarray) -> np.ndarray:
@@ -51,69 +51,43 @@ def process_frame_with_face_dedup(
         raise ValueError("Could not decode image frame.")
 
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = _cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5, minSize=(48, 48))
+    h, w = gray.shape[:2]
+    scale = 1.0
+    detect_gray = gray
+    if max(h, w) > DETECT_MAX_SIDE:
+        scale = DETECT_MAX_SIDE / float(max(h, w))
+        detect_gray = cv2.resize(gray, (int(w * scale), int(h * scale)))
+
+    faces = _cascade.detectMultiScale(
+        detect_gray,
+        scaleFactor=1.15,
+        minNeighbors=4,
+        minSize=(28, 28),
+    )
 
     new_embeddings: list[list[float]] = []
     new_faces = 0
 
-    for x, y, w, h in faces:
-        crop = gray[y : y + h, x : x + w]
+    for x, y, fw, fh in faces:
+        if scale != 1.0:
+            x = int(x / scale)
+            y = int(y / scale)
+            fw = int(fw / scale)
+            fh = int(fh / scale)
+        crop = gray[y : y + fh, x : x + fw]
+        if crop.size == 0:
+            continue
         embedding = _embedding(crop)
-        is_new = not _matches_known(embedding, known_embeddings + new_embeddings)
-        if is_new:
+        if not _matches_known(embedding, known_embeddings + new_embeddings):
             new_embeddings.append(embedding.tolist())
             new_faces += 1
-            color = (16, 185, 129)
-            label = "New"
-        else:
-            color = (100, 116, 139)
-            label = "Known"
-
-        cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
-        cv2.putText(
-            frame,
-            label,
-            (x, y - 8),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            0.5,
-            color,
-            1,
-            cv2.LINE_AA,
-        )
 
     unique_total += new_faces
-    cv2.putText(
-        frame,
-        f"Unique people: {unique_total}",
-        (12, 32),
-        cv2.FONT_HERSHEY_SIMPLEX,
-        0.9,
-        (16, 185, 129),
-        2,
-        cv2.LINE_AA,
-    )
-    if new_faces:
-        cv2.putText(
-            frame,
-            f"+{new_faces} new this frame",
-            (12, 60),
-            cv2.FONT_HERSHEY_SIMPLEX,
-            0.55,
-            (52, 211, 153),
-            1,
-            cv2.LINE_AA,
-        )
-
-    ok, encoded = cv2.imencode(".jpg", frame, [int(cv2.IMWRITE_JPEG_QUALITY), 85])
-    if not ok:
-        raise ValueError("Failed to encode annotated frame.")
-
     return (
         FaceDetectionResult(
             unique_total=unique_total,
             new_faces=new_faces,
             faces_in_frame=len(faces),
-            annotated_jpeg=encoded.tobytes(),
         ),
         new_embeddings,
     )

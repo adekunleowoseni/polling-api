@@ -176,9 +176,19 @@ async def ingest_frame(
     if not raw:
         raise HTTPException(status_code=400, detail="Empty frame.")
 
-    known_embeddings = await _load_known_embeddings(doc["_id"], db)
+    unit_code = code.lower()
     current_unique = int(doc.get("people_count", 0))
+    now = datetime.now(timezone.utc)
 
+    # Publish the live frame immediately so viewers see near-realtime video.
+    # Face counting runs after and only updates the people count.
+    await feed_manager.store_frame(unit_code, raw, current_unique)
+    await db[POLLING_UNITS_COLLECTION].update_one(
+        {"_id": doc["_id"]},
+        {"$set": {"last_frame_at": now}},
+    )
+
+    known_embeddings = await _load_known_embeddings(doc["_id"], db)
     try:
         result, new_embeddings = process_frame_with_face_dedup(
             raw, known_embeddings, current_unique
@@ -186,13 +196,12 @@ async def ingest_frame(
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
 
-    now = datetime.now(timezone.utc)
     if new_embeddings:
         await db[DETECTED_FACES_COLLECTION].insert_many(
             [
                 {
                     "polling_unit_id": doc["_id"],
-                    "code": code.lower(),
+                    "code": unit_code,
                     "embedding": emb,
                     "first_seen_at": now,
                     "last_seen_at": now,
@@ -213,10 +222,11 @@ async def ingest_frame(
             }
         },
     )
-    await feed_manager.store_frame(code.lower(), result.annotated_jpeg, unique_total)
+    if unique_total != current_unique:
+        await feed_manager.update_people_count(unit_code, unique_total, stream_status="live")
 
     return {
-        "code": code.lower(),
+        "code": unit_code,
         "people_count": unique_total,
         "new_faces_this_frame": result.new_faces,
         "faces_in_frame": result.faces_in_frame,
@@ -318,4 +328,11 @@ async def get_snapshot(code: str, db: AsyncIOMotorDatabase = Depends(get_db)) ->
     stored = feed_manager.get_frame(code.lower())
     if not stored.jpeg:
         raise HTTPException(status_code=404, detail="No live frame available yet.")
-    return Response(content=stored.jpeg, media_type="image/jpeg")
+    return Response(
+        content=stored.jpeg,
+        media_type="image/jpeg",
+        headers={
+            "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+            "Pragma": "no-cache",
+        },
+    )
