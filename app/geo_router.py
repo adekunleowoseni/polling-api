@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 
-from .geo_data import LGA_LIST, OGUN_LGAS, OGUN_STATE
+from .geo_data import LGA_LIST, OGUN_LGAS, OGUN_STATE, polling_units_for_ward
 
 router = APIRouter(prefix="/geo", tags=["geo"])
 
@@ -21,3 +21,11 @@ def list_ogun_wards(lga: str) -> list[str]:
     if wards is None:
         raise HTTPException(status_code=404, detail="LGA not found in Ogun State.")
     return wards
+
+
+@router.get("/states/ogun/lgas/{lga}/wards/{ward}/polling-units")
+def list_ogun_polling_units(lga: str, ward: str) -> list[dict[str, str]]:
+    units = polling_units_for_ward(lga, ward)
+    if not units:
+        raise HTTPException(status_code=404, detail="LGA or ward not found in Ogun State.")
+    return units

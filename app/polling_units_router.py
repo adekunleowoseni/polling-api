@@ -14,7 +14,7 @@ from .face_dedup import process_frame_with_face_dedup
 from .feed_manager import feed_manager
 from .feed_snap_storage import ensure_snaps_dir, snap_file_path
 from .models import DETECTED_FACES_COLLECTION, FEED_SNAPS_COLLECTION, POLLING_UNITS_COLLECTION
-from .geo_data import OGUN_LGAS, OGUN_STATE
+from .geo_data import OGUN_STATE, validate_ogun_polling_unit
 from .schemas import FeedSnapOut, PeopleCountUpdate, PollingUnitCreate, PollingUnitOut, PollingUnitRegisterOut
 
 router = APIRouter(prefix="/polling-units", tags=["polling-units"])
@@ -109,10 +109,8 @@ async def register_polling_unit(
     ward = payload.ward.strip()
     if state != OGUN_STATE:
         raise HTTPException(status_code=400, detail="Only Ogun State is supported at this time.")
-    if lga not in OGUN_LGAS:
-        raise HTTPException(status_code=400, detail="Invalid LGA for Ogun State.")
-    if ward not in OGUN_LGAS[lga]:
-        raise HTTPException(status_code=400, detail="Invalid ward for the selected LGA.")
+
+    catalog_unit = validate_ogun_polling_unit(lga, ward, payload.name, code)
 
     agent_lga = agent.get("lga")
     agent_ward = agent.get("ward")
@@ -126,11 +124,12 @@ async def register_polling_unit(
     ingest_token = secrets.token_urlsafe(32)
     doc = {
         "agent_id": agent["_id"],
-        "name": payload.name.strip(),
+        "name": catalog_unit["name"],
         "code": code,
         "state": state,
         "ward": ward,
         "lga": lga,
+        "pu_code": catalog_unit["code"],
         "people_count": 0,
         "peak_people_count": 0,
         "device_type": payload.device_type,
