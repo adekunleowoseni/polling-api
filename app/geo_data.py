@@ -1,5 +1,11 @@
 """Ogun State administrative divisions (INEC electoral wards)."""
 
+from __future__ import annotations
+
+import json
+from functools import lru_cache
+from pathlib import Path
+
 OGUN_STATE = "Ogun State"
 
 # LGA name -> list of electoral wards
@@ -93,85 +99,23 @@ OGUN_LGAS: dict[str, list[str]] = {
 
 LGA_LIST = list(OGUN_LGAS.keys())
 
-# Official INEC polling units by LGA -> ward -> [{code, name}].
-# Wards without an entry fall back to generated PU 001–020 placeholders.
-OGUN_POLLING_UNITS: dict[str, dict[str, list[dict[str, str]]]] = {
-    "Odeda": {
-        "Odeda": [
-            {"code": "27-16-01-001", "name": "ODEDA MARKET I"},
-            {"code": "27-16-01-002", "name": "ODEDA MARKET II"},
-            {"code": "27-16-01-003", "name": "IKA AINA TITUN VILLAGE"},
-            {"code": "27-16-01-004", "name": "ROGUN PRY. SCHOOL"},
-            {"code": "27-16-01-005", "name": "OGIJAN VILLAGE"},
-            {"code": "27-16-01-006", "name": "OGBOYE PRY. SCHOOL"},
-            {"code": "27-16-01-007", "name": "ARALAMO VILLAGE"},
-            {"code": "27-16-01-008", "name": "OLUGBO MARKET"},
-            {"code": "27-16-01-009", "name": "ILE-OLU, PRY. SCHOOL"},
-            {"code": "27-16-01-010", "name": "BAALE OGUNBAYO"},
-            {"code": "27-16-01-011", "name": "OLUGA PRY. SCHOOL"},
-            {"code": "27-16-01-012", "name": "AREGE PRY. SCHOOL"},
-            {"code": "27-16-01-013", "name": "SANYAOLU OLOBE"},
-            {"code": "27-16-01-014", "name": "ILAGBE VILLAGE"},
-            {"code": "27-16-01-015", "name": "OGBOYE PRY. SCHOOL II"},
-            {"code": "27-16-01-016", "name": "OPEN SPACE BESIDE OLU ODEDA PALACE"},
-            {"code": "27-16-01-017", "name": "INFRONT OF MINISTRY OF YOUTH AND AGRO SERVICE"},
-            {"code": "27-16-01-018", "name": "ST PAUL ANG SCHOOL SOKAN, ODEDA"},
-            {"code": "27-16-01-019", "name": "ST SAVIOURS ANGLICAN PRY SCHOOL OLUGBO"},
-            {"code": "27-16-01-020", "name": "OPEN SPACE AT APATA VILLAGE VIA OLUGA"},
-            {"code": "27-16-01-021", "name": "ST PETERS ANGLICAN PRY SCHOOL, ILE OLU"},
-            {"code": "27-16-01-022", "name": "OPEN SPACE AT OGELEJE VILAGE"},
-            {"code": "27-16-01-023", "name": "OPEN SPACE AT THE BACK OF POLICE BARRACK ODEDA"},
-            {"code": "27-16-01-024", "name": "OPEN SPACE AT IWAYE ODEDA"},
-            {"code": "27-16-01-025", "name": "OPEN SPACE OPPOSITE MINISTRY OF AGRIC EWEJE"},
-        ],
-    },
-    "Abeokuta South": {
-        "Ibara I": [
-            {"code": "27-02-14-001", "name": "OPEN SPACE NEAR MERCY HOSPITAL"},
-            {"code": "27-02-14-002", "name": "O.L.L. PRIMARY SCHOOL ONIKOKO"},
-            {"code": "27-02-14-003", "name": "OPEN SPACE 'SARAKI ILUPEJU ADIGBE I"},
-            {"code": "27-02-14-004", "name": "OPEN SPACE SARAKI ILUPEJU ADIGBE II"},
-            {"code": "27-02-14-005", "name": "OPEN SPACE NEAR SAFARI JUNCTION"},
-            {"code": "27-02-14-006", "name": "HOUSING ESTATE PRY. SCH. ONIKOLOBO I"},
-            {"code": "27-02-14-007", "name": "HOUSING ESTATE PRY. SCH. ONIKOLOBO II"},
-            {"code": "27-02-14-008", "name": "OPEN SPACE NEAR BAYEWUNMI HOUSE I"},
-            {"code": "27-02-14-009", "name": "ST. PAULS DEMONSTRATION SCHOOL SODUBI I"},
-            {"code": "27-02-14-010", "name": "ST. PAULS DEMONSTRATION SCHOOL SODUBI II"},
-            {"code": "27-02-14-011", "name": "IJEMO TITUN HIGH SCHOOL"},
-            {"code": "27-02-14-012", "name": "OPEN SPACE AT OLOKEMEJI I"},
-            {"code": "27-02-14-013", "name": "ANGLICAN HIGH SCHOOL IBARA I"},
-            {"code": "27-02-14-014", "name": "ANGLICAN HIGH SCHOOL IBARA II"},
-            {"code": "27-02-14-015", "name": "OPEN SPACE NEAR CHIEF OMOLOLU'S HOUSE"},
-            {"code": "27-02-14-016", "name": "OPEN SPACE NEAR SARAKI BUS-STOP ADIGBE"},
-            {"code": "27-02-14-017", "name": "OPEN SPACE NEAR MERCY HOSPITAL"},
-            {"code": "27-02-14-018", "name": "OPEN SPACE NEAR BAALE'S HOUSE OLOKEMEJI"},
-            {"code": "27-02-14-019", "name": "OPEN SPACE OPP. OF KAT STAR GUEST IYANA OLOKE"},
-            {"code": "27-02-14-020", "name": "OPEN SPACE ADJCENT WAEC OFFICE ONIKOLOBO"},
-            {"code": "27-02-14-021", "name": "OPEN SPACE, ENIOLA JUNCTION, MERCY HOSP. ROAD"},
-            {"code": "27-02-14-022", "name": "T. JUNCTION LEMOMU AYENI CLOSE OLUWO"},
-            {"code": "27-02-14-023", "name": "PARAMOUNT VILLA JUNCTION IREPODUN C.D.A OLUWO"},
-            {"code": "27-02-14-024", "name": "T-JUNCTION BESIDE TRANSFORMER ATOBATELE ONIKOKO"},
-            {"code": "27-02-14-025", "name": "ODEMO JUNCTION NEAR C.A.C CHURCH SARAKI"},
-            {"code": "27-02-14-026", "name": "OPEN SPACE OMOWE PHASE II SARAKI"},
-            {"code": "27-02-14-027", "name": "OPEN SPACE NEAR CELE IRAPADA SURULERE SARAKI"},
-            {"code": "27-02-14-028", "name": "OPEN SPACE BEIND CHRIST LEGACY SCHOOL, ALAWAYE SARAKI"},
-            {"code": "27-02-14-029", "name": "TOTAL CHILD ONIKOLOBO"},
-            {"code": "27-02-14-030", "name": "OPEN SPACE AT FAN MILK PANSEKE, ONIKOKO"},
-            {"code": "27-02-14-031", "name": "OPEN SPACE, FIRST GATE LIPEDE ESTATE, ONIKOKO"},
-            {"code": "27-02-14-032", "name": "OPEN SPACE BEHIND NEW SPRING ROSE SCHOOL, QUARRY"},
-            {"code": "27-02-14-033", "name": "OPEN SPACE, OLD SAVANNAH BANK QUARRY"},
-            {"code": "27-02-14-034", "name": "OPP. ABDUL-AZEEZ MOSQUE KUFORIJI JUNCTION, ADIGBE"},
-            {"code": "27-02-14-035", "name": "IYANA VULCANIZER NEAR AJEGUNLE CENTRAL MOSQUE ADIGBE"},
-            {"code": "27-02-14-036", "name": "ARAROMI JUNCTION BESIDE NAVY SCH."},
-            {"code": "27-02-14-037", "name": "OPEN SPACE IFAMODUPE STREET SARAKI"},
-            {"code": "27-02-14-038", "name": "OPEN SPACE NEAR BABA ASIKO STREET SARAKI"},
-            {"code": "27-02-14-039", "name": "OPEN SPACE GREEN LAND'S ACADEMY SCHOOL"},
-        ],
-    },
-}
+POLLING_UNITS_JSON = Path(__file__).resolve().parent / "data" / "ogun_polling_units.json"
 
 # Placeholder count for wards without official INEC data yet.
 POLLING_UNITS_PER_WARD = 20
+
+
+@lru_cache(maxsize=1)
+def _load_polling_units_catalog() -> dict[str, dict[str, list[dict[str, str]]]]:
+    if not POLLING_UNITS_JSON.is_file():
+        return {}
+    try:
+        raw = json.loads(POLLING_UNITS_JSON.read_text(encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+    if not isinstance(raw, dict):
+        return {}
+    return raw
 
 
 def polling_units_for_ward(lga: str, ward: str) -> list[dict[str, str]]:
@@ -181,7 +125,8 @@ def polling_units_for_ward(lga: str, ward: str) -> list[dict[str, str]]:
     if lga_name not in OGUN_LGAS or ward_name not in OGUN_LGAS[lga_name]:
         return []
 
-    official = OGUN_POLLING_UNITS.get(lga_name, {}).get(ward_name)
+    catalog = _load_polling_units_catalog()
+    official = catalog.get(lga_name, {}).get(ward_name)
     if official:
         return list(official)
 
@@ -233,6 +178,8 @@ def validate_ogun_polling_unit(lga: str, ward: str, name: str, code: str) -> dic
         unit_code = unit["code"]
         unit_code_lower = unit_code.lower()
         if unit["name"] == name_stripped:
+            return unit
+        if unit_code_lower == code_lower:
             return unit
         if unit_code == name_stripped or unit_code_lower == name_stripped.lower():
             return unit

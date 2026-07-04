@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en-US" class="no-js">
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="profile" href="http://gmpg.org/xfn/11">
+		
+	<link rel="pingback" href="https://www.medianigeria.com/xmlrpc.php"><style>
+#wpadminbar #wp-admin-bar-wccp_free_top_button .ab-icon:before {
+	content: "\f160";
+	color: #02CA02;
+	top: 3px;
+}
+#wpadminbar #wp-admin-bar-wccp_free_top_button .ab-icon {
+	transform: rotate(45deg);
+}
+</style>
+<meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+	<!-- This site is optimized with the Yoast SEO plugin v26.0 - https://yoast.com/wordpress/plugins/seo/ -->
+	<title>Yewa South (Egbado south) L.G.A Polling Units/Wards</title>
+	<link rel="canonical" href="https://www.medianigeria.com/yewa-south-l-g-a-polling-units-wards/" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Yewa South (Egbado south) L.G.A Polling Units/Wards" />
+	<meta property="og:description" content="FULLY UPDATED 2023. At a polling unit, a citizen can either register to vote or vote. It is advisable to select a Polling Unit close to your area of residence due to the restricted movement on election days. (10 Wards ) Ajilete (23 Polling Booths ) 001 &#8211; CUSTOMARY COURT HALL AJILETE I002 &#8211; CUSTOMARY [&hellip;]" />
+	<meta property="og:url" content="https://www.medianigeria.com/yewa-south-l-g-a-polling-units-wards/" />
+	<meta property="og:site_name" content="Media Nigeria" />
+	<meta property="article:publisher" content="http://www.facebook.com/MediaNigeria" />
+	<meta property="article:published_time" content="2018-05-03T06:40:05+00:00" />
+	<meta property="article:modified_time" content="2023-03-02T09:53:22+00:00" />
+	<meta name="author" content="Media Nigeria" />
+	<meta name="twitter:label1" content="Written by" />
+	<meta name="twitter:data1" content="Media Nigeria" />
+	<meta name="twitter:label2" content="Est. reading time" />
+	<meta name="twitter:data2" content="7 minutes" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://www.medianigeria.com/yewa-south-l-g-a-polling-units-wards/","url":"https://www.medianigeria.com/yewa-south-l-g-a-polling-units-wards/","name":"Yewa South (Egbado south) L.G.A Polling Units/Wards","isPartOf":{"@id":"https://www.medianigeria.com/#website"},"datePublished":"2018-05-03T06:40:05+00:00","dateModified":"2023-03-02T09:53:22+00:00","author":{"@id":"https://www.medianigeria.com/#/schema/person/74661013ea3ec8b14c6abc7eb5c4b525"},"breadcrumb":{"@id":"https://www.medianigeria.com/yewa-south-l-g-a-polling-units-wards/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://www.medianigeria.com/yewa-south-l-g-a-polling-units-wards/"]}]},{"@type":"BreadcrumbList","@id":"https://www.medianigeria.com/yewa-south-l-g-a-polling-units-wards/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.medianigeria.com/"},{"@type":"ListItem","position":2,"name":"Yewa South (Egbado south) L.G.A Polling Units/Wards"}]},{"@type":"WebSite","@id":"https://www.medianigeria.com/#website","url":"https://www.medianigeria.com/","name":"Media Nigeria","description":"Do You Know?.","potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://www.medianigeria.com/?s={search_term_string}"},"query-input":{"@type":"PropertyValueSpecification","valueRequired":true,"valueName":"search_term_string"}}],"inLanguage":"en-US"},{"@type":"Person","@id":"https://www.medianigeria.com/#/schema/person/74661013ea3ec8b14c6abc7eb5c4b525","name":"Media Nigeria","image":{"@type":"ImageObject","inLanguage":"en-US","@id":"https://www.medianigeria.com/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/c773c81e619aa82fd7efe20ae4dcaa4ee2a78f014174caf5b79c3ee2c9e68b44?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/c773c81e619aa82fd7efe20ae4dcaa4ee2a78f014174caf5b79c3ee2c9e68b44?s=96&d=mm&r=g","caption":"Media Nigeria"},"url":"https://www.medianigeria.com/author/knaimus/"}]}</script>
+	<!-- / Yoast SEO plugin. -->
+
+
+<link rel='dns-prefetch' href='//secure.gravatar.com' />
+<link rel='dns-prefetch' href='//www.googletagmanager.com' />
+<link rel='dns-prefetch' href='//stats.wp.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//v0.wordpress.com' />
+<link rel='dns-prefetch' href='//pagead2.googlesyndication.com' />
+<link rel='preconnect' href='//i0.wp.com' />
+<link rel='preconnect' href='//c0.wp.com' />
+<style id='wp-img-auto-sizes-contain-inline-css' type='text/css'>
+img:is([sizes=auto i],[sizes^="auto," i]){contain-intrinsic-size:3000px 1500px}
+/*# sourceURL=wp-img-auto-sizes-contain-inline-css */
+</style>
+<style id='wp-block-library-inline-css' type='text/css'>
+:root{--wp-block-synced-color:#7a00df;--wp-block-synced-color--rgb:122,0,223;--wp-bound-block-color:var(--wp-block-synced-color);--wp-editor-canvas-background:#ddd;--wp-admin-theme-color:#007cba;--wp-admin-theme-color--rgb:0,124,186;--wp-admin-theme-color-darker-10:#006ba1;--wp-admin-theme-color-darker-10--rgb:0,107,160.5;--wp-admin-theme-color-darker-20:#005a87;--wp-admin-theme-color-darker-20--rgb:0,90,135;--wp-admin-border-width-focus:2px}@media (min-resolution:192dpi){:root{--wp-admin-border-width-focus:1.5px}}.wp-element-button{cursor:pointer}:root .has-very-light-gray-background-color{background-color:#eee}:root .has-very-dark-gray-background-color{background-color:#313131}:root .has-very-light-gray-color{color:#eee}:root .has-very-dark-gray-color{color:#313131}:root .has-vivid-green-cyan-to-vivid-cyan-blue-gradient-background{background:linear-gradient(135deg,#00d084,#0693e3)}:root .has-purple-crush-gradient-background{background:linear-gradient(135deg,#34e2e4,#4721fb 50%,#ab1dfe)}:root .has-hazy-dawn-gradient-background{background:linear-gradient(135deg,#faaca8,#dad0ec)}:root .has-subdued-olive-gradient-background{background:linear-gradient(135deg,#fafae1,#67a671)}:root .has-atomic-cream-gradient-background{background:linear-gradient(135deg,#fdd79a,#004a59)}:root .has-nightshade-gradient-background{background:linear-gradient(135deg,#330968,#31cdcf)}:root .has-midnight-gradient-background{background:linear-gradient(135deg,#020381,#2874fc)}:root{--wp--preset--font-size--normal:16px;--wp--preset--font-size--huge:42px}.has-regular-font-size{font-size:1em}.has-larger-font-size{font-size:2.625em}.has-normal-font-size{font-size:var(--wp--preset--font-size--normal)}.has-huge-font-size{font-size:var(--wp--preset--font-size--huge)}.has-text-align-center{text-align:center}.has-text-align-left{text-align:left}.has-text-align-right{text-align:right}.has-fit-text{white-space:nowrap!important}#end-resizable-editor-section{display:none}.aligncenter{clear:both}.items-justified-left{justify-content:flex-start}.items-justified-center{justify-content:center}.items-justified-right{justify-content:flex-end}.items-justified-space-between{justify-content:space-between}.screen-reader-text{border:0;clip-path:inset(50%);height:1px;margin:-1px;overflow:hidden;padding:0;position:absolute;width:1px;word-wrap:normal!important}.screen-reader-text:focus{background-color:#ddd;clip-path:none;color:#444;display:block;font-size:1em;height:auto;left:5px;line-height:normal;padding:15px 23px 14px;text-decoration:none;top:5px;width:auto;z-index:100000}html :where(.has-border-color){border-style:solid}html :where([style*=border-top-color]){border-top-style:solid}html :where([style*=border-right-color]){border-right-style:solid}html :where([style*=border-bottom-color]){border-bottom-style:solid}html :where([style*=border-left-color]){border-left-style:solid}html :where([style*=border-width]){border-style:solid}html :where([style*=border-top-width]){border-top-style:solid}html :where([style*=border-right-width]){border-right-style:solid}html :where([style*=border-bottom-width]){border-bottom-style:solid}html :where([style*=border-left-width]){border-left-style:solid}html :where(img[class*=wp-image-]){height:auto;max-width:100%}:where(figure){margin:0 0 1em}html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:var(--wp-admin--admin-bar--height,0px)}@media screen and (max-width:600px){html :where(.is-position-sticky){--wp-admin--admin-bar--position-offset:0px}}
+
+/*# sourceURL=wp-block-library-inline-css */
+</style>
+<style id='classic-theme-styles-inline-css' type='text/css'>
+/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}
+/*# sourceURL=/wp-includes/css/classic-themes.min.css */
+</style>
+<style id='global-styles-inline-css' type='text/css'>
+:root{--wp--preset--aspect-ratio--square: 1;--wp--preset--aspect-ratio--4-3: 4/3;--wp--preset--aspect-ratio--3-4: 3/4;--wp--preset--aspect-ratio--3-2: 3/2;--wp--preset--aspect-ratio--2-3: 2/3;--wp--preset--aspect-ratio--16-9: 16/9;--wp--preset--aspect-ratio--9-16: 9/16;--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: #abb8c3;--wp--preset--color--white: #ffffff;--wp--preset--color--pale-pink: #f78da7;--wp--preset--color--vivid-red: #cf2e2e;--wp--preset--color--luminous-vivid-orange: #ff6900;--wp--preset--color--luminous-vivid-amber: #fcb900;--wp--preset--color--light-green-cyan: #7bdcb5;--wp--preset--color--vivid-green-cyan: #00d084;--wp--preset--color--pale-cyan-blue: #8ed1fc;--wp--preset--color--vivid-cyan-blue: #0693e3;--wp--preset--color--vivid-purple: #9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg,rgb(252,185,0) 0%,rgb(255,105,0) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg,rgb(255,105,0) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple: linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux: linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk: linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean: linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass: linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight: linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small: 13px;--wp--preset--font-size--medium: 20px;--wp--preset--font-size--large: 36px;--wp--preset--font-size--x-large: 42px;--wp--preset--spacing--20: 0.44rem;--wp--preset--spacing--30: 0.67rem;--wp--preset--spacing--40: 1rem;--wp--preset--spacing--50: 1.5rem;--wp--preset--spacing--60: 2.25rem;--wp--preset--spacing--70: 3.38rem;--wp--preset--spacing--80: 5.06rem;--wp--preset--shadow--natural: 6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep: 12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp: 6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined: 6px 6px 0px -3px rgb(255, 255, 255), 6px 6px rgb(0, 0, 0);--wp--preset--shadow--crisp: 6px 6px 0px rgb(0, 0, 0);}:where(.is-layout-flex){gap: 0.5em;}:where(.is-layout-grid){gap: 0.5em;}body .is-layout-flex{display: flex;}.is-layout-flex{flex-wrap: wrap;align-items: center;}.is-layout-flex > :is(*, div){margin: 0;}body .is-layout-grid{display: grid;}.is-layout-grid > :is(*, div){margin: 0;}:where(.wp-block-columns.is-layout-flex){gap: 2em;}:where(.wp-block-columns.is-layout-grid){gap: 2em;}:where(.wp-block-post-template.is-layout-flex){gap: 1.25em;}:where(.wp-block-post-template.is-layout-grid){gap: 1.25em;}.has-black-color{color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-color{color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-color{color: var(--wp--preset--color--white) !important;}.has-pale-pink-color{color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-color{color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-color{color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-color{color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-color{color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-color{color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-color{color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-color{color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-color{color: var(--wp--preset--color--vivid-purple) !important;}.has-black-background-color{background-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-background-color{background-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-background-color{background-color: var(--wp--preset--color--white) !important;}.has-pale-pink-background-color{background-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-background-color{background-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-background-color{background-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-background-color{background-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-background-color{background-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-background-color{background-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-background-color{background-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-background-color{background-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-background-color{background-color: var(--wp--preset--color--vivid-purple) !important;}.has-black-border-color{border-color: var(--wp--preset--color--black) !important;}.has-cyan-bluish-gray-border-color{border-color: var(--wp--preset--color--cyan-bluish-gray) !important;}.has-white-border-color{border-color: var(--wp--preset--color--white) !important;}.has-pale-pink-border-color{border-color: var(--wp--preset--color--pale-pink) !important;}.has-vivid-red-border-color{border-color: var(--wp--preset--color--vivid-red) !important;}.has-luminous-vivid-orange-border-color{border-color: var(--wp--preset--color--luminous-vivid-orange) !important;}.has-luminous-vivid-amber-border-color{border-color: var(--wp--preset--color--luminous-vivid-amber) !important;}.has-light-green-cyan-border-color{border-color: var(--wp--preset--color--light-green-cyan) !important;}.has-vivid-green-cyan-border-color{border-color: var(--wp--preset--color--vivid-green-cyan) !important;}.has-pale-cyan-blue-border-color{border-color: var(--wp--preset--color--pale-cyan-blue) !important;}.has-vivid-cyan-blue-border-color{border-color: var(--wp--preset--color--vivid-cyan-blue) !important;}.has-vivid-purple-border-color{border-color: var(--wp--preset--color--vivid-purple) !important;}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;}.has-cool-to-warm-spectrum-gradient-background{background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;}.has-blush-light-purple-gradient-background{background: var(--wp--preset--gradient--blush-light-purple) !important;}.has-blush-bordeaux-gradient-background{background: var(--wp--preset--gradient--blush-bordeaux) !important;}.has-luminous-dusk-gradient-background{background: var(--wp--preset--gradient--luminous-dusk) !important;}.has-pale-ocean-gradient-background{background: var(--wp--preset--gradient--pale-ocean) !important;}.has-electric-grass-gradient-background{background: var(--wp--preset--gradient--electric-grass) !important;}.has-midnight-gradient-background{background: var(--wp--preset--gradient--midnight) !important;}.has-small-font-size{font-size: var(--wp--preset--font-size--small) !important;}.has-medium-font-size{font-size: var(--wp--preset--font-size--medium) !important;}.has-large-font-size{font-size: var(--wp--preset--font-size--large) !important;}.has-x-large-font-size{font-size: var(--wp--preset--font-size--x-large) !important;}
+/*# sourceURL=global-styles-inline-css */
+</style>
+
+<link rel='stylesheet' id='gabfire-style-css' href='https://www.medianigeria.com/wp-content/themes/advanced-newspaper/style.css?ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='custom-style-css' href='https://fonts.googleapis.com/css?family=Droid+Sans%3A700%7COpen+Sans%3A400%2C700%7CRoboto+Condensed%3A400%2C700&#038;subset=latin-ext&#038;ver=6.9.4' type='text/css' media='all' />
+<link rel='stylesheet' id='wp-block-paragraph-css' href='https://c0.wp.com/c/6.9.4/wp-includes/blocks/paragraph/style.min.css' type='text/css' media='all' />
+<script type="text/javascript" src="https://c0.wp.com/c/6.9.4/wp-includes/js/jquery/jquery.min.js" id="jquery-core-js"></script>
+<script type="text/javascript" src="https://c0.wp.com/c/6.9.4/wp-includes/js/jquery/jquery-migrate.min.js" id="jquery-migrate-js"></script>
+<script type="text/javascript" src="https://www.medianigeria.com/wp-content/themes/advanced-newspaper/inc/js/jquery.cycle2.min.js?ver=6.9.4" id="cycle2-js"></script>
+<script type="text/javascript" src="https://www.medianigeria.com/wp-content/themes/advanced-newspaper/inc/js/theia-sticky-sidebar.js?ver=6.9.4" id="theia-sticky-sidebar-js"></script>
+<script type="text/javascript" src="https://www.medianigeria.com/wp-content/themes/advanced-newspaper/inc/js/owl.carousel.min.js?ver=6.9.4" id="owl-carousel-js"></script>
+<script type="text/javascript" src="https://www.medianigeria.com/wp-content/themes/advanced-newspaper/framework/bootstrap/js/bootstrap.min.js?ver=6.9.4" id="bootstrap-js"></script>
+<script type="text/javascript" src="https://www.medianigeria.com/wp-content/themes/advanced-newspaper/inc/js/responsive-menu.js?ver=6.9.4" id="responsive-menu-js"></script>
+
+<!-- Google tag (gtag.js) snippet added by Site Kit -->
+<!-- Google Analytics snippet added by Site Kit -->
+<script type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=GT-WKGVMG7" id="google_gtagjs-js" async></script>
+<script type="text/javascript" id="google_gtagjs-js-after">
+/* <![CDATA[ */
+window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
+gtag("set","linker",{"domains":["www.medianigeria.com"]});
+gtag("js", new Date());
+gtag("set", "developer_id.dZTNiMT", true);
+gtag("config", "GT-WKGVMG7");
+//# sourceURL=google_gtagjs-js-after
+/* ]]> */
+</script>
+<meta name="generator" content="Site Kit by Google 1.182.0" /><script id="wpcp_disable_selection" type="text/javascript">
+var image_save_msg='You are not allowed to save images!';
+	var no_menu_msg='Context Menu disabled!';
+	var smessage = "";
+
+function disableEnterKey(e)
+{
+	var elemtype = e.target.tagName;
+	
+	elemtype = elemtype.toUpperCase();
+	
+	if (elemtype == "TEXT" || elemtype == "TEXTAREA" || elemtype == "INPUT" || elemtype == "PASSWORD" || elemtype == "SELECT" || elemtype == "OPTION" || elemtype == "EMBED")
+	{
+		elemtype = 'TEXT';
+	}
+	
+	if (e.ctrlKey){
+     var key;
+     if(window.event)
+          key = window.event.keyCode;     //IE
+     else
+          key = e.which;     //firefox (97)
+    //if (key != 17) alert(key);
+     if (elemtype!= 'TEXT' && (key == 97 || key == 65 || key == 67 || key == 99 || key == 88 || key == 120 || key == 26 || key == 85  || key == 86 || key == 83 || key == 43 || key == 73))
+     {
+		if(wccp_free_iscontenteditable(e)) return true;
+		show_wpcp_message('You are not allowed to copy content or view source');
+		return false;
+     }else
+     	return true;
+     }
+}
+
+
+/*For contenteditable tags*/
+function wccp_free_iscontenteditable(e)
+{
+	var e = e || window.event; // also there is no e.target property in IE. instead IE uses window.event.srcElement
+  	
+	var target = e.target || e.srcElement;
+
+	var elemtype = e.target.nodeName;
+	
+	elemtype = elemtype.toUpperCase();
+	
+	var iscontenteditable = "false";
+		
+	if(typeof target.getAttribute!="undefined" ) iscontenteditable = target.getAttribute("contenteditable"); // Return true or false as string
+	
+	var iscontenteditable2 = false;
+	
+	if(typeof target.isContentEditable!="undefined" ) iscontenteditable2 = target.isContentEditable; // Return true or false as boolean
+
+	if(target.parentElement.isContentEditable) iscontenteditable2 = true;
+	
+	if (iscontenteditable == "true" || iscontenteditable2 == true)
+	{
+		if(typeof target.style!="undefined" ) target.style.cursor = "text";
+		
+		return true;
+	}
+}
+
+////////////////////////////////////
+function disable_copy(e)
+{	
+	var e = e || window.event; // also there is no e.target property in IE. instead IE uses window.event.srcElement
+	
+	var elemtype = e.target.tagName;
+	
+	elemtype = elemtype.toUpperCase();
+	
+	if (elemtype == "TEXT" || elemtype == "TEXTAREA" || elemtype == "INPUT" || elemtype == "PASSWORD" || elemtype == "SELECT" || elemtype == "OPTION" || elemtype == "EMBED")
+	{
+		elemtype = 'TEXT';
+	}
+	
+	if(wccp_free_iscontenteditable(e)) return true;
+	
+	var isSafari = /Safari/.test(navigator.userAgent) && /Apple Computer/.test(navigator.vendor);
+	
+	var checker_IMG = '';
+	if (elemtype == "IMG" && checker_IMG == 'checked' && e.detail >= 2) {show_wpcp_message(alertMsg_IMG);return false;}
+	if (elemtype != "TEXT")
+	{
+		if (smessage !== "" && e.detail == 2)
+			show_wpcp_message(smessage);
+		
+		if (isSafari)
+			return true;
+		else
+			return false;
+	}	
+}
+
+//////////////////////////////////////////
+function disable_copy_ie()
+{
+	var e = e || window.event;
+	var elemtype = window.event.srcElement.nodeName;
+	elemtype = elemtype.toUpperCase();
+	if(wccp_free_iscontenteditable(e)) return true;
+	if (elemtype == "IMG") {show_wpcp_message(alertMsg_IMG);return false;}
+	if (elemtype != "TEXT" && elemtype != "TEXTAREA" && elemtype != "INPUT" && elemtype != "PASSWORD" && elemtype != "SELECT" && elemtype != "OPTION" && elemtype != "EMBED")
+	{
+		return false;
+	}
+}	
+function reEnable()
+{
+	return true;
+}
+document.onkeydown = disableEnterKey;
+document.onselectstart = disable_copy_ie;
+if(navigator.userAgent.indexOf('MSIE')==-1)
+{
+	document.onmousedown = disable_copy;
+	document.onclick = reEnable;
+}
+function disableSelection(target)
+{
+    //For IE This code will work
+    if (typeof target.onselectstart!="undefined")
+    target.onselectstart = disable_copy_ie;
+    
+    //For Firefox This code will work
+    else if (typeof target.style.MozUserSelect!="undefined")
+    {target.style.MozUserSelect="none";}
+    
+    //All other  (ie: Opera) This code will work
+    else
+    target.onmousedown=function(){return false}
+    target.style.cursor = "default";
+}
+//Calling the JS function directly just after body load
+window.onload = function(){disableSelection(document.body);};
+
+//////////////////special for safari Start////////////////
+var onlongtouch;
+var timer;
+var touchduration = 1000; //length of time we want the user to touch before we do something
+
+var elemtype = "";
+function touchstart(e) {
+	var e = e || window.event;
+  // also there is no e.target property in IE.
+  // instead IE uses window.event.srcElement
+  	var target = e.target || e.srcElement;
+	
+	elemtype = window.event.srcElement.nodeName;
+	
+	elemtype = elemtype.toUpperCase();
+	
+	if(!wccp_pro_is_passive()) e.preventDefault();
+	if (!timer) {
+		timer = setTimeout(onlongtouch, touchduration);
+	}
+}
+
+function touchend() {
+    //stops short touches from firing the event
+    if (timer) {
+        clearTimeout(timer);
+        timer = null;
+    }
+	onlongtouch();
+}
+
+onlongtouch = function(e) { //this will clear the current selection if anything selected
+	
+	if (elemtype != "TEXT" && elemtype != "TEXTAREA" && elemtype != "INPUT" && elemtype != "PASSWORD" && elemtype != "SELECT" && elemtype != "EMBED" && elemtype != "OPTION")	
+	{
+		if (window.getSelection) {
+			if (window.getSelection().empty) {  // Chrome
+			window.getSelection().empty();
+			} else if (window.getSelection().removeAllRanges) {  // Firefox
+			window.getSelection().removeAllRanges();
+			}
+		} else if (document.selection) {  // IE?
+			document.selection.empty();
+		}
+		return false;
+	}
+};
+
+document.addEventListener("DOMContentLoaded", function(event) { 
+    window.addEventListener("touchstart", touchstart, false);
+    window.addEventListener("touchend", touchend, false);
+});
+
+function wccp_pro_is_passive() {
+
+  var cold = false,
+  hike = function() {};
+
+  try {
+	  const object1 = {};
+  var aid = Object.defineProperty(object1, 'passive', {
+  get() {cold = true}
+  });
+  window.addEventListener('test', hike, aid);
+  window.removeEventListener('test', hike, aid);
+  } catch (e) {}
+
+  return cold;
+}
+/*special for safari End*/
+</script>
+<script id="wpcp_disable_Right_Click" type="text/javascript">
+document.ondragstart = function() { return false;}
+	function nocontext(e) {
+	   return false;
+	}
+	document.oncontextmenu = nocontext;
+</script>
+	<style>img#wpstats{display:none}</style>
+		<link rel="shortcut icon" href="https://www.medianigeria.com/wp-content/themes/advanced-newspaper/framework/admin/images/favicon.ico" /><!-- Custom Styling -->
+<style type="text/css">
+.post_topmeta .entrydate, .post_topmeta .entryby {display:none !important}
+.home .postmeta {display:none}
+body {padding-top:0} </style>
+			<script type='text/javascript'>
+			(function($) {
+				$(document).ready(function() { 
+					$(".children").parent("li").addClass("has-child-menu");
+					$(".sub-menu").parent("li").addClass("has-child-menu");
+					$(".drop").parent("li").addClass("has-child-menu");
+					
+					$('.fadeimage').hover(
+						function() {$(this).stop().animate({ opacity: 0.5 }, 800);},
+						function() {$(this).stop().animate({ opacity: 1.0 }, 800);}
+					);
+					
+					$('.mastheadnav li ul,.mainnav li ul,.subnav li ul,.mastheadnav li ul,.mainnav li ul').hide().removeClass('fallback');
+					$('.mastheadnav > li,.mainnav > li,.subnav > li,.mainnav > li').hover(
+						function () {
+							$('ul', this).stop().slideDown(250);
+						},
+						function () {
+							$('ul', this).stop().slideUp(250);
+						}
+					);
+
+					$('[data-toggle="tooltip"]').tooltip({
+						'placement': 'top'
+					});	
+
+					$('.sidebar-wrapper, .post-wrapper')
+					.theiaStickySidebar({
+						additionalMarginTop: 30,
+						additionalMarginBottom: 30
+					});
+				
+					/* InnerPage Slider */
+					var innerslider = $(".carousel-gallery");
+					innerslider.owlCarousel({
+					  autoPlay: 999999,
+					  pagination:true,
+					  singleItem : true,
+					  autoHeight : true,
+					  mouseDrag: false,
+					  touchDrag: false					  
+					});	
+					$(".carousel-gallery-next").click(function(){
+						innerslider.trigger('owl.next');
+					});
+					$(".carousel-gallery-prev").click(function(){
+						innerslider.trigger('owl.prev');
+					});
+					
+					/* InnerPage Slider */
+					var owl4 = $(".carousel-four");
+					owl4.owlCarousel({
+					  autoPlay: 999999,
+					  pagination:true,
+					  singleItem : true,
+					  autoHeight : true,
+					  mouseDrag: false,
+					  touchDrag: false					  
+					});	
+					$(".carousel-four-next").click(function(){
+						owl4.trigger('owl.next');
+					});
+					$(".carousel-four-prev").click(function(){
+						owl4.trigger('owl.prev');
+					});						
+					
+					// Responsive Menu (TinyNav)
+					$(".responsive_menu").tinyNav({
+						active: 'current_page_item', // Set the "active" class for default menu
+						label: ''
+					});
+					$(".tinynav").selectbox();			
+					
+					$('a[href="#top"]').click(function(){
+						$('html, body').animate({scrollTop:0}, 'slow');
+						return false;
+					});
+					$('.modal').on('shown.bs.modal', function() {
+					  $(this).find('[autofocus]').focus();
+					});					
+				});
+			})(jQuery);
+			</script>
+		
+<!-- Google AdSense meta tags added by Site Kit -->
+<meta name="google-adsense-platform-account" content="ca-host-pub-2644536267352236">
+<meta name="google-adsense-platform-domain" content="sitekit.withgoogle.com">
+<!-- End Google AdSense meta tags added by Site Kit -->
+      <meta name="onesignal" content="wordpress-plugin"/>
+            <script>
+
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+
+      OneSignalDeferred.push(function(OneSignal) {
+        var oneSignal_options = {};
+        window._oneSignalInitOptions = oneSignal_options;
+
+        oneSignal_options['serviceWorkerParam'] = { scope: '/' };
+oneSignal_options['serviceWorkerPath'] = 'OneSignalSDKWorker.js.php';
+
+        OneSignal.Notifications.setDefaultUrl("https://www.medianigeria.com");
+
+        oneSignal_options['wordpress'] = true;
+oneSignal_options['appId'] = '9a2153b0-318b-429e-b07d-2be564de42d3';
+oneSignal_options['allowLocalhostAsSecureOrigin'] = true;
+oneSignal_options['welcomeNotification'] = { };
+oneSignal_options['welcomeNotification']['title'] = "";
+oneSignal_options['welcomeNotification']['message'] = "";
+oneSignal_options['path'] = "https://www.medianigeria.com/wp-content/plugins/onesignal-free-web-push-notifications/sdk_files/";
+oneSignal_options['safari_web_id'] = "web.onesignal.auto.4cbbb6e8-691d-4369-88f4-1bdd9ac43935";
+oneSignal_options['promptOptions'] = { };
+oneSignal_options['notifyButton'] = { };
+oneSignal_options['notifyButton']['enable'] = true;
+oneSignal_options['notifyButton']['position'] = 'bottom-right';
+oneSignal_options['notifyButton']['theme'] = 'default';
+oneSignal_options['notifyButton']['size'] = 'medium';
+oneSignal_options['notifyButton']['showCredit'] = true;
+oneSignal_options['notifyButton']['text'] = {};
+              OneSignal.init(window._oneSignalInitOptions);
+              OneSignal.Slidedown.promptPush()      });
+
+      function documentInitOneSignal() {
+        var oneSignal_elements = document.getElementsByClassName("OneSignal-prompt");
+
+        var oneSignalLinkClickHandler = function(event) { OneSignal.Notifications.requestPermission(); event.preventDefault(); };        for(var i = 0; i < oneSignal_elements.length; i++)
+          oneSignal_elements[i].addEventListener('click', oneSignalLinkClickHandler, false);
+      }
+
+      if (document.readyState === 'complete') {
+           documentInitOneSignal();
+      }
+      else {
+           window.addEventListener("load", function(event){
+               documentInitOneSignal();
+          });
+      }
+    </script>
+<meta name="generator" content="Powered by WPBakery Page Builder - drag and drop page builder for WordPress."/>
+
+<!-- Google AdSense snippet added by Site Kit -->
+<script type="text/javascript" async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5488676338841455&amp;host=ca-host-pub-2644536267352236" crossorigin="anonymous"></script>
+
+<!-- End Google AdSense snippet added by Site Kit -->
+<meta name="generator" content="Powered by Slider Revolution 6.5.16 - responsive, Mobile-Friendly Slider Plugin for WordPress with comfortable drag and drop interface." />
+<script>function setREVStartSize(e){
+			//window.requestAnimationFrame(function() {
+				window.RSIW = window.RSIW===undefined ? window.innerWidth : window.RSIW;
+				window.RSIH = window.RSIH===undefined ? window.innerHeight : window.RSIH;
+				try {
+					var pw = document.getElementById(e.c).parentNode.offsetWidth,
+						newh;
+					pw = pw===0 || isNaN(pw) ? window.RSIW : pw;
+					e.tabw = e.tabw===undefined ? 0 : parseInt(e.tabw);
+					e.thumbw = e.thumbw===undefined ? 0 : parseInt(e.thumbw);
+					e.tabh = e.tabh===undefined ? 0 : parseInt(e.tabh);
+					e.thumbh = e.thumbh===undefined ? 0 : parseInt(e.thumbh);
+					e.tabhide = e.tabhide===undefined ? 0 : parseInt(e.tabhide);
+					e.thumbhide = e.thumbhide===undefined ? 0 : parseInt(e.thumbhide);
+					e.mh = e.mh===undefined || e.mh=="" || e.mh==="auto" ? 0 : parseInt(e.mh,0);
+					if(e.layout==="fullscreen" || e.l==="fullscreen")
+						newh = Math.max(e.mh,window.RSIH);
+					else{
+						e.gw = Array.isArray(e.gw) ? e.gw : [e.gw];
+						for (var i in e.rl) if (e.gw[i]===undefined || e.gw[i]===0) e.gw[i] = e.gw[i-1];
+						e.gh = e.el===undefined || e.el==="" || (Array.isArray(e.el) && e.el.length==0)? e.gh : e.el;
+						e.gh = Array.isArray(e.gh) ? e.gh : [e.gh];
+						for (var i in e.rl) if (e.gh[i]===undefined || e.gh[i]===0) e.gh[i] = e.gh[i-1];
+											
+						var nl = new Array(e.rl.length),
+							ix = 0,
+							sl;
+						e.tabw = e.tabhide>=pw ? 0 : e.tabw;
+						e.thumbw = e.thumbhide>=pw ? 0 : e.thumbw;
+						e.tabh = e.tabhide>=pw ? 0 : e.tabh;
+						e.thumbh = e.thumbhide>=pw ? 0 : e.thumbh;
+						for (var i in e.rl) nl[i] = e.rl[i]<window.RSIW ? 0 : e.rl[i];
+						sl = nl[0];
+						for (var i in nl) if (sl>nl[i] && nl[i]>0) { sl = nl[i]; ix=i;}
+						var m = pw>(e.gw[ix]+e.tabw+e.thumbw) ? 1 : (pw-(e.tabw+e.thumbw)) / (e.gw[ix]);
+						newh =  (e.gh[ix] * m) + (e.tabh + e.thumbh);
+					}
+					var el = document.getElementById(e.c);
+					if (el!==null && el) el.style.height = newh+"px";
+					el = document.getElementById(e.c+"_wrapper");
+					if (el!==null && el) {
+						el.style.height = newh+"px";
+						el.style.display = "block";
+					}
+				} catch(e){
+					console.log("Failure at Presize of Slider:" + e)
+				}
+			//});
+		  };</script>
+<noscript><style> .wpb_animate_when_almost_visible { opacity: 1; }</style></noscript><style type="text/css" media="screen"></style><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-10684995-46"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-10684995-46');
+</script>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+     (adsbygoogle = window.adsbygoogle || []).push({
+          google_ad_client: "ca-pub-5488676338841455",
+          enable_page_level_ads: true
+     });
+</script>
+<link rel='stylesheet' id='rs-plugin-settings-css' href='https://www.medianigeria.com/wp-content/plugins/revslider/public/assets/css/rs6.css?ver=6.5.16' type='text/css' media='all' />
+<style id='rs-plugin-settings-inline-css' type='text/css'>
+#rs-demo-id {}
+/*# sourceURL=rs-plugin-settings-inline-css */
+</style>
+
+</head>
+
+<body class="wp-singular post-template-default single single-post postid-207805 single-format-standard wp-theme-advanced-newspaper unselectable body-default wpb-js-composer js-comp-ver-6.7.0 vc_responsive" itemscope="itemscope" itemtype="http://schema.org/WebPage">
+
+
+<div class="container">
+
+	<header itemscope="itemscope" itemtype="http://schema.org/WPHeader" role="banner">
+		<div class="row"><!-- Site Masthead Row-->
+			<nav class="col-md-12 masthead-navigation" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+				<ul class="mastheadnav">
+					
+					<li><span class="arrow-right"></span></li>
+											<li class="masthead_date">
+							<script type="text/javascript">
+								<!--
+								var mydate=new Date()
+								var year=mydate.getYear()
+								if (year < 1000)
+								year+=1900
+								var day=mydate.getDay()
+								var month=mydate.getMonth()
+								var daym=mydate.getDate()
+								if (daym<10)
+								daym="0"+daym
+								var dayarray=new Array("Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday")
+								var montharray=new Array("January","February","March","April","May","June","July","August","September","October","November","December")
+								document.write(""+dayarray[day]+", "+montharray[month]+" "+daym+", "+year+"")
+								// -->
+							</script>
+						</li>
+						<li></li>
+										 
+											<li class="pull-right social_header">
+															<a class="socialsite-facebook" href="https://www.facebook.com/MediaNigeria" title="Facebook" rel="nofollow"><span>Friend on Facebook</span>
+									<i class="fa fa-facebook pull-left"></i>
+								</a>
+							
+							
+							
+							
+														
+														
+							
+														
+								
+
+															
+
+							<a class="socialsite-rss" href="https://www.medianigeria.com/feed/" title="Site feed" rel="nofollow">
+								<span>Subscribe to RSS</span> <i class="fa fa-rss pull-left"></i>
+							</a>
+						</li>
+											
+					
+					<li class="pull-right gab_headersearch"> <a data-toggle="modal" href="#searchModal"><i class="fa fa-search"></i> Search</a></li>
+					<li class="pull-right"></li>
+				</ul>
+			</nav>
+
+			<!-- Modal -->
+<div class="modal fade" id="searchModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		  <h4 class="modal-title">Search in Site</h4>
+		</div>
+		<div class="modal-body">
+			<form action="https://www.medianigeria.com/">
+				<div class="input-prepend">
+					<label>To search in site, type your keyword and hit enter</label>
+					<input type="text" name="s" class="form-control" placeholder="Type keyword and hit enter" autofocus>
+				</div>
+			</form>	
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		</div>
+	  </div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->		</div><!-- /.row Site Masthead Row -->
+	
+		<div class="row">
+			<div class="col-lg-12">
+				<div id="header">
+										
+						<div class="themequote quoteleft">
+						
+														
+							<span class="quotetext">
+							
+								<span class="quotecaption">
+									Bruce Coville								</span>
+								
+								<span class="quote">
+									“Withholding information is the essence of tyranny. Control of the flow of information is the tool of the dictatorship.”								</span>
+								
+							</span>
+						</div><!-- themequote quoteleft -->
+						
+						<div class="logo quotelogo" style="padding:15px 0px 15px 0px;">	
+															<h1>
+									<span class="name"><a href="https://www.medianigeria.com/" title="Do You Know?.">MEDIA</a></span>
+									<span class="slogan"><a href="https://www.medianigeria.com/" title="Do You Know?.">NIGERIA</a></span>
+								</h1>
+													</div><!-- logo -->
+						
+						<div class="themequote quoteright">
+							
+														
+							<span class="quotetext">
+							
+								<span class="quotecaption">
+									Samuel Johnson, The Rambler								</span>
+								<span class="quote">
+									“Men more frequently require to be reminded than informed.”								</span>
+								
+							</span>
+							
+						</div><!-- themequote quoteright -->
+											
+
+				</div><!-- /header -->	
+			</div><!-- /col-lg-12 -->	
+		</div><!-- /row -->	
+		
+		<div class="row site-nav">
+			<div class="col-lg-12">
+				
+				<nav class="main-navigation" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+					<ul class="mainnav responsive_menu">
+						<li><a href="https://www.medianigeria.com/">HOME</a></li>
+						<li id="menu-item-226818" class="menu-item menu-item-type-post_type menu-item-object-page menu-item-226818"><a href="https://www.medianigeria.com/226624-2/">Home</a></li>
+<li id="menu-item-227141" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-227141"><a href="https://www.medianigeria.com/category/politics/">Politics</a></li>
+<li id="menu-item-226812" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-226812"><a href="https://www.medianigeria.com/category/visiting-and-travel/">Visiting and Travel</a></li>
+<li id="menu-item-226813" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-226813"><a href="https://www.medianigeria.com/category/states/">States</a></li>
+<li id="menu-item-227142" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-227142"><a href="https://www.medianigeria.com/category/education/school/">School</a></li>
+<li id="menu-item-226814" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-226814"><a href="https://www.medianigeria.com/category/society-people/">Society &amp; People</a></li>
+<li id="menu-item-227143" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-227143"><a href="https://www.medianigeria.com/category/entertainment/">Entertainment</a></li>
+					</ul>
+				</nav>
+				
+				<nav class="secondary-navigation" itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+					<ul class="subnav responsive_menu">
+						<li id="menu-item-226663" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-226663"><a href="#">Disclaimer</a></li>
+<li id="menu-item-226664" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-226664"><a href="#">Privacy</a></li>
+<li id="menu-item-226665" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-226665"><a href="#">Advertisement</a></li>
+<li id="menu-item-226666" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-226666"><a href="#">Contact Us</a></li>
+	
+					</ul>
+				</nav>				
+				
+			</div>
+		</div>	
+	</header><center>
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- MN R1 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-5488676338841455"
+     data-ad-slot="9665885435"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+(adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+</center>
+	
+	<div class="row default">
+	
+				
+		<main class="col-xs-12 col-md-8 col-sm-8 post-wrapper" role="main" itemprop="mainContentOfPage" itemscope="itemscope" itemtype="http://schema.org/Blog">
+
+							<div class="row">
+					<div class="col-lg-12 col-md-12">
+						<div class="post-lead">
+							<h1 class="entry-title single-post-title" itemprop="headline">
+								Yewa South (Egbado south) L.G.A Polling Units/Wards							</h1>
+							
+							<p class="postmeta"><span class="gabfire_meta gabfiremeta_bydate">By <span class="author vcard" itemscope="itemscope" itemtype="http://schema.org/Person" itemprop="author"><a href="https://www.medianigeria.com/author/knaimus/" rel="author" class="fn" itemprop="name">Media Nigeria</a></span> on <time class="published updated" itemprop="datePublished" datetime="May 3, 2018T7:40 am">May 3, 2018</time></span><span class="gabfire_meta gabfiremeta_comment"><a href="https://www.medianigeria.com/yewa-south-l-g-a-polling-units-wards/#respond">No Comment</a></span></p>						</div>		
+					</div>
+				</div>			
+						
+				
+		<section class="article-wrapper">
+		
+						
+				<article itemscope itemtype="http://schema.org/NewsArticle" class="entry post-207805 post type-post status-publish format-standard hentry category-government category-lgas category-politics last_archivepost">
+										
+								
+							<div class="social-sharethis-post">
+										
+				
+					<a href="http://www.facebook.com/sharer.php?u=https://www.medianigeria.com/yewa-south-l-g-a-polling-units-wards/&t=Yewa South (Egbado south) L.G.A Polling Units/Wards" data-toggle="tooltip" title="Share on Facebook" rel="nofollow"><span>Share on Facebook</span>
+						<i class="fa fa-facebook pull-left"></i>
+					</a>
+
+					<a href="http://twitter.com/home?status=Yewa South (Egbado south) L.G.A Polling Units/Wards => https://www.medianigeria.com/yewa-south-l-g-a-polling-units-wards/" data-toggle="tooltip" title="Share on Twitter" rel="nofollow"><span>Follow on Facebook</span>
+						<i class="fa fa-twitter pull-left"></i>
+					</a>
+
+					<a href="https://plus.google.com/share?url=https://www.medianigeria.com/yewa-south-l-g-a-polling-units-wards/" data-toggle="tooltip" title="Share on Google+" rel="nofollow"><span>Add to Google+</span>
+						<i class="fa fa-google-plus pull-left"></i>
+					</a>
+
+					<a href="http://www.linkedin.com/shareArticle?mini=true&url=https://www.medianigeria.com/yewa-south-l-g-a-polling-units-wards/&title=Yewa South (Egbado south) L.G.A Polling Units/Wards&summary=&source=Media Nigeria" data-toggle="tooltip" title="Share on LinkedIn" rel="nofollow"><span>Connect on Linked in</span>
+						<i class="fa fa-linkedin pull-left"></i>
+					</a>
+
+					<a class="pull-right" href="mailto:?mailto:?subject=Media%20Nigeria%20%3A%20&amp;body=I%20recommend%20this%20page%3A%20.%0AYou%20can%20read%20it%20on%3A%20https%3A%2F%2Fwww.medianigeria.com%2Fyewa-south-l-g-a-polling-units-wards%2F" data-toggle="tooltip" title="Send by Email" rel="nofollow"><span>Subscribe by Email</span>
+						<i class="fa fa-envelope-o pull-left"></i>
+					</a>
+					
+					<a class="pull-right" href="javascript:window.print()" data-toggle="tooltip" title="Print This Post" rel="nofollow"><span>Print This Post</span>
+						<i class="fa fa-print pull-left"></i>
+					</a>
+				</div>	
+				<div class="clearfix"></div>
+			<div class="entry-content" itemprop="text">
+<p>FULLY UPDATED 2023.</p>
+
+
+
+<p>At a polling unit, a citizen can either register to vote or vote. It is advisable to select a Polling Unit close to your area of residence due to the restricted movement on election days.</p>
+
+
+
+<p><strong>(10 Wards )</strong></p>
+
+
+
+<p><strong>Ajilete</strong></p>
+
+
+
+<p>(23 Polling Booths )<br></p>
+
+
+
+<p>001 &#8211; CUSTOMARY COURT HALL AJILETE I<br>002 &#8211; CUSTOMARY COURT HALL AJILETE II<br>003 &#8211; A.U.D. SCHOOL AJILETE I<br>004 &#8211; A.U.D. SCHOOL AJILETE II<br>005 &#8211; ST. JOHN&#8217;S SCHOOL AJILETE I<br>006 &#8211; YEWA HIGH SCHOOL AJILETE I<br>007 &#8211; YEWA HIGH SCHOOL AJILETE II<br>008 &#8211; APOSTOLIC CHURCH 4-CORNER AREA I<br>009 &#8211; APOSTOLIC CHURCH 4-CORNER AREA II<br>010 &#8211; E.S.L.G. SCHOOL KAJOLA<br>011 &#8211; BOOTH AT OJU-OTA SQUARE<br>012 &#8211; COMM. PRY SCHOOL IBIO<br>013 &#8211; DISPENSARY EREDO<br>014 &#8211; BOOTH BESIDE A/C AJILETE<br>015 &#8211; BESIDE AGO-EYO MOSQUE I<br>016 &#8211; BESIDE AGO-EYO MOSQUE II<br>017 &#8211; ORI-OKUTA SQUARE ILARO QUARTERS<br>018 &#8211; ST. JOHN&#8217;S SCHOOL BLOCK II<br>019 &#8211; ARAROMI MARKET<br>020 &#8211; OPEN SPACE AT AJEGUNLE SQUARE AJILETE<br>021 &#8211; OPEN SPACE AT AKOREDE COMMUNITY BESIDE TRANSFORMER<br>022 &#8211; IDO OLUBO VILLAGE SQUARE<br>023 &#8211; IFELODUN CDA TOWN HALL</p>
+
+
+
+<p><strong>See Also: <a href="https://www.medianigeria.com/ogun-state-polling-units-wards/" target="_blank" rel="noopener">List Of All Polling Units And Wards In Ogun State</a></strong><br><strong><a href="https://www.medianigeria.com/list-of-all-polling-units-and-wards-in-nigeria/" target="_blank" rel="noopener">List Of All Polling Units And Wards In Nigeria</a></strong></p>
+
+
+
+<p><strong>Idogo</strong></p>
+
+
+
+<p>(18 Polling Booths )<br></p>
+
+
+
+<p>001 &#8211; AFRICAN CHURCH SCHOOL IDOGO<br>002 &#8211; METHODIST SCHOOL IDOGO<br>003 &#8211; U.A.M.C. SCHOOL OLUTE<br>004 &#8211; METHODIST SCHOOL IGBEJI<br>005 &#8211; U.N.A. SCHOOL IPAJA<br>006 &#8211; METHODIST SCHOOL FAGBOHUN<br>007 &#8211; AFRICAN SCHOOL OLOKUTA<br>008 &#8211; ALL SAINTS SCHOOL ITORO<br>009 &#8211; E.S.L.G. SCHOOL, IDOLOGUN<br>010 &#8211; BOOTH AT ABULE &#8211; ONILE<br>011 &#8211; E.S.L.G. SCHOOL KAKANFO<br>012 &#8211; ABULE OLOPA<br>013 &#8211; IGA -OTUN OLOKUNTA<br>014 &#8211; RCM SCH IDOGO<br>015 &#8211; OLOKUTA VILLAGE II<br>016 &#8211; OJETE OMILENDE VILLAGE<br>017 &#8211; OPEN SPACE AT ODAN/BOLA JUNCTION<br>018 &#8211; OPEN SPACE AT ARAROMI OLOKUTA SQUARE</p>
+
+
+
+<p><strong>Ilaro i</strong></p>
+
+
+
+<p>(36 Polling Booths )<br></p>
+
+
+
+<p>001 &#8211; STATE HOSPITAL<br>002 &#8211; OPP. SOYINKA&#8217;S HOUSE I<br>003 &#8211; OPP. SOYINKA&#8217;S HOUSE II<br>004 &#8211; NEAR IDOWU&#8217;S HOUSE/OTEGBEYE STREET I<br>005 &#8211; NEAR IDOWU&#8217;S HOUSE/OTEGBEYE STREET II<br>006 &#8211; OBA FASINA CLOSE JUNCTON I<br>007 &#8211; OBA FASINA CLOSE JUNCTON II<br>008 &#8211; EGBO ALAPARUN<br>009 &#8211; U.A.M.C. SCHOOL PAHAYI<br>010 &#8211; ORITA KAJOLA I<br>011 &#8211; ORITA KAJOLA II<br>012 &#8211; E.S.L.G. SCHOOL IJANNA<br>013 &#8211; ITA IYALODE<br>014 &#8211; OKE-OLA &#8211; AREA<br>015 &#8211; POLY. GATE<br>016 &#8211; LIBRARY / RURAL HEALTH CENTRE<br>017 &#8211; ORISUN IRAN /ILODO<br>018 &#8211; YEWA EGBADO COLLEGE<br>019 &#8211; ESLG IYANA IJANO<br>020 &#8211; OPEN SPACE AT MECHANIC WORKSHOP OPP AXIAL PROJECT<br>021 &#8211; OPEN SPACE AT OTEGBEYE&#8217;S STREET IPARI-ODA<br>022 &#8211; OPEN SPACE BESIDE EL-TAHIR COMPREHENSIVE SCH. ORITA PAHAYI<br>023 &#8211; OPEN SPACE AT IYANA IJADO STREET<br>024 &#8211; OPEN SPACE AT ADELEYE JUNCTION PAHAYI<br>025 &#8211; OPEN SPACE AT AEROPLANE HOUSE BESIDE TRANSFORMER<br>026 &#8211; OPEN SPACE AT SALAMI STREET<br>027 &#8211; OPEN SPACE AT OKE ODO<br>028 &#8211; OPEN SPACE AT RURAL PROJECT DOSUMU IPARI-ODA.<br>029 &#8211; YSLG SCHOOL ELEJA<br>030 &#8211; OPEN SPACE AT FAYEGBAMI ATOYO ROAD<br>031 &#8211; OPEN SPACE AT ODUWOBI ST. BESIDE IKOSI TRANSFORMER<br>032 &#8211; IRE AYO CDA JUNCTION ONA EGBON OKE-OLA<br>033 &#8211; OPEN SPACE AT BOLUWATIFE CDA ISALE AGBALUMO<br>034 &#8211; POLY 2ND GATE<br>035 &#8211; OPEN SPACE AT IREWOLEDE CDA TRANFORMER<br>036 &#8211; OPEN SPACE AT IJADO RD ALONG EXPRESS RD.</p>
+
+
+
+<p><strong>Ilaro ii</strong></p>
+
+
+
+<p>(23 Polling Booths )<br></p>
+
+
+
+<p>001 &#8211; CHRIST APOSTOLIC CHURCH (CAC) SCHOOL ILARO<br>002 &#8211; OPEN SPACE BESIDE APOSTOLIC (CHRIST APOSTOLIC CHURCH ILARO)<br>003 &#8211; OJU-IYEWA SQUARE, ILARO I<br>004 &#8211; OJU-IYEWA SQUARE, ILARO II<br>005 &#8211; E.S.L.G. SCHOOL ILARO<br>006 &#8211; HANDICAPPED SCHOOL ILARO I<br>007 &#8211; HARDICAPPED SCHOOL ILARO II<br>008 &#8211; U.A.M. SCHOOL ILARO I<br>009 &#8211; U.A.M. SCHOOL ILARO I<br>010 &#8211; ORONNA HIGH SCHOOL<br>011 &#8211; AGO ISAGA SQUARE ILARO I<br>012 &#8211; AGO ISAGA SQUARE ILARO II<br>013 &#8211; OPEN SPACE AT ODUNTAN&#8217;S AREA<br>014 &#8211; BOOTH AT IGANMU<br>015 &#8211; OPP. CO-OP BANK ILARO<br>016 &#8211; SAYEDERO GARAGE<br>017 &#8211; OPEN SPACE AT OKE-ODO OSUN<br>018 &#8211; OPEN SPACE AT ELITE ESTATE JUNCTION CORNER AFOLABI OKE-ELA<br>019 &#8211; OPEN SPACE AT IPARI ODO BESIDE TRANSFORMER<br>020 &#8211; CAC PRY SCHOOL OKE-ELA<br>021 &#8211; OPEN SPACE, VALLEY VIEW CDA<br>022 &#8211; OPEN SPACE AT IREDE COMMUNITY JUNCTION BLUE ROOF OKE-ELA<br>023 &#8211; OPEN SPACE AT IBESE QUARTERS BACK OF JUBILEE</p>
+
+
+
+<p><strong>Ilaro iii</strong></p>
+
+
+
+<p>(30 Polling Booths )<br></p>
+
+
+
+<p>001 &#8211; CHRIST CHURCH SCHOOL ILARO<br>002 &#8211; ORONNA TOWN HALL I<br>003 &#8211; ORONNA TOWN HALL II<br>004 &#8211; BAPTIST DAY SCHOOL ILARO<br>005 &#8211; A.U.D. SCHOOL ILARO I<br>006 &#8211; A.U.D. SCHOOL ILARO II<br>007 &#8211; AHMADIYA NURSERY&amp; PRY. SCH. ILARO I<br>008 &#8211; AHMADIYA NURSERY &amp; PRY. SCH. ILARO II<br>009 &#8211; N.U.D. SCHOOL ILARO I<br>010 &#8211; N.U.D. SCHOOL ILARO II<br>011 &#8211; KUMOYE STREET ILARO I<br>012 &#8211; KUMOYE STREET ILARO II<br>013 &#8211; METHODIST SCHOOL GBOGIDI I<br>014 &#8211; METHODIST SCHOOL GBOGIDI II<br>015 &#8211; E.S.L.G. SCHOOL II MODEOLU I<br>016 &#8211; E.SL..G. SCHOOL II MODEOLU II<br>017 &#8211; R.C.M. SCHOOL ILARO I<br>018 &#8211; R.C.M. SCHOOL ILARO II<br>019 &#8211; ILEBA QUARTERS ILARO<br>020 &#8211; ROCKY NITE CLUB I<br>021 &#8211; ROCKY NITE CLUB II<br>022 &#8211; E.A.C. SCHOOL ILARO<br>023 &#8211; OPEN SPACE NEAR BAPTIST AREA<br>024 &#8211; OPEN SPACE AT OLORUNSOGO<br>025 &#8211; OKE OKUTA AREA<br>026 &#8211; OPEN SPACE AT TELECOMMUNICATION MAST<br>027 &#8211; OPEN SPACE AT ALARABA JUNCTION<br>028 &#8211; ITOLU HIGH SCHOOL ILARO<br>029 &#8211; COMM. PRY. SCHOOL ILEBA<br>030 &#8211; EMMANUEL COMMERCIAL HIGH SCHOOL</p>
+
+
+
+<p><strong>Ilobi/erinja</strong></p>
+
+
+
+<p>(21 Polling Booths )<br></p>
+
+
+
+<p>001 &#8211; DISPENSARY OKE-ERINJA<br>002 &#8211; OPEN SPACE AT ERINJA-ILE<br>003 &#8211; E.S.L.G. SCHOOL &#8211; ILOBI<br>004 &#8211; C.A.C. SCHOOL OKO-BABA<br>005 &#8211; E.S.L.G. SCHOOL ALAGBON I<br>006 &#8211; E.S.L.G. SCHOOL ALAGBON II<br>007 &#8211; E.S.L.G. SCHOOL ALAGBON III<br>008 &#8211; CUSTOMARY COURT HALL, ILOBI<br>009 &#8211; OPP. MARKET GARAGE<br>010 &#8211; E.S.L.G. SCHOOL ERINJA ORILE<br>011 &#8211; YSLG OKE-ERINJA<br>012 &#8211; OPEN SPACE AT SURULERE STREET, OKE-ERINJA<br>013 &#8211; OPEN SPACE AT ORUWA ERINJA COMMUNITY WATER PROJECT<br>014 &#8211; EBUROGUN VILLAGE<br>015 &#8211; OPEN SPACE AT IYANO ANISERE<br>016 &#8211; OPEN SPACE AT AGO PANU BESIDE TRANSFORMER ALAGBON<br>017 &#8211; OPEN SPACE BESIDE TRANSFORMER OPP BIBLE COLLEGE<br>018 &#8211; OPEN SPACE BESIDE TRANSFORMER OPP. ALASEYORI CENTRAL MOSQUE<br>019 &#8211; OPEN SPACE BESIDE TRANSFORMER OPP YSLG ALAGBON<br>020 &#8211; OPEN SPACE UNDER KOLANUT TREE INFRONT OF BAALE HOUSE<br>021 &#8211; ILOBI TOWN HALL</p>
+
+
+
+<p><strong>Iwoye</strong></p>
+
+
+
+<p>(20 Polling Booths )<br></p>
+
+
+
+<p>001 &#8211; A/C SCHOOL IWOYE<br>002 &#8211; BAPTIST DAY SCHOOL IPAKE<br>003 &#8211; E.S.L.G. SCHOOL IWEKE<br>004 &#8211; COMM. SQUARE ISAGA AMOSUN<br>005 &#8211; YEWA-MATA VILLAGE SQUARE<br>006 &#8211; ST. PETERS SCHOOL IJADO<br>007 &#8211; OLORULEKAN VILLAGE I<br>008 &#8211; OLORULEKAN VILLAGE II<br>009 &#8211; U.A.M.C. SCHOOL OLORUNDA<br>010 &#8211; E.S.L.G. SCHOOL ASATO<br>011 &#8211; JAJA VILLAGE<br>012 &#8211; OPP. COMM HIGH SCHOOL, IWOYE<br>013 &#8211; AJO VILLAGE I<br>014 &#8211; AJO VILLAGE II<br>015 &#8211; IROGUN AKERE<br>016 &#8211; SODINRO/ADEWALE VILLAGE<br>017 &#8211; GREAT LIGHT COMMUNITY SCHOOL IWOGIA IWOYE<br>018 &#8211; OPEN SPACE AT OLORULEKAN WATER PROJECT ILARO<br>019 &#8211; OPEN SPACE BESIDE TRANSFORMER SUPPORT ALAGBEDE VILLAGE ALONG OJA-ODA ROAD<br>020 &#8211; AFRICAN NUR AND PRY SCHOOL GBOKOTO</p>
+
+
+
+<p><strong>Oke odan</strong></p>
+
+
+
+<p>(28 Polling Booths )<br></p>
+
+
+
+<p>001 &#8211; ST. JAMES SCHOOL OKE-ODAN I<br>002 &#8211; ST. JAMES SCHOOL OKE-ODAN II<br>003 &#8211; A/C SCHOOL OKE-ODAN<br>004 &#8211; BAPTIST DAY SCHOOL OKE-ODAN I<br>005 &#8211; BAPTIST DAY SCHOOL OKE-ODAN II<br>006 &#8211; E.S.L.G. SCHOOL EYEKANSE<br>007 &#8211; METHODIST SCHOOL OWO I<br>008 &#8211; METHODIST SCHOOL OWO II<br>009 &#8211; E.S.L.G. SCHOOL AJISE<br>010 &#8211; R.C.M. SCHOOL ISAGBO ERE I<br>011 &#8211; R.C.M. SCHOOL ISAGBO ERE II<br>012 &#8211; ST. JAMES SCHOOL R.M. II OKE-ODAN I<br>013 &#8211; ST. JAMES SCHOOL R.M. II OKE ODAN II<br>014 &#8211; A/C SCHOOL R.M. II OKE ODAN I<br>015 &#8211; A/C SCHOOL R.M. II OKE-ODAN II<br>016 &#8211; OPEN SPACE BESIDE K&amp;S CHURCH OKE-ODAN I<br>017 &#8211; OPEN SPACE BESIDE K &amp; S CHURCH OKE-ODAN II<br>018 &#8211; R.C.M. SCHOOL IJAKO<br>019 &#8211; R.C.M. SCHOOL OWO I<br>020 &#8211; R.C.M. SCHOOL OWO II<br>021 &#8211; METHODIST SCHOOL RM II OWO<br>022 &#8211; ORISADA-EYO VILLAGE SQUARE<br>023 &#8211; OLD MARKET SQUARE<br>024 &#8211; AGOSI VILLAGE<br>025 &#8211; OPEN SPACE AT OGUN OSUN RD BESIDE PROPOSED TRANSFORMER SEE THE LORD CHURCH<br>026 &#8211; C&amp;S AGO ILARO OKE-ODAN<br>027 &#8211; IFESOWAPO CDA WATER PROJECT OKE-ODAN<br>028 &#8211; MUSLIM PROGRESSIVE HIGH SCHOOL OKE-ODAN</p>
+
+
+
+<p><strong>Owode i</strong></p>
+
+
+
+<p>(33 Polling Booths )<br></p>
+
+
+
+<p>001 &#8211; BOOTH NEAR ALAPARA MOSQUE OWODE I<br>002 &#8211; BOOTH NEAR ALAPARA MOSQUE OWODE II<br>003 &#8211; BOOTH NEAR C.A.C. CHURCH I<br>004 &#8211; BOOTH NEAR C.A.C. CHURCH II<br>005 &#8211; NEAR CHURCH OF THE LORD ALADURA I<br>006 &#8211; NEAR CHURCH OF THE LORD ALADURA II<br>007 &#8211; COMM. TOWN HALL, OWODE I<br>008 &#8211; COMM. TOWN HALL, OWOD II<br>009 &#8211; NEAR AHMADIYYA MOSQUE OWODE I<br>010 &#8211; NEAR AHMADIYYA MOSQUE OWODE II<br>011 &#8211; OPP. HE-GOAT MARKET, OWODE I<br>012 &#8211; OPP. HE-GOAT MARKET, OWODE II<br>013 &#8211; OWODE NEAR MARKET<br>014 &#8211; ARMY CHILDREN SCHOOL OWODE I<br>015 &#8211; ARMY CHILDREN SCHOOL OWODE II<br>016 &#8211; OLD SLAUGHTER&#8217;S SLAB<br>017 &#8211; BOOTH AT IREPODUN SQUARE<br>018 &#8211; ARMY CHILDREN SCHOOL III<br>019 &#8211; MORICAS ARABIC SCH AGO-EGUN (OPP)<br>020 &#8211; FRONT OF SEYE&#8217;S BAKERY<br>021 &#8211; OPEN SPACE UNDER THE COCONUT TREE BESIDE TRANSFORMER AT FOLASADE OKE-OGBON STR. OWODE<br>022 &#8211; OPEN SPACE AT POWER LINE BAMGBOPA LINE<br>023 &#8211; UNDER PEAR TREE ALAO LATEEF HOUSE ALAPARA OWODE<br>024 &#8211; ALMAJIR ISLAMIC CHILDREN SCHOOL ISAGA<br>025 &#8211; ISAGA BUSTOP ALONG ILARO RD<br>026 &#8211; ODUBIYI FOLASADE JUNCTION<br>027 &#8211; ISALE ORO JUNCTION ALONG SUNDAY IDIROKO ROAD<br>028 &#8211; TIPPER GARAGE ALONG ILARO ROAD<br>029 &#8211; OPEN SPACE AT WATER PROJECT BACK OF OWODE MARKET<br>030 &#8211; JUNCTION IGBOWO COMMUNITY BESIDE AKEWU KANWO CENRAL MOSQUE<br>031 &#8211; OPEN SPACE AT FEDERAL STEP DOWN<br>032 &#8211; OPEN SPACE AT IREPODUN IREWOLEDE ARAROMI<br>033 &#8211; OPEN SPACE AT MORICAS II OWODE</p>
+
+
+
+<p><strong>Owode ii</strong></p>
+
+
+
+<p>(25 Polling Booths )<br></p>
+
+
+
+<p>001 &#8211; BOOTH AT AMULE-KANGBO SQUARE I<br>002 &#8211; BOOTH AT AMULE-KANGBO SQUARE II<br>003 &#8211; BOOTH AT POST OFFICE OWODE I<br>004 &#8211; BOOTH AT POST OFFICE OWODE II<br>005 &#8211; OPEN SPACE NEAR METHODIST I, SABO<br>006 &#8211; OPEN SPACE NEAR METHODIST II, SABO<br>007 &#8211; E.S.L.G. SCHOOL OWODE<br>008 &#8211; OPEN SPACE AT APOSTOLIC 4-CORNER AREA I<br>009 &#8211; OPEN SPACE AT APOSTOLIC 4-CORNER AREA II<br>010 &#8211; COMM. PRY SCHOOL OWODE I<br>011 &#8211; COMM. PRY SCHOOL OWODE II<br>012 &#8211; AREA COMM. HIGH SCHOOL OWODE I<br>013 &#8211; AREA COMM. HIGH SCHOOL OWODE II<br>014 &#8211; YIDI STR. TEMIDIRE MOSQUE<br>015 &#8211; OLD SABO MARKET OWODE I<br>016 &#8211; OLD SABO MARKET OWODE II<br>017 &#8211; BOOTH AT OLD R.C.C. ADO-ODO ROAD<br>018 &#8211; PRIMARY HEALTH CLINIC ISAGA OWODE<br>019 &#8211; ST. PAUL ANG. SCH. OWODE<br>020 &#8211; SANGO GARAGE ALONG SANGO IDIROKO RD.<br>021 &#8211; ESLG SCHOOL OKE-OLA, OWODE<br>022 &#8211; OPEN SPACE AT TEWURE PEPE OWODE<br>023 &#8211; OPEN SPACE BESIDE TRANSFORMER AT OGBOYE AKANBI JUNCTION SABO, OWODE<br>024 &#8211; OPEN SPACE AT OLUWAKOREDE COMM. SQUARE ISAGA<br>025 &#8211; OPEN SPACE AT IGANDIMU JUNCTION OWODE</p>
+<div class="single_postmeta"><p><img alt='' src='https://secure.gravatar.com/avatar/c773c81e619aa82fd7efe20ae4dcaa4ee2a78f014174caf5b79c3ee2c9e68b44?s=35&#038;d=mm&#038;r=g' srcset='https://secure.gravatar.com/avatar/c773c81e619aa82fd7efe20ae4dcaa4ee2a78f014174caf5b79c3ee2c9e68b44?s=70&#038;d=mm&#038;r=g 2x' class='avatar avatar-35 photo' height='35' width='35' /><p><strong class="entry-title">Yewa South (Egbado south) L.G.A Polling Units/Wards</strong> added by <a href="https://www.medianigeria.com/author/knaimus/" rel="author" class="author vcard"><span class="fn">Media Nigeria</span></a> on <time class="published updated" itemprop="datePublished" datetime="2018-05-03T07:40">May 3, 2018</time><br /><a class="block" href="https://www.medianigeria.com/author/knaimus/">View all posts by Media Nigeria &rarr;</a></p></div></div>					<meta content="2018-05-03T07:40" itemprop="datePublished">
+				</article>
+				
+			
+			
+<div id="comments" class="gabfire-comments">
+	
+	
+	
+	
+		
+	
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Leave a Reply <small><a rel="nofollow" id="cancel-comment-reply-link" href="/yewa-south-l-g-a-polling-units-wards/#respond" style="display:none;">Cancel Reply</a></small></h3><form action="https://www.medianigeria.com/wp-comments-post.php" method="post" id="commentform" class="comment-form"><p class="comment-notes">Your email address will not be published.</p><p class="comment-form-comment"><textarea autocomplete="new-password"  id="ca478300e1"  name="ca478300e1"  placeholder="Add your comment"  cols="45" rows="8" aria-required="true"></textarea><textarea id="comment" aria-label="hp-comment" aria-hidden="true" name="comment" autocomplete="new-password" style="padding:0 !important;clip:rect(1px, 1px, 1px, 1px) !important;position:absolute !important;white-space:nowrap !important;height:1px !important;width:1px !important;overflow:hidden !important;" tabindex="-1"></textarea><script data-noptimize>document.getElementById("comment").setAttribute( "id", "a011e51f10a4d88a7c52b0d652da373b" );document.getElementById("ca478300e1").setAttribute( "id", "comment" );</script></p><div class="form-field-wrapper"><div class="input-group"><span class="input-group-addon"><i class="fa fa-user"></i></span><input class="form-control" id="author" name="author" type="text" placeholder="Name" value="" /></div></div>
+<div class="form-field-wrapper mid-input-item"><div class="input-group"><span class="input-group-addon"><i class="fa fa-envelope"></i></span><input class="form-control" id="email" name="email" type="text" placeholder="Email" value=""  /></div></div>
+<div class="form-field-wrapper"><div class="input-group"><span class="input-group-addon"><i class="fa fa-home"></i></span><input class="form-control" placeholder="Website" id="url" name="url" type="text" value="" size="30" /></div></div>
+<p class="comment-subscription-form"><input type="checkbox" name="subscribe_comments" id="subscribe_comments" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;" /> <label class="subscribe-label" id="subscribe-label" for="subscribe_comments">Notify me of follow-up comments by email.</label></p><p class="comment-subscription-form"><input type="checkbox" name="subscribe_blog" id="subscribe_blog" value="subscribe" style="width: auto; -moz-appearance: checkbox; -webkit-appearance: checkbox;" /> <label class="subscribe-label" id="subscribe-blog-label" for="subscribe_blog">Notify me of new posts by email.</label></p><p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Post Comment" /> <input type='hidden' name='comment_post_ID' value='207805' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p><input type="hidden" name="4ae126c457eb291249efa591bf875976" value="4ae126c457eb291249efa591bf875976"/><p id="gasp_p" style="clear:both;"></p><script type="text/javascript">
+        //v1.5.1
+        var gasp_p = document.getElementById("gasp_p");
+        var gasp_cb = document.createElement("input");
+        var gasp_text = document.createTextNode(" Confirm you are NOT a spammer");
+        gasp_cb.type = "checkbox";
+        gasp_cb.id = "cl_check_8d0";
+        gasp_cb.name = "cl_check_8d0";
+
+        var gasp_label = document.createElement("label");
+        gasp_p.appendChild(gasp_label);
+        gasp_label.appendChild(gasp_cb);
+        gasp_label.appendChild(gasp_text);
+        var frm = gasp_cb.form;
+        frm.onsubmit = gasp_it;
+        function gasp_it(){
+        if(gasp_cb.checked != true){
+        alert("Please check the box to confirm that you are NOT a spammer");
+        return false;
+        }
+        return true;
+        }
+        </script>
+        <noscript>you MUST enable javascript to be able to comment</noscript>
+        <input type="hidden" id="gasp_email" name="gasp_email" value="" /><p style="display: none;"><input type="hidden" id="akismet_comment_nonce" name="akismet_comment_nonce" value="997b8f5512" /></p><p style="display: none !important;" class="akismet-fields-container" data-prefix="ak_"><label>&#916;<textarea name="ak_hp_textarea" cols="45" rows="8" maxlength="100"></textarea></label><input type="hidden" id="ak_js_1" name="ak_js" value="119"/><script>document.getElementById( "ak_js_1" ).setAttribute( "value", ( new Date() ).getTime() );</script></p></form>	</div><!-- #respond -->
+	
+	
+</div><!-- #comments -->				
+		</section><!-- articles-wrapper -->			
+		</main><!-- col-md-8 -->
+		
+		<div class="col-md-4 col-sm-4 col-xs-12 sidebar-wrapper">
+	<div class="theiaStickySidebar">
+		<div class="sidebar" role="complementary" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+					</div>
+	</div>	
+</div>	</div>	
+	
+	<footer role="contentinfo" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+
+		<div class="row footercats">
+			<div class="col-md-12">
+				<ul itemscope="itemscope" itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+						
+				</ul>
+			</div>
+		</div>
+			
+		<div class="footer-firstrow row">
+		
+			<div class="col-md-4 col-lg-4 col-sm-3 col-xs-12 footer-firstrow-widget">
+							</div>
+			
+			<div class="col-md-4 col-lg-4 col-sm-4 col-xs-12 footer-firstrow-widget footer-mid-column">
+							</div>
+			
+			<div class="col-md-4 col-lg-4 col-sm-5 col-xs-12 footer-firstrow-widget">
+							</div>
+			
+		</div>
+	<div class="row footer-meta-wrapper">
+		<div class="col-md-12">
+			<div class="footer-meta">
+			
+				<div class="footer-metaleft pull-left">
+					&copy; 2026, <a href="#top" title="Media Nigeria" rel="home"><strong>&uarr;</strong> Media Nigeria</a>				</div><!-- #site-info -->
+							
+				<div class="footer-metaleft pull-right">
+					Media Nigeria						<a href="http://wordpress.org/" title="Semantic Personal Publishing Platform" rel="generator">Managed by MMS</a> - 
+					<a href="" title="Tekin 2">MMS</a> 
+					
+		<script>
+			window.RS_MODULES = window.RS_MODULES || {};
+			window.RS_MODULES.modules = window.RS_MODULES.modules || {};
+			window.RS_MODULES.waiting = window.RS_MODULES.waiting || [];
+			window.RS_MODULES.defered = true;
+			window.RS_MODULES.moduleWaiting = window.RS_MODULES.moduleWaiting || {};
+			window.RS_MODULES.type = 'compiled';
+		</script>
+		<script type="speculationrules">
+{"prefetch":[{"source":"document","where":{"and":[{"href_matches":"/*"},{"not":{"href_matches":["/wp-*.php","/wp-admin/*","/wp-content/uploads/*","/wp-content/*","/wp-content/plugins/*","/wp-content/themes/advanced-newspaper/*","/*\\?(.+)"]}},{"not":{"selector_matches":"a[rel~=\"nofollow\"]"}},{"not":{"selector_matches":".no-prefetch, .no-prefetch a"}}]},"eagerness":"conservative"}]}
+</script>
+	<div id="wpcp-error-message" class="msgmsg-box-wpcp hideme"><span>error: </span></div>
+	<script>
+	var timeout_result;
+	function show_wpcp_message(smessage)
+	{
+		if (smessage !== "")
+			{
+			var smessage_text = '<span>Alert: </span>'+smessage;
+			document.getElementById("wpcp-error-message").innerHTML = smessage_text;
+			document.getElementById("wpcp-error-message").className = "msgmsg-box-wpcp warning-wpcp showme";
+			clearTimeout(timeout_result);
+			timeout_result = setTimeout(hide_message, 3000);
+			}
+	}
+	function hide_message()
+	{
+		document.getElementById("wpcp-error-message").className = "msgmsg-box-wpcp warning-wpcp hideme";
+	}
+	</script>
+		<style>
+	@media print {
+	body * {display: none !important;}
+		body:after {
+		content: "You are not allowed to print preview this page, Thank you"; }
+	}
+	</style>
+		<style type="text/css">
+	#wpcp-error-message {
+	    direction: ltr;
+	    text-align: center;
+	    transition: opacity 900ms ease 0s;
+	    z-index: 99999999;
+	}
+	.hideme {
+    	opacity:0;
+    	visibility: hidden;
+	}
+	.showme {
+    	opacity:1;
+    	visibility: visible;
+	}
+	.msgmsg-box-wpcp {
+		border:1px solid #f5aca6;
+		border-radius: 10px;
+		color: #555;
+		font-family: Tahoma;
+		font-size: 11px;
+		margin: 10px;
+		padding: 10px 36px;
+		position: fixed;
+		width: 255px;
+		top: 50%;
+  		left: 50%;
+  		margin-top: -10px;
+  		margin-left: -130px;
+  		-webkit-box-shadow: 0px 0px 34px 2px rgba(242,191,191,1);
+		-moz-box-shadow: 0px 0px 34px 2px rgba(242,191,191,1);
+		box-shadow: 0px 0px 34px 2px rgba(242,191,191,1);
+	}
+	.msgmsg-box-wpcp span {
+		font-weight:bold;
+		text-transform:uppercase;
+	}
+		.warning-wpcp {
+		background:#ffecec url('https://www.medianigeria.com/wp-content/plugins/wp-content-copy-protector/images/warning.png') no-repeat 10px 50%;
+	}
+    </style>
+	<div style="display:none">
+			<div class="grofile-hash-map-7c79878f7637f7ab7cda1a234c87a5b8">
+		</div>
+		</div>
+		<script type="text/javascript" src="https://www.medianigeria.com/wp-content/plugins/revslider/public/assets/js/rbtools.min.js?ver=6.5.16" defer async id="tp-tools-js"></script>
+<script type="text/javascript" src="https://www.medianigeria.com/wp-content/plugins/revslider/public/assets/js/rs6.min.js?ver=6.5.16" defer async id="revmin-js"></script>
+<script type="text/javascript" src="https://c0.wp.com/c/6.9.4/wp-includes/js/comment-reply.min.js" id="comment-reply-js" async="async" data-wp-strategy="async" fetchpriority="low"></script>
+<script type="text/javascript" src="https://secure.gravatar.com/js/gprofiles.js?ver=202627" id="grofiles-cards-js"></script>
+<script type="text/javascript" id="wpgroho-js-extra">
+/* <![CDATA[ */
+var WPGroHo = {"my_hash":""};
+//# sourceURL=wpgroho-js-extra
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://c0.wp.com/p/jetpack/15.0.2/modules/wpgroho.js" id="wpgroho-js"></script>
+<script type="text/javascript" id="jetpack-stats-js-before">
+/* <![CDATA[ */
+_stq = window._stq || [];
+_stq.push([ "view", JSON.parse("{\"v\":\"ext\",\"blog\":\"41549454\",\"post\":\"207805\",\"tz\":\"1\",\"srv\":\"www.medianigeria.com\",\"j\":\"1:15.0.2\"}") ]);
+_stq.push([ "clickTrackerInit", "41549454", "207805" ]);
+//# sourceURL=jetpack-stats-js-before
+/* ]]> */
+</script>
+<script type="text/javascript" src="https://stats.wp.com/e-202627.js" id="jetpack-stats-js" defer="defer" data-wp-strategy="defer"></script>
+<script type="text/javascript" src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js?ver=1.0.0" id="remote_sdk-js" defer="defer" data-wp-strategy="defer"></script>
+<script defer type="text/javascript" src="https://www.medianigeria.com/wp-content/plugins/akismet/_inc/akismet-frontend.js?ver=1758871606" id="akismet-frontend-js"></script>
+				</div> <!-- #footer-right-side -->
+			</div>
+		</div>
+	</div>
+		
+	</footer><!-- /footer -->
+	
+</div><!-- /container -->
+
+</body>
+</html>
+<!-- Cached by WP-Optimize (gzip) - https://teamupdraft.com/wp-optimize/ - Last modified: July 3, 2026 11:38 pm (Africa/Lagos UTC:1) -->
