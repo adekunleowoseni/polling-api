@@ -125,6 +125,49 @@ OGUN_POLLING_UNITS: dict[str, dict[str, list[dict[str, str]]]] = {
             {"code": "27-16-01-025", "name": "OPEN SPACE OPPOSITE MINISTRY OF AGRIC EWEJE"},
         ],
     },
+    "Abeokuta South": {
+        "Ibara I": [
+            {"code": "27-02-14-001", "name": "OPEN SPACE NEAR MERCY HOSPITAL"},
+            {"code": "27-02-14-002", "name": "O.L.L. PRIMARY SCHOOL ONIKOKO"},
+            {"code": "27-02-14-003", "name": "OPEN SPACE 'SARAKI ILUPEJU ADIGBE I"},
+            {"code": "27-02-14-004", "name": "OPEN SPACE SARAKI ILUPEJU ADIGBE II"},
+            {"code": "27-02-14-005", "name": "OPEN SPACE NEAR SAFARI JUNCTION"},
+            {"code": "27-02-14-006", "name": "HOUSING ESTATE PRY. SCH. ONIKOLOBO I"},
+            {"code": "27-02-14-007", "name": "HOUSING ESTATE PRY. SCH. ONIKOLOBO II"},
+            {"code": "27-02-14-008", "name": "OPEN SPACE NEAR BAYEWUNMI HOUSE I"},
+            {"code": "27-02-14-009", "name": "ST. PAULS DEMONSTRATION SCHOOL SODUBI I"},
+            {"code": "27-02-14-010", "name": "ST. PAULS DEMONSTRATION SCHOOL SODUBI II"},
+            {"code": "27-02-14-011", "name": "IJEMO TITUN HIGH SCHOOL"},
+            {"code": "27-02-14-012", "name": "OPEN SPACE AT OLOKEMEJI I"},
+            {"code": "27-02-14-013", "name": "ANGLICAN HIGH SCHOOL IBARA I"},
+            {"code": "27-02-14-014", "name": "ANGLICAN HIGH SCHOOL IBARA II"},
+            {"code": "27-02-14-015", "name": "OPEN SPACE NEAR CHIEF OMOLOLU'S HOUSE"},
+            {"code": "27-02-14-016", "name": "OPEN SPACE NEAR SARAKI BUS-STOP ADIGBE"},
+            {"code": "27-02-14-017", "name": "OPEN SPACE NEAR MERCY HOSPITAL"},
+            {"code": "27-02-14-018", "name": "OPEN SPACE NEAR BAALE'S HOUSE OLOKEMEJI"},
+            {"code": "27-02-14-019", "name": "OPEN SPACE OPP. OF KAT STAR GUEST IYANA OLOKE"},
+            {"code": "27-02-14-020", "name": "OPEN SPACE ADJCENT WAEC OFFICE ONIKOLOBO"},
+            {"code": "27-02-14-021", "name": "OPEN SPACE, ENIOLA JUNCTION, MERCY HOSP. ROAD"},
+            {"code": "27-02-14-022", "name": "T. JUNCTION LEMOMU AYENI CLOSE OLUWO"},
+            {"code": "27-02-14-023", "name": "PARAMOUNT VILLA JUNCTION IREPODUN C.D.A OLUWO"},
+            {"code": "27-02-14-024", "name": "T-JUNCTION BESIDE TRANSFORMER ATOBATELE ONIKOKO"},
+            {"code": "27-02-14-025", "name": "ODEMO JUNCTION NEAR C.A.C CHURCH SARAKI"},
+            {"code": "27-02-14-026", "name": "OPEN SPACE OMOWE PHASE II SARAKI"},
+            {"code": "27-02-14-027", "name": "OPEN SPACE NEAR CELE IRAPADA SURULERE SARAKI"},
+            {"code": "27-02-14-028", "name": "OPEN SPACE BEIND CHRIST LEGACY SCHOOL, ALAWAYE SARAKI"},
+            {"code": "27-02-14-029", "name": "TOTAL CHILD ONIKOLOBO"},
+            {"code": "27-02-14-030", "name": "OPEN SPACE AT FAN MILK PANSEKE, ONIKOKO"},
+            {"code": "27-02-14-031", "name": "OPEN SPACE, FIRST GATE LIPEDE ESTATE, ONIKOKO"},
+            {"code": "27-02-14-032", "name": "OPEN SPACE BEHIND NEW SPRING ROSE SCHOOL, QUARRY"},
+            {"code": "27-02-14-033", "name": "OPEN SPACE, OLD SAVANNAH BANK QUARRY"},
+            {"code": "27-02-14-034", "name": "OPP. ABDUL-AZEEZ MOSQUE KUFORIJI JUNCTION, ADIGBE"},
+            {"code": "27-02-14-035", "name": "IYANA VULCANIZER NEAR AJEGUNLE CENTRAL MOSQUE ADIGBE"},
+            {"code": "27-02-14-036", "name": "ARAROMI JUNCTION BESIDE NAVY SCH."},
+            {"code": "27-02-14-037", "name": "OPEN SPACE IFAMODUPE STREET SARAKI"},
+            {"code": "27-02-14-038", "name": "OPEN SPACE NEAR BABA ASIKO STREET SARAKI"},
+            {"code": "27-02-14-039", "name": "OPEN SPACE GREEN LAND'S ACADEMY SCHOOL"},
+        ],
+    },
 }
 
 # Placeholder count for wards without official INEC data yet.
@@ -145,7 +188,7 @@ def polling_units_for_ward(lga: str, ward: str) -> list[dict[str, str]]:
     return [
         {
             "code": f"PU{i:03d}",
-            "name": f"PU {i:03d} — {ward_name}",
+            "name": f"Polling unit {i:03d} — {ward_name}",
         }
         for i in range(1, POLLING_UNITS_PER_WARD + 1)
     ]
