@@ -62,3 +62,25 @@ Agent data credit transactions via VTpass:
   - agent_id, phone, network, service_id, variation_code, plan_name, amount
   - request_id, status, vtpass_code, vtpass_response, created_at
 """
+
+AIRTIME_PLANS_COLLECTION = "airtime_plans"
+"""
+Admin-controlled airtime denominations agents may purchase:
+  - amount (e.g. 100, 200, 500, 1000 ...)
+  - enabled, updated_at
+"""
+
+AIRTIME_CREDITS_COLLECTION = "airtime_credits"
+"""
+Agent airtime top-up transactions via VTpass:
+  - agent_id, phone, network, service_id, amount
+  - request_id, status, vtpass_code, vtpass_response, created_at
+"""
+
+APP_SETTINGS_COLLECTION = "app_settings"
+"""
+Global, admin-controlled application settings (single doc, _id="global"):
+  - strict_one_data_claim_per_phone (bool): a phone can claim data only once
+  - strict_one_airtime_claim_per_phone (bool): a phone can claim airtime only once
+  - updated_at
+"""

@@ -221,6 +221,8 @@ class AdminAgentOut(BaseModel):
     polling_units: list[AdminAgentUnitOut] = []
     data_claim_limit: int = 1
     data_claims_used: int = 0
+    airtime_claim_limit: int = 1
+    airtime_claims_used: int = 0
 
 
 class AdminAgentSummary(BaseModel):
@@ -234,16 +236,71 @@ class AdminAgentSummary(BaseModel):
     live_unit_count: int
     data_claim_limit: int = 1
     data_claims_used: int = 0
+    airtime_claim_limit: int = 1
+    airtime_claims_used: int = 0
 
 
 class AgentDataClaimLimitUpdate(BaseModel):
     data_claim_limit: int = Field(..., ge=0, le=1000)
 
 
+class AgentAirtimeClaimLimitUpdate(BaseModel):
+    airtime_claim_limit: int = Field(..., ge=0, le=1000)
+
+
 class DataClaimQuotaOut(BaseModel):
     data_claim_limit: int
     data_claims_used: int
     data_claims_remaining: int
+
+
+class AirtimeClaimQuotaOut(BaseModel):
+    airtime_claim_limit: int
+    airtime_claims_used: int
+    airtime_claims_remaining: int
+
+
+class AirtimePlanOut(BaseModel):
+    amount: float
+    enabled: bool = True
+
+
+class AirtimePlanItem(BaseModel):
+    amount: float = Field(..., gt=0, le=100000)
+    enabled: bool = True
+
+
+class AirtimePlansUpdate(BaseModel):
+    plans: list[AirtimePlanItem]
+
+
+class AirtimeCreditRequest(BaseModel):
+    phone: str = Field(..., min_length=10, max_length=15)
+    network: str = Field(..., min_length=2, max_length=20)
+    amount: float = Field(..., gt=0, le=100000)
+
+
+class AirtimeCreditOut(BaseModel):
+    id: str
+    phone: str
+    network: str
+    amount: float
+    request_id: str
+    status: str
+    created_at: datetime
+    agent_id: str | None = None
+    agent_name: str | None = None
+    agent_email: str | None = None
+
+
+class AppSettingsOut(BaseModel):
+    strict_one_data_claim_per_phone: bool = False
+    strict_one_airtime_claim_per_phone: bool = False
+
+
+class AppSettingsUpdate(BaseModel):
+    strict_one_data_claim_per_phone: bool | None = None
+    strict_one_airtime_claim_per_phone: bool | None = None
 
 
 class AgentPollingUnitOut(PollingUnitOut):

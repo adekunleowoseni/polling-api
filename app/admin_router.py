@@ -10,6 +10,7 @@ from fastapi.responses import FileResponse
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from .agent_helpers import agent_doc_to_out
+from .app_settings import get_app_settings, update_app_settings
 from .auth import hash_password, get_current_admin, verify_password
 from .database import get_db
 from .feed_manager import feed_manager
@@ -17,6 +18,7 @@ from .feed_snap_storage import snap_file_path
 from .models import (
     ADMINS_COLLECTION,
     AGENTS_COLLECTION,
+    AIRTIME_CREDITS_COLLECTION,
     DATA_CREDITS_COLLECTION,
     DETECTED_FACES_COLLECTION,
     FEED_RECORDINGS_COLLECTION,
@@ -37,9 +39,12 @@ from .schemas import (
     AdminOverview,
     AdminPasswordUpdate,
     AdminSessionOut,
+    AgentAirtimeClaimLimitUpdate,
     AgentAssignmentUpdate,
     AgentDataClaimLimitUpdate,
     AgentOut,
+    AppSettingsOut,
+    AppSettingsUpdate,
     FeedRecordingOut,
     FeedSnapOut,
     PeopleCountUpdate,
@@ -58,6 +63,19 @@ async def _agent_data_claims_used(db: AsyncIOMotorDatabase, agent_id: Any) -> in
 def _agent_data_claim_limit(agent_doc: dict[str, Any]) -> int:
     try:
         return max(0, int(agent_doc.get("data_claim_limit", 1)))
+    except (TypeError, ValueError):
+        return 1
+
+
+async def _agent_airtime_claims_used(db: AsyncIOMotorDatabase, agent_id: Any) -> int:
+    return await db[AIRTIME_CREDITS_COLLECTION].count_documents(
+        {"agent_id": agent_id, "status": {"$in": list(CLAIM_STATUSES)}}
+    )
+
+
+def _agent_airtime_claim_limit(agent_doc: dict[str, Any]) -> int:
+    try:
+        return max(0, int(agent_doc.get("airtime_claim_limit", 1)))
     except (TypeError, ValueError):
         return 1
 
@@ -420,6 +438,7 @@ async def _build_admin_agent_out(agent_doc: dict[str, Any], db: AsyncIOMotorData
     ]
     base = agent_doc_to_out(agent_doc)
     used = await _agent_data_claims_used(db, agent_doc["_id"])
+    airtime_used = await _agent_airtime_claims_used(db, agent_doc["_id"])
     return AdminAgentOut(
         id=base.id,
         name=base.name,
@@ -430,6 +449,8 @@ async def _build_admin_agent_out(agent_doc: dict[str, Any], db: AsyncIOMotorData
         polling_units=units,
         data_claim_limit=_agent_data_claim_limit(agent_doc),
         data_claims_used=used,
+        airtime_claim_limit=_agent_airtime_claim_limit(agent_doc),
+        airtime_claims_used=airtime_used,
     )
 
 
@@ -453,6 +474,7 @@ async def admin_list_agents(
         )
         base = agent_doc_to_out(agent_doc)
         used = await _agent_data_claims_used(db, oid)
+        airtime_used = await _agent_airtime_claims_used(db, oid)
         results.append(
             AdminAgentSummary(
                 id=base.id,
@@ -465,6 +487,8 @@ async def admin_list_agents(
                 live_unit_count=live_count,
                 data_claim_limit=_agent_data_claim_limit(agent_doc),
                 data_claims_used=used,
+                airtime_claim_limit=_agent_airtime_claim_limit(agent_doc),
+                airtime_claims_used=airtime_used,
             )
         )
 
@@ -514,6 +538,53 @@ async def admin_set_data_claim_limit(
     if not updated:
         raise HTTPException(status_code=500, detail="Failed to read updated agent.")
     return await _build_admin_agent_out(updated, db)
+
+
+@router.patch("/agents/{agent_id}/airtime-claims", response_model=AdminAgentOut)
+async def admin_set_airtime_claim_limit(
+    agent_id: str,
+    payload: AgentAirtimeClaimLimitUpdate,
+    admin: dict[str, Any] = Depends(get_current_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> AdminAgentOut:
+    _ = admin
+    try:
+        oid = ObjectId(agent_id)
+    except InvalidId as exc:
+        raise HTTPException(status_code=400, detail="Invalid agent id.") from exc
+
+    agent = await db[AGENTS_COLLECTION].find_one({"_id": oid})
+    if not agent:
+        raise HTTPException(status_code=404, detail="Agent not found.")
+
+    await db[AGENTS_COLLECTION].update_one(
+        {"_id": oid},
+        {"$set": {"airtime_claim_limit": int(payload.airtime_claim_limit)}},
+    )
+    updated = await db[AGENTS_COLLECTION].find_one({"_id": oid})
+    if not updated:
+        raise HTTPException(status_code=500, detail="Failed to read updated agent.")
+    return await _build_admin_agent_out(updated, db)
+
+
+@router.get("/settings", response_model=AppSettingsOut)
+async def admin_get_settings(
+    admin: dict[str, Any] = Depends(get_current_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> AppSettingsOut:
+    _ = admin
+    return AppSettingsOut(**await get_app_settings(db))
+
+
+@router.patch("/settings", response_model=AppSettingsOut)
+async def admin_update_settings(
+    payload: AppSettingsUpdate,
+    admin: dict[str, Any] = Depends(get_current_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> AppSettingsOut:
+    _ = admin
+    updated = await update_app_settings(db, payload.model_dump(exclude_unset=True))
+    return AppSettingsOut(**updated)
 
 
 @router.patch("/agents/{agent_id}/assignment", response_model=AgentOut)

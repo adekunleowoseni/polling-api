@@ -26,6 +26,19 @@ NETWORK_LABELS: dict[str, str] = {
     "9mobile": "9mobile",
 }
 
+# VTpass service IDs for airtime top-up (no variation, amount is free-form).
+AIRTIME_SERVICE_IDS: dict[str, str] = {
+    "mtn": "mtn",
+    "airtel": "airtel",
+    "glo": "glo",
+    "9mobile": "etisalat",
+}
+
+# Admin-controllable airtime denominations seeded on first run.
+DEFAULT_AIRTIME_AMOUNTS: tuple[int, ...] = (
+    100, 200, 300, 500, 1000, 1500, 2000, 2500, 3000, 3500, 4000, 4500, 5000,
+)
+
 
 def vtpass_configured() -> bool:
     return bool(settings.vtpass_api_key and settings.vtpass_secret_key and settings.vtpass_public_key)
@@ -102,6 +115,29 @@ async def purchase_data(
         "serviceID": service_id,
         "billersCode": phone,
         "variation_code": variation_code,
+        "amount": amount,
+        "phone": phone,
+    }
+    async with httpx.AsyncClient(timeout=60.0) as client:
+        res = await client.post(url, json=payload, headers=_post_headers())
+        res.raise_for_status()
+        return res.json()
+
+
+async def purchase_airtime(
+    *,
+    service_id: str,
+    phone: str,
+    amount: float,
+    request_id: str,
+) -> dict[str, Any]:
+    if not vtpass_configured():
+        raise RuntimeError("VTpass is not configured.")
+
+    url = f"{settings.vtpass_base_url.rstrip('/')}/pay"
+    payload = {
+        "request_id": request_id,
+        "serviceID": service_id,
         "amount": amount,
         "phone": phone,
     }

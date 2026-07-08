@@ -7,6 +7,7 @@ from typing import Any
 from fastapi import APIRouter, Depends, HTTPException
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
+from .app_settings import get_app_settings
 from .auth import get_current_admin, get_current_agent
 from .database import get_db
 from .models import AGENTS_COLLECTION, DATA_CREDITS_COLLECTION, DATA_PLANS_COLLECTION
@@ -263,6 +264,17 @@ async def credit_agent_data(
     phone = _normalize_phone(payload.phone)
     network = _normalize_network(payload.network)
     variation_code = payload.variation_code.strip()
+
+    settings_doc = await get_app_settings(db)
+    if settings_doc.get("strict_one_data_claim_per_phone"):
+        existing = await db[DATA_CREDITS_COLLECTION].find_one(
+            {"phone": phone, "status": {"$in": list(CLAIM_STATUSES)}}
+        )
+        if existing:
+            raise HTTPException(
+                status_code=409,
+                detail="This phone number has already claimed data. Each number can claim only once.",
+            )
 
     plan = await db[DATA_PLANS_COLLECTION].find_one(
         {

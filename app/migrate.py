@@ -5,6 +5,8 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from .models import (
     ADMINS_COLLECTION,
     AGENTS_COLLECTION,
+    AIRTIME_CREDITS_COLLECTION,
+    AIRTIME_PLANS_COLLECTION,
     DATA_CREDITS_COLLECTION,
     DATA_PLANS_COLLECTION,
     DETECTED_FACES_COLLECTION,
@@ -41,6 +43,12 @@ async def ensure_schema(db: AsyncIOMotorDatabase) -> None:
     await db[DATA_CREDITS_COLLECTION].create_index("agent_id")
     await db[DATA_CREDITS_COLLECTION].create_index("request_id", unique=True)
     await db[DATA_CREDITS_COLLECTION].create_index([("created_at", -1)])
+    await db[DATA_CREDITS_COLLECTION].create_index([("phone", 1), ("status", 1)])
+    await db[AIRTIME_PLANS_COLLECTION].create_index("amount", unique=True)
+    await db[AIRTIME_CREDITS_COLLECTION].create_index("agent_id")
+    await db[AIRTIME_CREDITS_COLLECTION].create_index("request_id", unique=True)
+    await db[AIRTIME_CREDITS_COLLECTION].create_index([("created_at", -1)])
+    await db[AIRTIME_CREDITS_COLLECTION].create_index([("phone", 1), ("status", 1)])
 
 
 async def run_migration() -> str:

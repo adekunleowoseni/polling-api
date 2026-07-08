@@ -24,6 +24,9 @@ from .polling_units_router import router as polling_units_router
 from .webrtc_router import router as webrtc_router
 from .data_credit_router import admin_router as data_admin_router
 from .data_credit_router import agent_router as data_agent_router
+from .airtime_router import admin_router as airtime_admin_router
+from .airtime_router import agent_router as airtime_agent_router
+from .airtime_bootstrap import ensure_airtime_defaults
 from .schemas import (
     DailyTrend,
     LiveActivity,
@@ -62,6 +65,8 @@ app.include_router(feed_snaps_router)
 app.include_router(webrtc_router)
 app.include_router(data_agent_router)
 app.include_router(data_admin_router)
+app.include_router(airtime_agent_router)
+app.include_router(airtime_admin_router)
 
 
 @app.get("/health")
@@ -75,6 +80,7 @@ async def _init_database() -> None:
         db = get_database()
         await ensure_schema(db)
         await ensure_super_admin(db)
+        await ensure_airtime_defaults(db)
         _db_ready = True
         logger.info("Database ready")
     except Exception:
