@@ -65,6 +65,26 @@ def _post_headers() -> dict[str, str]:
     }
 
 
+async def fetch_wallet_balance() -> dict[str, Any]:
+    """Return the VTpass wallet balance: {"balance": float, "currency": "NGN"}."""
+    if not vtpass_configured():
+        raise RuntimeError("VTpass is not configured.")
+
+    url = f"{settings.vtpass_base_url.rstrip('/')}/balance"
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        res = await client.get(url, headers=_get_headers())
+        res.raise_for_status()
+        data = res.json()
+
+    contents = data.get("contents") or data.get("content") or {}
+    raw_balance = contents.get("balance")
+    try:
+        balance = float(raw_balance)
+    except (TypeError, ValueError):
+        balance = None
+    return {"balance": balance, "currency": "NGN"}
+
+
 async def fetch_variations(service_id: str) -> list[dict[str, Any]]:
     if not vtpass_configured():
         raise RuntimeError("VTpass is not configured.")

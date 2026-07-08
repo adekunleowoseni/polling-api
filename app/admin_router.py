@@ -30,6 +30,7 @@ from .geo_data import validate_ogun_ward
 from .polling_units_router import _doc_to_out
 from .recordings import delete_recordings_for_unit, finalize_recording
 from .recording_storage import recording_file_path
+from .vtpass_client import fetch_wallet_balance, vtpass_configured
 from .schemas import (
     AdminAgentOut,
     AdminAgentSummary,
@@ -565,6 +566,20 @@ async def admin_set_airtime_claim_limit(
     if not updated:
         raise HTTPException(status_code=500, detail="Failed to read updated agent.")
     return await _build_admin_agent_out(updated, db)
+
+
+@router.get("/vtpass/balance")
+async def admin_vtpass_balance(
+    admin: dict[str, Any] = Depends(get_current_admin),
+) -> dict[str, Any]:
+    _ = admin
+    if not vtpass_configured():
+        return {"configured": False, "balance": None, "currency": "NGN"}
+    try:
+        result = await fetch_wallet_balance()
+    except Exception as exc:
+        raise HTTPException(status_code=502, detail=f"Failed to fetch VTpass balance: {exc}") from exc
+    return {"configured": True, **result}
 
 
 @router.get("/settings", response_model=AppSettingsOut)
