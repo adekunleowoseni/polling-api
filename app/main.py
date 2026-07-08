@@ -17,6 +17,8 @@ from .agents_router import router as agents_router
 from .migrate import ensure_schema
 from .feed_snap_storage import ensure_snaps_dir
 from .feed_snaps_router import router as feed_snaps_router
+from .recording_storage import ensure_recordings_dir
+from .recordings import finalize_all_recordings, finalize_idle_recordings
 from .geo_router import router as geo_router
 from .polling_units_router import router as polling_units_router
 from .webrtc_router import router as webrtc_router
@@ -35,6 +37,8 @@ from .settings import settings
 
 logger = logging.getLogger(__name__)
 _db_ready = False
+_recording_sweeper_task: asyncio.Task | None = None
+RECORDING_SWEEP_INTERVAL_SECONDS = 15
 
 app = FastAPI(title="Registration Scanner API")
 
@@ -78,11 +82,34 @@ async def _init_database() -> None:
         _db_ready = False
 
 
+async def _recording_sweeper() -> None:
+    """Finalize recordings whose feed went quiet (agent closed the app, etc.)."""
+    while True:
+        await asyncio.sleep(RECORDING_SWEEP_INTERVAL_SECONDS)
+        try:
+            await finalize_idle_recordings(get_database())
+        except Exception:
+            logger.exception("Recording sweeper iteration failed")
+
+
 @app.on_event("startup")
 async def on_startup() -> None:
+    global _recording_sweeper_task
     ensure_snaps_dir()
+    ensure_recordings_dir()
     # Do not block HTTP startup on MongoDB (Railway healthcheck needs /health quickly).
     asyncio.create_task(_init_database())
+    _recording_sweeper_task = asyncio.create_task(_recording_sweeper())
+
+
+@app.on_event("shutdown")
+async def on_shutdown() -> None:
+    if _recording_sweeper_task is not None:
+        _recording_sweeper_task.cancel()
+    try:
+        await finalize_all_recordings(get_database())
+    except Exception:
+        logger.exception("Failed to finalize recordings on shutdown")
 
 
 def _doc_to_out(doc: dict[str, Any]) -> RegistrationOut:

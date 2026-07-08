@@ -13,6 +13,7 @@ from .auth import get_current_agent
 from .database import get_db
 from .feed_manager import feed_manager
 from .models import POLLING_UNITS_COLLECTION
+from .recordings import finalize_recording
 from .settings import settings
 
 router = APIRouter(prefix="/webrtc", tags=["webrtc"])
@@ -175,4 +176,5 @@ async def stop_webrtc_stream(
         {"$set": {"last_frame_at": None, "webrtc_live": False}},
     )
     await feed_manager.clear_frame(code)
+    await finalize_recording(db, code)
     return {"status": "offline", "code": code}

@@ -15,6 +15,7 @@ from .feed_manager import feed_manager
 from .feed_snap_storage import ensure_snaps_dir, snap_file_path
 from .models import DETECTED_FACES_COLLECTION, FEED_SNAPS_COLLECTION, POLLING_UNITS_COLLECTION
 from .geo_data import OGUN_STATE, validate_ogun_polling_unit
+from .recordings import append_recording_frame
 from .schemas import FeedSnapOut, PeopleCountUpdate, PollingUnitCreate, PollingUnitOut, PollingUnitRegisterOut
 
 router = APIRouter(prefix="/polling-units", tags=["polling-units"])
@@ -185,6 +186,8 @@ async def ingest_frame(
     # Publish the live frame immediately so viewers see near-realtime video.
     # Face counting runs after and only updates the people count.
     await feed_manager.store_frame(unit_code, raw, current_unique)
+    # Persist the frame into the unit's rolling video recording (best-effort).
+    await append_recording_frame(db, doc, raw)
     await db[POLLING_UNITS_COLLECTION].update_one(
         {"_id": doc["_id"]},
         {"$set": {"last_frame_at": now}},

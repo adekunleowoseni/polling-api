@@ -15,8 +15,10 @@ services:
       net.ipv6.conf.default.disable_ipv6: 1
     volumes:
       - snaps_data:/app/storage/snaps
+      - recordings_data:/app/storage/recordings
       # Uncomment if using Google Document AI (path on host):
       # - ./service-account.json:/app/service-account.json:ro
 
 volumes:
   snaps_data:
+  recordings_data:

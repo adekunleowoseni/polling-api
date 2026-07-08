@@ -6,6 +6,7 @@ from typing import Any
 from bson import ObjectId
 from bson.errors import InvalidId
 from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi.responses import FileResponse
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from .agent_helpers import agent_doc_to_out
@@ -18,12 +19,15 @@ from .models import (
     AGENTS_COLLECTION,
     DATA_CREDITS_COLLECTION,
     DETECTED_FACES_COLLECTION,
+    FEED_RECORDINGS_COLLECTION,
     FEED_SNAPS_COLLECTION,
     POLLING_UNITS_COLLECTION,
     REGISTRATIONS_COLLECTION,
 )
 from .geo_data import validate_ogun_ward
 from .polling_units_router import _doc_to_out
+from .recordings import delete_recordings_for_unit, finalize_recording
+from .recording_storage import recording_file_path
 from .schemas import (
     AdminAgentOut,
     AdminAgentSummary,
@@ -36,6 +40,7 @@ from .schemas import (
     AgentAssignmentUpdate,
     AgentDataClaimLimitUpdate,
     AgentOut,
+    FeedRecordingOut,
     FeedSnapOut,
     PeopleCountUpdate,
     PollingUnitOut,
@@ -88,6 +93,25 @@ def _snap_out(doc: dict[str, Any]) -> FeedSnapOut:
         lga=doc["lga"],
         people_count=int(doc.get("people_count", 0)),
         created_at=_as_utc(doc["created_at"]) or doc["created_at"],
+    )
+
+
+def _recording_out(doc: dict[str, Any]) -> FeedRecordingOut:
+    return FeedRecordingOut(
+        id=str(doc["_id"]),
+        polling_unit_id=str(doc["polling_unit_id"]),
+        polling_unit_name=doc.get("polling_unit_name", ""),
+        code=doc["code"],
+        state=doc.get("state", "Ogun State"),
+        ward=doc.get("ward", ""),
+        lga=doc.get("lga", ""),
+        status=doc.get("status", "completed"),
+        started_at=_as_utc(doc["started_at"]) or doc["started_at"],
+        ended_at=_as_utc(doc.get("ended_at")),
+        duration_seconds=float(doc.get("duration_seconds", 0.0)),
+        frame_count=int(doc.get("frame_count", 0)),
+        fps=float(doc.get("fps", 0.0)),
+        file_size=int(doc.get("file_size", 0)),
     )
 
 
@@ -224,6 +248,7 @@ async def admin_force_offline(
         {"$set": {"last_frame_at": None, "webrtc_live": False}},
     )
     await feed_manager.clear_frame(normalized)
+    await finalize_recording(db, normalized)
     return {"status": "offline", "code": normalized}
 
 
@@ -241,6 +266,7 @@ async def _delete_polling_unit_by_code(
     for snap in snap_docs:
         await _delete_snap(str(snap["_id"]), db)
 
+    await delete_recordings_for_unit(db, unit_id, normalized)
     await db[DETECTED_FACES_COLLECTION].delete_many({"polling_unit_id": unit_id})
     await db[POLLING_UNITS_COLLECTION].delete_one({"_id": unit_id})
     await feed_manager.clear_frame(normalized)
@@ -288,6 +314,90 @@ async def admin_delete_feed_snap(
     if not await _delete_snap(snap_id, db):
         raise HTTPException(status_code=404, detail="Snapshot not found.")
     return {"status": "deleted", "id": snap_id}
+
+
+async def _get_recording_doc(recording_id: str, db: AsyncIOMotorDatabase) -> dict[str, Any]:
+    try:
+        oid = ObjectId(recording_id)
+    except InvalidId as exc:
+        raise HTTPException(status_code=404, detail="Recording not found.") from exc
+    doc = await db[FEED_RECORDINGS_COLLECTION].find_one({"_id": oid})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Recording not found.")
+    return doc
+
+
+@router.get("/recordings", response_model=list[FeedRecordingOut])
+async def admin_list_recordings(
+    admin: dict[str, Any] = Depends(get_current_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+    lga: str | None = Query(None),
+    ward: str | None = Query(None),
+    code: str | None = Query(None),
+    limit: int = Query(200, ge=1, le=500),
+) -> list[FeedRecordingOut]:
+    _ = admin
+    query: dict[str, Any] = {}
+    if lga:
+        query["lga"] = lga.strip()
+    if ward:
+        query["ward"] = ward.strip()
+    if code:
+        query["code"] = code.strip().lower()
+
+    cursor = db[FEED_RECORDINGS_COLLECTION].find(query).sort("started_at", -1).limit(limit)
+    docs = await cursor.to_list(length=limit)
+    return [_recording_out(doc) for doc in docs]
+
+
+@router.get("/recordings/{recording_id}/video")
+async def admin_stream_recording(
+    recording_id: str,
+    admin: dict[str, Any] = Depends(get_current_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> FileResponse:
+    _ = admin
+    doc = await _get_recording_doc(recording_id, db)
+    path = recording_file_path(str(doc["_id"]))
+    if not path.is_file():
+        raise HTTPException(status_code=404, detail="Recording file missing.")
+    return FileResponse(path, media_type="video/mp4")
+
+
+@router.get("/recordings/{recording_id}/download")
+async def admin_download_recording(
+    recording_id: str,
+    admin: dict[str, Any] = Depends(get_current_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> FileResponse:
+    _ = admin
+    doc = await _get_recording_doc(recording_id, db)
+    path = recording_file_path(str(doc["_id"]))
+    if not path.is_file():
+        raise HTTPException(status_code=404, detail="Recording file missing.")
+    filename = f"{doc.get('code', 'recording')}-{recording_id}.mp4"
+    return FileResponse(path, media_type="video/mp4", filename=filename)
+
+
+@router.delete("/recordings/{recording_id}")
+async def admin_delete_recording(
+    recording_id: str,
+    admin: dict[str, Any] = Depends(get_current_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> dict[str, str]:
+    _ = admin
+    doc = await _get_recording_doc(recording_id, db)
+    # Finalize first if it is still actively recording, so the writer is closed.
+    if doc.get("status") == "recording":
+        await finalize_recording(db, str(doc["code"]))
+    path = recording_file_path(recording_id)
+    if path.is_file():
+        try:
+            path.unlink()
+        except OSError:
+            pass
+    await db[FEED_RECORDINGS_COLLECTION].delete_one({"_id": doc["_id"]})
+    return {"status": "deleted", "id": recording_id}
 
 
 async def _build_admin_agent_out(agent_doc: dict[str, Any], db: AsyncIOMotorDatabase) -> AdminAgentOut:

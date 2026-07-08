@@ -7,6 +7,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         ca-certificates \
         openssl \
+        ffmpeg \
         libglib2.0-0 \
         libsm6 \
         libxext6 \
@@ -24,7 +25,7 @@ RUN pip install --no-cache-dir --upgrade pip \
 COPY app ./app
 COPY migrate.py ./migrate.py
 
-RUN mkdir -p storage/snaps
+RUN mkdir -p storage/snaps storage/recordings
 
 ENV PYTHONUNBUFFERED=1
 ENV PORT=8000

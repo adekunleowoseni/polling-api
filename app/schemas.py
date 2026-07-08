@@ -150,6 +150,23 @@ class FeedSnapOut(BaseModel):
     created_at: datetime
 
 
+class FeedRecordingOut(BaseModel):
+    id: str
+    polling_unit_id: str
+    polling_unit_name: str
+    code: str
+    state: str
+    ward: str
+    lga: str
+    status: str
+    started_at: datetime
+    ended_at: datetime | None = None
+    duration_seconds: float = 0.0
+    frame_count: int = 0
+    fps: float = 0.0
+    file_size: int = 0
+
+
 class AdminLogin(BaseModel):
     email: EmailStr
     password: str

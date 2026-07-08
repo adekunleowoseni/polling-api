@@ -32,6 +32,16 @@ Saved stills from agent relay live feed:
   - people_count, filename, created_at
 """
 
+FEED_RECORDINGS_COLLECTION = "feed_recordings"
+"""
+Saved video recordings assembled from agent relay frames (low-fps MP4):
+  - polling_unit_id, code, polling_unit_name, state, ward, lga, agent_id
+  - status ("recording" | "completed")
+  - started_at, ended_at, duration_seconds, frame_count, fps, width, height
+  - file_size, filename (stored under storage/recordings/<_id>.mp4)
+The video file itself lives on local disk; only metadata is stored here.
+"""
+
 ADMINS_COLLECTION = "admins"
 """
 Super admin accounts:

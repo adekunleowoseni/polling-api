@@ -8,6 +8,7 @@ from .models import (
     DATA_CREDITS_COLLECTION,
     DATA_PLANS_COLLECTION,
     DETECTED_FACES_COLLECTION,
+    FEED_RECORDINGS_COLLECTION,
     FEED_SNAPS_COLLECTION,
     POLLING_UNITS_COLLECTION,
     REGISTRATIONS_COLLECTION,
@@ -27,6 +28,10 @@ async def ensure_schema(db: AsyncIOMotorDatabase) -> None:
     )
     await db[FEED_SNAPS_COLLECTION].create_index([("lga", 1), ("ward", 1), ("created_at", -1)])
     await db[FEED_SNAPS_COLLECTION].create_index([("polling_unit_id", 1), ("created_at", -1)])
+    await db[FEED_RECORDINGS_COLLECTION].create_index([("lga", 1), ("ward", 1), ("started_at", -1)])
+    await db[FEED_RECORDINGS_COLLECTION].create_index([("code", 1), ("started_at", -1)])
+    await db[FEED_RECORDINGS_COLLECTION].create_index([("polling_unit_id", 1), ("started_at", -1)])
+    await db[FEED_RECORDINGS_COLLECTION].create_index("status")
     await db[ADMINS_COLLECTION].create_index("email", unique=True)
     await db[ADMINS_COLLECTION].create_index("api_token", unique=True)
     await db[DATA_PLANS_COLLECTION].create_index(
