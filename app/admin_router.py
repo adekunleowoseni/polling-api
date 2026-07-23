@@ -26,7 +26,8 @@ from .models import (
     POLLING_UNITS_COLLECTION,
     REGISTRATIONS_COLLECTION,
 )
-from .geo_data import validate_ogun_ward
+from .geo_data import OGUN_LGAS, validate_ogun_ward
+from .osun_geo_data import OSUN_LGAS, validate_osun_ward
 from .polling_units_router import _doc_to_out
 from .recordings import delete_recordings_for_unit, finalize_recording
 from .recording_storage import recording_file_path
@@ -617,7 +618,12 @@ async def admin_assign_agent(
 
     lga = payload.lga.strip()
     ward = payload.ward.strip()
-    validate_ogun_ward(lga, ward)
+    if lga in OGUN_LGAS:
+        validate_ogun_ward(lga, ward)
+    elif lga in OSUN_LGAS:
+        validate_osun_ward(lga, ward)
+    else:
+        raise HTTPException(status_code=400, detail="Invalid LGA for Ogun or Osun State.")
 
     agent = await db[AGENTS_COLLECTION].find_one({"_id": oid})
     if not agent:

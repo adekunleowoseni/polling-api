@@ -15,6 +15,7 @@ from .feed_manager import feed_manager
 from .feed_snap_storage import ensure_snaps_dir, snap_file_path
 from .models import DETECTED_FACES_COLLECTION, FEED_SNAPS_COLLECTION, POLLING_UNITS_COLLECTION
 from .geo_data import OGUN_STATE, validate_ogun_polling_unit
+from .osun_geo_data import OSUN_STATE, validate_osun_polling_unit
 from .recordings import append_recording_frame
 from .schemas import FeedSnapOut, PeopleCountUpdate, PollingUnitCreate, PollingUnitOut, PollingUnitRegisterOut
 
@@ -108,10 +109,15 @@ async def register_polling_unit(
     state = payload.state.strip()
     lga = payload.lga.strip()
     ward = payload.ward.strip()
-    if state != OGUN_STATE:
-        raise HTTPException(status_code=400, detail="Only Ogun State is supported at this time.")
-
-    catalog_unit = validate_ogun_polling_unit(lga, ward, payload.name, code)
+    if state == OGUN_STATE:
+        catalog_unit = validate_ogun_polling_unit(lga, ward, payload.name, code)
+    elif state == OSUN_STATE:
+        catalog_unit = validate_osun_polling_unit(lga, ward, payload.name, code)
+    else:
+        raise HTTPException(
+            status_code=400,
+            detail="Only Ogun State and Osun State are supported at this time.",
+        )
 
     agent_lga = agent.get("lga")
     agent_ward = agent.get("ward")

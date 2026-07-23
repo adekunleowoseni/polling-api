@@ -20,7 +20,8 @@ from .auth import get_current_agent, hash_password, new_api_token, verify_passwo
 
 from .database import get_db
 
-from .geo_data import validate_ogun_ward
+from .geo_data import OGUN_LGAS, validate_ogun_ward
+from .osun_geo_data import OSUN_LGAS, validate_osun_ward
 
 from .models import AGENTS_COLLECTION
 
@@ -60,7 +61,12 @@ async def register_agent(
 
     ward = payload.ward.strip()
 
-    validate_ogun_ward(lga, ward)
+    if lga in OGUN_LGAS:
+        validate_ogun_ward(lga, ward)
+    elif lga in OSUN_LGAS:
+        validate_osun_ward(lga, ward)
+    else:
+        raise HTTPException(status_code=400, detail="Invalid LGA for Ogun or Osun State.")
 
 
 
