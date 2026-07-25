@@ -270,7 +270,9 @@ async def admin_overview(
         total_people_on_site=total_people,
         feed_snapshots=await db[FEED_SNAPS_COLLECTION].count_documents(unit_query),
         agents=await db[AGENTS_COLLECTION].count_documents(agent_query),
-        form_registrations=await db[REGISTRATIONS_COLLECTION].count_documents({}),
+        form_registrations=await db[REGISTRATIONS_COLLECTION].count_documents(
+            _state_filter(admin) if admin_state(admin) else {}
+        ),
         total_votes=int(vote_totals.get("total") or 0),
         units_with_results=int(vote_totals.get("units") or 0),
         updated_at=now,
@@ -424,14 +426,14 @@ async def _get_recording_doc(recording_id: str, db: AsyncIOMotorDatabase) -> dic
 
 @router.get("/recordings", response_model=list[FeedRecordingOut])
 async def admin_list_recordings(
-    admin: dict[str, Any] = Depends(require_super_admin),
+    admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
     lga: str | None = Query(None),
     ward: str | None = Query(None),
     code: str | None = Query(None),
     limit: int = Query(200, ge=1, le=500),
 ) -> list[FeedRecordingOut]:
-    query: dict[str, Any] = {}
+    query: dict[str, Any] = {**_state_filter(admin)}
     if lga:
         query["lga"] = lga.strip()
     if ward:
@@ -447,10 +449,11 @@ async def admin_list_recordings(
 @router.get("/recordings/{recording_id}/video")
 async def admin_stream_recording(
     recording_id: str,
-    admin: dict[str, Any] = Depends(require_super_admin),
+    admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> FileResponse:
     doc = await _get_recording_doc(recording_id, db)
+    _assert_doc_state_access(admin, doc)
     path = recording_file_path(str(doc["_id"]))
     if not path.is_file():
         raise HTTPException(status_code=404, detail="Recording file missing.")
@@ -460,10 +463,11 @@ async def admin_stream_recording(
 @router.get("/recordings/{recording_id}/download")
 async def admin_download_recording(
     recording_id: str,
-    admin: dict[str, Any] = Depends(require_super_admin),
+    admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> FileResponse:
     doc = await _get_recording_doc(recording_id, db)
+    _assert_doc_state_access(admin, doc)
     path = recording_file_path(str(doc["_id"]))
     if not path.is_file():
         raise HTTPException(status_code=404, detail="Recording file missing.")
@@ -474,10 +478,11 @@ async def admin_download_recording(
 @router.delete("/recordings/{recording_id}")
 async def admin_delete_recording(
     recording_id: str,
-    admin: dict[str, Any] = Depends(require_super_admin),
+    admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> dict[str, str]:
     doc = await _get_recording_doc(recording_id, db)
+    _assert_doc_state_access(admin, doc)
     # Finalize first if it is still actively recording, so the writer is closed.
     if doc.get("status") == "recording":
         await finalize_recording(db, str(doc["code"]))
@@ -518,6 +523,7 @@ async def _build_admin_agent_out(agent_doc: dict[str, Any], db: AsyncIOMotorData
         email=base.email,
         lga=base.lga,
         ward=base.ward,
+        state=base.state,
         created_at=base.created_at,
         polling_units=units,
         data_claim_limit=_agent_data_claim_limit(agent_doc),
@@ -559,6 +565,7 @@ async def admin_list_agents(
                 email=base.email,
                 lga=base.lga,
                 ward=base.ward,
+                state=base.state,
                 created_at=base.created_at,
                 polling_unit_count=unit_count,
                 live_unit_count=live_count,

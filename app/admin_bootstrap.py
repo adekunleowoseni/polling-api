@@ -17,8 +17,15 @@ STATE_ADMIN_ROLE = "state_admin"
 OGUN_STATE = "Ogun State"
 OSUN_STATE = "Osun State"
 
-# Tabs state admins may use in the dashboard.
-STATE_ADMIN_TABS = ("overview", "feeds", "snaps", "agents", "votes")
+# Tabs state admins may use — full ops for their state only (not global VTpass catalogs).
+STATE_ADMIN_TABS = (
+    "overview",
+    "feeds",
+    "snaps",
+    "recordings",
+    "agents",
+    "votes",
+)
 SUPER_ADMIN_TABS = (
     "overview",
     "feeds",

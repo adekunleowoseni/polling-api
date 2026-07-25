@@ -125,6 +125,7 @@ class AgentOut(BaseModel):
     email: str
     lga: str | None = None
     ward: str | None = None
+    state: str | None = None
     created_at: datetime
 
 
@@ -282,6 +283,7 @@ class AdminAgentOut(BaseModel):
     email: str
     lga: str | None = None
     ward: str | None = None
+    state: str | None = None
     created_at: datetime
     polling_units: list[AdminAgentUnitOut] = []
     data_claim_limit: int = 1
@@ -296,6 +298,7 @@ class AdminAgentSummary(BaseModel):
     email: str
     lga: str | None = None
     ward: str | None = None
+    state: str | None = None
     created_at: datetime
     polling_unit_count: int
     live_unit_count: int
