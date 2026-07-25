@@ -8,6 +8,7 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from .auth import get_current_admin, get_current_agent
 from .admin_bootstrap import admin_state
+from .agent_helpers import state_for_lga
 from .database import get_db
 from .models import POLLING_UNITS_COLLECTION, VOTE_RESULTS_COLLECTION
 from .schemas import (
@@ -81,6 +82,13 @@ def _doc_to_out(doc: dict[str, Any], people_count: int | None = None) -> VoteRes
     )
 
 
+def _resolve_state(doc: dict[str, Any]) -> str:
+    state = (doc.get("state") or "").strip()
+    if state:
+        return state
+    return state_for_lga(doc.get("lga")) or "Unknown"
+
+
 def _build_summary(
     results: list[dict[str, Any]],
     people_by_code: dict[str, int],
@@ -90,13 +98,14 @@ def _build_summary(
         code = doc["code"]
         votes = int(doc.get("votes") or 0)
         people = int(people_by_code.get(code, doc.get("people_count_at_submit") or 0))
+        state = _resolve_state(doc)
         unit_stats.append(
             VoteUnitStat(
                 code=code,
                 name=doc.get("polling_unit_name") or code,
                 lga=doc.get("lga") or "",
                 ward=doc.get("ward") or "",
-                state=doc.get("state") or "",
+                state=state,
                 votes=votes,
                 people_count=people,
                 difference=votes - people,
@@ -104,45 +113,73 @@ def _build_summary(
             )
         )
 
-    unit_stats.sort(key=lambda u: (-u.votes, u.lga, u.ward, u.name))
+    # Keep states separate in every breakdown (Ogun vs Osun never merge).
+    unit_stats.sort(key=lambda u: (u.state, -u.votes, u.lga, u.ward, u.name))
 
-    lga_map: dict[str, dict[str, int]] = {}
-    ward_map: dict[tuple[str, str], dict[str, int]] = {}
+    state_map: dict[str, dict[str, int]] = {}
+    lga_map: dict[tuple[str, str], dict[str, int]] = {}
+    ward_map: dict[tuple[str, str, str], dict[str, int]] = {}
     for u in unit_stats:
-        lg = lga_map.setdefault(u.lga or "Unknown", {"votes": 0, "people": 0, "units": 0})
+        st = u.state or "Unknown"
+        sm = state_map.setdefault(st, {"votes": 0, "people": 0, "units": 0})
+        sm["votes"] += u.votes
+        sm["people"] += u.people_count
+        sm["units"] += 1
+
+        lk = (st, u.lga or "Unknown")
+        lg = lga_map.setdefault(lk, {"votes": 0, "people": 0, "units": 0})
         lg["votes"] += u.votes
         lg["people"] += u.people_count
         lg["units"] += 1
-        wk = (u.lga or "Unknown", u.ward or "Unknown")
+
+        wk = (st, u.lga or "Unknown", u.ward or "Unknown")
         wd = ward_map.setdefault(wk, {"votes": 0, "people": 0, "units": 0})
         wd["votes"] += u.votes
         wd["people"] += u.people_count
         wd["units"] += 1
 
+    by_state = [
+        VotePlaceStat(
+            label=state,
+            state=state,
+            votes=vals["votes"],
+            people_count=vals["people"],
+            unit_count=vals["units"],
+            difference=vals["votes"] - vals["people"],
+            comparison_note=_place_note(state, vals["votes"], vals["people"]),
+        )
+        for state, vals in sorted(state_map.items(), key=lambda kv: (-kv[1]["votes"], kv[0]))
+    ]
     by_lga = [
         VotePlaceStat(
-            label=lga,
+            label=f"{lga} ({state})" if state and state != "Unknown" else lga,
+            state=state,
             lga=lga,
             votes=vals["votes"],
             people_count=vals["people"],
             unit_count=vals["units"],
             difference=vals["votes"] - vals["people"],
-            comparison_note=_place_note(lga, vals["votes"], vals["people"]),
+            comparison_note=_place_note(f"{lga}, {state}", vals["votes"], vals["people"]),
         )
-        for lga, vals in sorted(lga_map.items(), key=lambda kv: (-kv[1]["votes"], kv[0]))
+        for (state, lga), vals in sorted(
+            lga_map.items(), key=lambda kv: (kv[0][0], -kv[1]["votes"], kv[0][1])
+        )
     ]
     by_ward = [
         VotePlaceStat(
-            label=f"{ward}, {lga}",
+            label=f"{ward}, {lga} ({state})" if state and state != "Unknown" else f"{ward}, {lga}",
+            state=state,
             lga=lga,
             ward=ward,
             votes=vals["votes"],
             people_count=vals["people"],
             unit_count=vals["units"],
             difference=vals["votes"] - vals["people"],
-            comparison_note=_place_note(f"{ward} ({lga})", vals["votes"], vals["people"]),
+            comparison_note=_place_note(f"{ward} ({lga}, {state})", vals["votes"], vals["people"]),
         )
-        for (lga, ward), vals in sorted(ward_map.items(), key=lambda kv: (-kv[1]["votes"], kv[0][0], kv[0][1]))
+        for (state, lga, ward), vals in sorted(
+            ward_map.items(), key=lambda kv: (kv[0][0], -kv[1]["votes"], kv[0][1], kv[0][2])
+        )
     ]
 
     total_votes = sum(u.votes for u in unit_stats)
@@ -150,11 +187,11 @@ def _build_summary(
     overall_diff = total_votes - total_people
     overall_note = _comparison_note(total_votes, total_people)
 
-    highest_unit = unit_stats[0] if unit_stats else None
+    highest_unit = max(unit_stats, key=lambda u: (u.votes, u.name)) if unit_stats else None
     lowest_unit = min(unit_stats, key=lambda u: (u.votes, u.name)) if unit_stats else None
-    highest_lga = by_lga[0] if by_lga else None
+    highest_lga = max(by_lga, key=lambda x: (x.votes, x.label)) if by_lga else None
     lowest_lga = min(by_lga, key=lambda x: (x.votes, x.label)) if by_lga else None
-    highest_ward = by_ward[0] if by_ward else None
+    highest_ward = max(by_ward, key=lambda x: (x.votes, x.label)) if by_ward else None
     lowest_ward = min(by_ward, key=lambda x: (x.votes, x.label)) if by_ward else None
 
     if not unit_stats:
@@ -167,6 +204,9 @@ def _build_summary(
             f"Altogether, agents have entered {total_votes:,} vote(s) from {len(unit_stats):,} polling unit(s).",
             f"At those same units, the system has counted {total_people:,} people on site.",
         ]
+        if len(by_state) > 1:
+            state_bits = ", ".join(f"{s.state}: {s.votes:,}" for s in by_state)
+            parts.append(f"By state — {state_bits}.")
         if overall_diff > 0:
             parts.append(
                 f"Overall, votes are {overall_diff:,} higher than people counted. Review the tables below."
@@ -179,18 +219,24 @@ def _build_summary(
             parts.append("Overall, total votes match total people counted at units with results.")
         if highest_unit:
             parts.append(
-                f"Highest polling unit: {highest_unit.name} ({highest_unit.ward}, {highest_unit.lga}) "
+                f"Highest polling unit: {highest_unit.name} "
+                f"({highest_unit.state}, {highest_unit.ward}, {highest_unit.lga}) "
                 f"with {highest_unit.votes:,} votes."
             )
         if lowest_unit:
             parts.append(
-                f"Lowest polling unit: {lowest_unit.name} ({lowest_unit.ward}, {lowest_unit.lga}) "
+                f"Lowest polling unit: {lowest_unit.name} "
+                f"({lowest_unit.state}, {lowest_unit.ward}, {lowest_unit.lga}) "
                 f"with {lowest_unit.votes:,} votes."
             )
         if highest_lga:
-            parts.append(f"Highest LGA: {highest_lga.lga} with {highest_lga.votes:,} votes.")
+            parts.append(
+                f"Highest LGA: {highest_lga.lga} ({highest_lga.state}) with {highest_lga.votes:,} votes."
+            )
         if lowest_lga:
-            parts.append(f"Lowest LGA: {lowest_lga.lga} with {lowest_lga.votes:,} votes.")
+            parts.append(
+                f"Lowest LGA: {lowest_lga.lga} ({lowest_lga.state}) with {lowest_lga.votes:,} votes."
+            )
         if highest_ward:
             parts.append(f"Highest ward: {highest_ward.label} with {highest_ward.votes:,} votes.")
         if lowest_ward:
@@ -207,6 +253,7 @@ def _build_summary(
         by_polling_unit=unit_stats,
         by_lga=by_lga,
         by_ward=by_ward,
+        by_state=by_state,
         highest_unit=highest_unit,
         lowest_unit=lowest_unit,
         highest_lga=highest_lga,

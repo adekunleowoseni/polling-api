@@ -234,6 +234,7 @@ class VoteUnitStat(BaseModel):
 
 class VotePlaceStat(BaseModel):
     label: str
+    state: str = ""
     lga: str = ""
     ward: str = ""
     votes: int
@@ -253,6 +254,7 @@ class VoteResultsSummary(BaseModel):
     by_polling_unit: list[VoteUnitStat]
     by_lga: list[VotePlaceStat]
     by_ward: list[VotePlaceStat]
+    by_state: list[VotePlaceStat] = []
     highest_unit: VoteUnitStat | None = None
     lowest_unit: VoteUnitStat | None = None
     highest_lga: VotePlaceStat | None = None

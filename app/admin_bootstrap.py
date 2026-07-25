@@ -75,11 +75,10 @@ async def _upsert_admin(
         "name": name,
         "role": role,
         "state": state,
+        "password_hash": hash_password(password),
         "updated_at": now,
     }
     if existing:
-        # Keep existing password unless this is a brand-new role assignment from bootstrap
-        # and password was never set properly — always refresh role/state/name.
         await db[ADMINS_COLLECTION].update_one({"_id": existing["_id"]}, {"$set": fields})
         return
 
@@ -87,7 +86,6 @@ async def _upsert_admin(
         {
             **fields,
             "email": email,
-            "password_hash": hash_password(password),
             "api_token": new_api_token(),
             "created_at": now,
         }
@@ -96,14 +94,21 @@ async def _upsert_admin(
 
 async def ensure_super_admin(db: AsyncIOMotorDatabase) -> None:
     """Create/update super admin + Ogun/Osun state admins."""
-    shared_password = settings.super_admin_password
+    shared_password = (settings.super_admin_password or "").strip()
     if not shared_password:
+        return
+
+    super_email = (settings.super_admin_email or "").strip().lower()
+    ogun_email = (settings.ogun_admin_email or "").strip().lower()
+    osun_email = (settings.osun_admin_email or "").strip().lower()
+
+    if not super_email:
         return
 
     # Super admin (full access)
     await _upsert_admin(
         db,
-        email=settings.super_admin_email,
+        email=super_email,
         name="Super Admin",
         password=shared_password,
         role=SUPER_ADMIN_ROLE,
@@ -114,8 +119,7 @@ async def ensure_super_admin(db: AsyncIOMotorDatabase) -> None:
     # demote it to Ogun state admin so it doesn't keep full access.
     legacy = await db[ADMINS_COLLECTION].find_one({"email": "admin@ogun.monitor"})
     if legacy and legacy.get("role") == SUPER_ADMIN_ROLE:
-        new_super = settings.super_admin_email.lower().strip()
-        if new_super != "admin@ogun.monitor":
+        if super_email != "admin@ogun.monitor":
             await db[ADMINS_COLLECTION].update_one(
                 {"_id": legacy["_id"]},
                 {
@@ -131,19 +135,22 @@ async def ensure_super_admin(db: AsyncIOMotorDatabase) -> None:
     ogun_password = (settings.ogun_admin_password or shared_password).strip()
     osun_password = (settings.osun_admin_password or shared_password).strip()
 
-    await _upsert_admin(
-        db,
-        email=settings.ogun_admin_email,
-        name="Ogun State Admin",
-        password=ogun_password,
-        role=STATE_ADMIN_ROLE,
-        state=OGUN_STATE,
-    )
-    await _upsert_admin(
-        db,
-        email=settings.osun_admin_email,
-        name="Osun State Admin",
-        password=osun_password,
-        role=STATE_ADMIN_ROLE,
-        state=OSUN_STATE,
-    )
+    # Never overwrite the super admin account with a state-admin role.
+    if ogun_email and ogun_email != super_email:
+        await _upsert_admin(
+            db,
+            email=ogun_email,
+            name="Ogun State Admin",
+            password=ogun_password,
+            role=STATE_ADMIN_ROLE,
+            state=OGUN_STATE,
+        )
+    if osun_email and osun_email != super_email:
+        await _upsert_admin(
+            db,
+            email=osun_email,
+            name="Osun State Admin",
+            password=osun_password,
+            role=STATE_ADMIN_ROLE,
+            state=OSUN_STATE,
+        )
