@@ -278,10 +278,18 @@ async def admin_results_summary(
     admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> VoteResultsSummary:
+    from .admin_bootstrap import OGUN_STATE, OSUN_STATE
+    from .geo_data import OGUN_LGAS
+    from .osun_geo_data import OSUN_LGAS
+
     query: dict[str, Any] = {}
     state = admin_state(admin)
     if state:
-        query["state"] = state
+        lgas = list(OGUN_LGAS.keys()) if state == OGUN_STATE else list(OSUN_LGAS.keys()) if state == OSUN_STATE else []
+        if lgas:
+            query = {"$or": [{"state": state}, {"lga": {"$in": lgas}}]}
+        else:
+            query = {"state": state}
     cursor = db[VOTE_RESULTS_COLLECTION].find(query)
     docs = await cursor.to_list(length=5000)
     codes = [d["code"] for d in docs]
