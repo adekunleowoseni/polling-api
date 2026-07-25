@@ -112,10 +112,14 @@ def _admin_out(doc: dict[str, Any]) -> AdminOut:
 
 
 def _state_filter(admin: dict[str, Any]) -> dict[str, Any]:
+    """Filter docs to the admin's state (by `state` or LGA membership)."""
     state = admin_state(admin)
     if not state:
         return {}
-    return {"state": state}
+    lgas = _lgas_for_admin(admin) or []
+    if not lgas:
+        return {"state": state}
+    return {"$or": [{"state": state}, {"lga": {"$in": lgas}}]}
 
 
 def _lgas_for_admin(admin: dict[str, Any]) -> list[str] | None:
@@ -264,15 +268,17 @@ async def admin_overview(
     if allowed_lgas is not None:
         agent_query["lga"] = {"$in": allowed_lgas}
 
+    reg_query: dict[str, Any] = {}
+    if allowed_lgas is not None:
+        reg_query["lga"] = {"$in": allowed_lgas}
+
     return AdminOverview(
         live_feeds=live_feeds,
         registered_units=len(units),
         total_people_on_site=total_people,
         feed_snapshots=await db[FEED_SNAPS_COLLECTION].count_documents(unit_query),
         agents=await db[AGENTS_COLLECTION].count_documents(agent_query),
-        form_registrations=await db[REGISTRATIONS_COLLECTION].count_documents(
-            _state_filter(admin) if admin_state(admin) else {}
-        ),
+        form_registrations=await db[REGISTRATIONS_COLLECTION].count_documents(reg_query),
         total_votes=int(vote_totals.get("total") or 0),
         units_with_results=int(vote_totals.get("units") or 0),
         updated_at=now,
@@ -601,7 +607,7 @@ async def admin_get_agent(
 async def admin_set_data_claim_limit(
     agent_id: str,
     payload: AgentDataClaimLimitUpdate,
-    admin: dict[str, Any] = Depends(require_super_admin),
+    admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> AdminAgentOut:
     try:
@@ -612,6 +618,7 @@ async def admin_set_data_claim_limit(
     agent = await db[AGENTS_COLLECTION].find_one({"_id": oid})
     if not agent:
         raise HTTPException(status_code=404, detail="Agent not found.")
+    _assert_agent_access(admin, agent)
 
     await db[AGENTS_COLLECTION].update_one(
         {"_id": oid},
@@ -627,7 +634,7 @@ async def admin_set_data_claim_limit(
 async def admin_set_airtime_claim_limit(
     agent_id: str,
     payload: AgentAirtimeClaimLimitUpdate,
-    admin: dict[str, Any] = Depends(require_super_admin),
+    admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> AdminAgentOut:
     try:
@@ -638,6 +645,7 @@ async def admin_set_airtime_claim_limit(
     agent = await db[AGENTS_COLLECTION].find_one({"_id": oid})
     if not agent:
         raise HTTPException(status_code=404, detail="Agent not found.")
+    _assert_agent_access(admin, agent)
 
     await db[AGENTS_COLLECTION].update_one(
         {"_id": oid},
