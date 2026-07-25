@@ -21,8 +21,13 @@ class Settings(BaseSettings):
     google_cloud_project_id: str = ""
     google_cloud_location: str = "us"
     google_documentai_processor_id: str = ""
-    super_admin_email: str = "admin@ogun.monitor"
+    super_admin_email: str = "superadmin@lado.monitor"
     super_admin_password: str = "ChangeMeAdmin123!"
+    # State admins (limited dashboard access). Password falls back to super_admin_password.
+    ogun_admin_email: str = "admin@ogun.monitor"
+    ogun_admin_password: str = ""
+    osun_admin_email: str = "admin@osun.monitor"
+    osun_admin_password: str = ""
     # Comma-separated browser origins, or * for all (no cookies).
     cors_origins: str = "http://localhost:3000"
     # LiveKit WebRTC (leave empty to disable realtime A/V).

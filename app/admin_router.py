@@ -9,12 +9,20 @@ from fastapi import APIRouter, Depends, HTTPException, Query
 from fastapi.responses import FileResponse
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
+from .admin_bootstrap import (
+    OGUN_STATE,
+    OSUN_STATE,
+    admin_allowed_tabs,
+    admin_state,
+)
 from .agent_helpers import agent_doc_to_out
 from .app_settings import get_app_settings, update_app_settings
-from .auth import hash_password, get_current_admin, verify_password
+from .auth import hash_password, get_current_admin, require_super_admin, verify_password
 from .database import get_db
 from .feed_manager import feed_manager
 from .feed_snap_storage import snap_file_path
+from .geo_data import OGUN_LGAS, validate_ogun_ward
+from .osun_geo_data import OSUN_LGAS, validate_osun_ward
 from .models import (
     ADMINS_COLLECTION,
     AGENTS_COLLECTION,
@@ -27,8 +35,6 @@ from .models import (
     REGISTRATIONS_COLLECTION,
     VOTE_RESULTS_COLLECTION,
 )
-from .geo_data import OGUN_LGAS, validate_ogun_ward
-from .osun_geo_data import OSUN_LGAS, validate_osun_ward
 from .polling_units_router import _doc_to_out
 from .recordings import delete_recordings_for_unit, finalize_recording
 from .recording_storage import recording_file_path
@@ -99,8 +105,52 @@ def _admin_out(doc: dict[str, Any]) -> AdminOut:
         name=doc["name"],
         email=doc["email"],
         role=doc.get("role", "super_admin"),
+        state=admin_state(doc),
+        allowed_tabs=admin_allowed_tabs(doc),
         created_at=_as_utc(doc["created_at"]) or doc["created_at"],
     )
+
+
+def _state_filter(admin: dict[str, Any]) -> dict[str, Any]:
+    state = admin_state(admin)
+    if not state:
+        return {}
+    return {"state": state}
+
+
+def _lgas_for_admin(admin: dict[str, Any]) -> list[str] | None:
+    """Return LGA list for state admins, or None for super admin (all)."""
+    state = admin_state(admin)
+    if not state:
+        return None
+    if state == OGUN_STATE:
+        return list(OGUN_LGAS.keys())
+    if state == OSUN_STATE:
+        return list(OSUN_LGAS.keys())
+    return []
+
+
+def _assert_doc_state_access(admin: dict[str, Any], doc: dict[str, Any]) -> None:
+    state = admin_state(admin)
+    if not state:
+        return
+    doc_state = (doc.get("state") or "").strip()
+    if doc_state == state:
+        return
+    lga = (doc.get("lga") or "").strip()
+    allowed_lgas = _lgas_for_admin(admin) or []
+    if lga and lga in allowed_lgas:
+        return
+    raise HTTPException(status_code=403, detail="Outside your state scope")
+
+
+def _assert_agent_access(admin: dict[str, Any], agent: dict[str, Any]) -> None:
+    allowed = _lgas_for_admin(admin)
+    if allowed is None:
+        return
+    lga = (agent.get("lga") or "").strip()
+    if lga not in allowed:
+        raise HTTPException(status_code=403, detail="Outside your state scope")
 
 
 def _snap_out(doc: dict[str, Any]) -> FeedSnapOut:
@@ -192,24 +242,34 @@ async def admin_overview(
     admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> AdminOverview:
-    _ = admin
     now = datetime.now(timezone.utc)
-    cursor = db[POLLING_UNITS_COLLECTION].find()
+    unit_query = _state_filter(admin)
+    cursor = db[POLLING_UNITS_COLLECTION].find(unit_query)
     docs = await cursor.to_list(length=500)
     units = [_doc_to_out(d) for d in docs]
     live_feeds = sum(1 for u in units if u.stream_status == "live")
     total_people = sum(u.people_count for u in units if u.stream_status == "live")
+
+    result_query = _state_filter(admin)
     vote_pipeline = await db[VOTE_RESULTS_COLLECTION].aggregate(
-        [{"$group": {"_id": None, "total": {"$sum": "$votes"}, "units": {"$sum": 1}}}]
+        [
+            {"$match": result_query} if result_query else {"$match": {}},
+            {"$group": {"_id": None, "total": {"$sum": "$votes"}, "units": {"$sum": 1}}},
+        ]
     ).to_list(length=1)
     vote_totals = vote_pipeline[0] if vote_pipeline else {"total": 0, "units": 0}
+
+    agent_query: dict[str, Any] = {}
+    allowed_lgas = _lgas_for_admin(admin)
+    if allowed_lgas is not None:
+        agent_query["lga"] = {"$in": allowed_lgas}
 
     return AdminOverview(
         live_feeds=live_feeds,
         registered_units=len(units),
         total_people_on_site=total_people,
-        feed_snapshots=await db[FEED_SNAPS_COLLECTION].count_documents({}),
-        agents=await db[AGENTS_COLLECTION].count_documents({}),
+        feed_snapshots=await db[FEED_SNAPS_COLLECTION].count_documents(unit_query),
+        agents=await db[AGENTS_COLLECTION].count_documents(agent_query),
         form_registrations=await db[REGISTRATIONS_COLLECTION].count_documents({}),
         total_votes=int(vote_totals.get("total") or 0),
         units_with_results=int(vote_totals.get("units") or 0),
@@ -222,8 +282,7 @@ async def admin_list_polling_units(
     admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> list[PollingUnitOut]:
-    _ = admin
-    cursor = db[POLLING_UNITS_COLLECTION].find().sort("created_at", -1)
+    cursor = db[POLLING_UNITS_COLLECTION].find(_state_filter(admin)).sort("created_at", -1)
     docs = await cursor.to_list(length=500)
     return [_doc_to_out(d) for d in docs]
 
@@ -235,11 +294,11 @@ async def admin_update_people_count(
     admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> PollingUnitOut:
-    _ = admin
     normalized = code.lower().strip()
     doc = await db[POLLING_UNITS_COLLECTION].find_one({"code": normalized})
     if not doc:
         raise HTTPException(status_code=404, detail="Polling unit not found.")
+    _assert_doc_state_access(admin, doc)
 
     corrected = payload.people_count
     peak = max(int(doc.get("peak_people_count", 0)), corrected)
@@ -264,11 +323,11 @@ async def admin_force_offline(
     admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> dict[str, str]:
-    _ = admin
     normalized = code.lower().strip()
     doc = await db[POLLING_UNITS_COLLECTION].find_one({"code": normalized})
     if not doc:
         raise HTTPException(status_code=404, detail="Polling unit not found.")
+    _assert_doc_state_access(admin, doc)
 
     await db[POLLING_UNITS_COLLECTION].update_one(
         {"_id": doc["_id"]},
@@ -305,8 +364,11 @@ async def admin_delete_polling_unit(
     admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> dict[str, str]:
-    _ = admin
     normalized = code.lower().strip()
+    doc = await db[POLLING_UNITS_COLLECTION].find_one({"code": normalized})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Polling unit not found.")
+    _assert_doc_state_access(admin, doc)
     await _delete_polling_unit_by_code(normalized, db)
     return {"status": "deleted", "code": normalized}
 
@@ -319,8 +381,7 @@ async def admin_list_feed_snaps(
     ward: str | None = Query(None),
     limit: int = Query(200, ge=1, le=500),
 ) -> list[FeedSnapOut]:
-    _ = admin
-    query: dict[str, Any] = {}
+    query: dict[str, Any] = {**_state_filter(admin)}
     if lga:
         query["lga"] = lga.strip()
     if ward:
@@ -337,7 +398,14 @@ async def admin_delete_feed_snap(
     admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> dict[str, str]:
-    _ = admin
+    try:
+        oid = ObjectId(snap_id)
+    except InvalidId as exc:
+        raise HTTPException(status_code=404, detail="Snapshot not found.") from exc
+    doc = await db[FEED_SNAPS_COLLECTION].find_one({"_id": oid})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Snapshot not found.")
+    _assert_doc_state_access(admin, doc)
     if not await _delete_snap(snap_id, db):
         raise HTTPException(status_code=404, detail="Snapshot not found.")
     return {"status": "deleted", "id": snap_id}
@@ -356,14 +424,13 @@ async def _get_recording_doc(recording_id: str, db: AsyncIOMotorDatabase) -> dic
 
 @router.get("/recordings", response_model=list[FeedRecordingOut])
 async def admin_list_recordings(
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
     lga: str | None = Query(None),
     ward: str | None = Query(None),
     code: str | None = Query(None),
     limit: int = Query(200, ge=1, le=500),
 ) -> list[FeedRecordingOut]:
-    _ = admin
     query: dict[str, Any] = {}
     if lga:
         query["lga"] = lga.strip()
@@ -380,10 +447,9 @@ async def admin_list_recordings(
 @router.get("/recordings/{recording_id}/video")
 async def admin_stream_recording(
     recording_id: str,
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> FileResponse:
-    _ = admin
     doc = await _get_recording_doc(recording_id, db)
     path = recording_file_path(str(doc["_id"]))
     if not path.is_file():
@@ -394,10 +460,9 @@ async def admin_stream_recording(
 @router.get("/recordings/{recording_id}/download")
 async def admin_download_recording(
     recording_id: str,
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> FileResponse:
-    _ = admin
     doc = await _get_recording_doc(recording_id, db)
     path = recording_file_path(str(doc["_id"]))
     if not path.is_file():
@@ -409,10 +474,9 @@ async def admin_download_recording(
 @router.delete("/recordings/{recording_id}")
 async def admin_delete_recording(
     recording_id: str,
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> dict[str, str]:
-    _ = admin
     doc = await _get_recording_doc(recording_id, db)
     # Finalize first if it is still actively recording, so the writer is closed.
     if doc.get("status") == "recording":
@@ -469,9 +533,13 @@ async def admin_list_agents(
     db: AsyncIOMotorDatabase = Depends(get_db),
     limit: int = Query(2000, ge=1, le=5000),
 ) -> list[AdminAgentSummary]:
-    _ = admin
+    query: dict[str, Any] = {}
+    allowed_lgas = _lgas_for_admin(admin)
+    if allowed_lgas is not None:
+        query["lga"] = {"$in": allowed_lgas}
+
     cutoff = datetime.now(timezone.utc) - timedelta(seconds=20)
-    cursor = db[AGENTS_COLLECTION].find().sort("created_at", -1).limit(limit)
+    cursor = db[AGENTS_COLLECTION].find(query).sort("created_at", -1).limit(limit)
     agent_docs = await cursor.to_list(length=limit)
     results: list[AdminAgentSummary] = []
 
@@ -510,7 +578,6 @@ async def admin_get_agent(
     admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> AdminAgentOut:
-    _ = admin
     try:
         oid = ObjectId(agent_id)
     except InvalidId as exc:
@@ -519,6 +586,7 @@ async def admin_get_agent(
     agent_doc = await db[AGENTS_COLLECTION].find_one({"_id": oid})
     if not agent_doc:
         raise HTTPException(status_code=404, detail="Agent not found.")
+    _assert_agent_access(admin, agent_doc)
     return await _build_admin_agent_out(agent_doc, db)
 
 
@@ -526,10 +594,9 @@ async def admin_get_agent(
 async def admin_set_data_claim_limit(
     agent_id: str,
     payload: AgentDataClaimLimitUpdate,
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> AdminAgentOut:
-    _ = admin
     try:
         oid = ObjectId(agent_id)
     except InvalidId as exc:
@@ -553,10 +620,9 @@ async def admin_set_data_claim_limit(
 async def admin_set_airtime_claim_limit(
     agent_id: str,
     payload: AgentAirtimeClaimLimitUpdate,
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> AdminAgentOut:
-    _ = admin
     try:
         oid = ObjectId(agent_id)
     except InvalidId as exc:
@@ -578,9 +644,8 @@ async def admin_set_airtime_claim_limit(
 
 @router.get("/vtpass/balance")
 async def admin_vtpass_balance(
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
 ) -> dict[str, Any]:
-    _ = admin
     if not vtpass_configured():
         return {"configured": False, "balance": None, "currency": "NGN"}
     try:
@@ -592,20 +657,18 @@ async def admin_vtpass_balance(
 
 @router.get("/settings", response_model=AppSettingsOut)
 async def admin_get_settings(
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> AppSettingsOut:
-    _ = admin
     return AppSettingsOut(**await get_app_settings(db))
 
 
 @router.patch("/settings", response_model=AppSettingsOut)
 async def admin_update_settings(
     payload: AppSettingsUpdate,
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> AppSettingsOut:
-    _ = admin
     updated = await update_app_settings(db, payload.model_dump(exclude_unset=True))
     return AppSettingsOut(**updated)
 
@@ -617,7 +680,6 @@ async def admin_assign_agent(
     admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> AgentOut:
-    _ = admin
     try:
         oid = ObjectId(agent_id)
     except InvalidId as exc:
@@ -627,14 +689,21 @@ async def admin_assign_agent(
     ward = payload.ward.strip()
     if lga in OGUN_LGAS:
         validate_ogun_ward(lga, ward)
+        new_state = OGUN_STATE
     elif lga in OSUN_LGAS:
         validate_osun_ward(lga, ward)
+        new_state = OSUN_STATE
     else:
         raise HTTPException(status_code=400, detail="Invalid LGA for Ogun or Osun State.")
+
+    admin_scope = admin_state(admin)
+    if admin_scope and admin_scope != new_state:
+        raise HTTPException(status_code=403, detail="Outside your state scope")
 
     agent = await db[AGENTS_COLLECTION].find_one({"_id": oid})
     if not agent:
         raise HTTPException(status_code=404, detail="Agent not found.")
+    _assert_agent_access(admin, agent)
 
     await db[AGENTS_COLLECTION].update_one(
         {"_id": oid},
@@ -652,7 +721,6 @@ async def admin_delete_agent(
     admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> dict[str, str]:
-    _ = admin
     try:
         oid = ObjectId(agent_id)
     except InvalidId as exc:
@@ -661,6 +729,7 @@ async def admin_delete_agent(
     agent = await db[AGENTS_COLLECTION].find_one({"_id": oid})
     if not agent:
         raise HTTPException(status_code=404, detail="Agent not found.")
+    _assert_agent_access(admin, agent)
 
     unit_cursor = db[POLLING_UNITS_COLLECTION].find({"agent_id": oid})
     units = await unit_cursor.to_list(length=500)

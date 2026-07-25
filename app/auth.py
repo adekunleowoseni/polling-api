@@ -52,3 +52,13 @@ async def get_current_admin(
     if not admin:
         raise HTTPException(status_code=401, detail="Invalid or missing admin token.")
     return admin
+
+
+async def require_super_admin(
+    admin: dict[str, Any] = Depends(get_current_admin),
+) -> dict[str, Any]:
+    from .admin_bootstrap import is_super_admin
+
+    if not is_super_admin(admin):
+        raise HTTPException(status_code=403, detail="Super admin access required")
+    return admin

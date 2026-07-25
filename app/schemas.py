@@ -177,6 +177,8 @@ class AdminOut(BaseModel):
     name: str
     email: str
     role: str
+    state: str | None = None
+    allowed_tabs: list[str] = []
     created_at: datetime
 
 

@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from .app_settings import get_app_settings
-from .auth import get_current_admin, get_current_agent
+from .auth import get_current_agent, require_super_admin
 from .database import get_db
 from .models import AGENTS_COLLECTION, AIRTIME_CREDITS_COLLECTION, AIRTIME_PLANS_COLLECTION
 from .schemas import (
@@ -99,13 +99,13 @@ def _credit_doc_to_out(doc: dict[str, Any], agent: dict[str, Any] | None = None)
 # ---------------------------------------------------------------------------
 
 @admin_router.get("/status")
-async def airtime_status(admin: dict[str, Any] = Depends(get_current_admin)) -> dict[str, Any]:
+async def airtime_status(admin: dict[str, Any] = Depends(require_super_admin)) -> dict[str, Any]:
     _ = admin
     return {"configured": vtpass_configured()}
 
 
 @admin_router.get("/networks")
-async def list_networks(admin: dict[str, Any] = Depends(get_current_admin)) -> list[dict[str, str]]:
+async def list_networks(admin: dict[str, Any] = Depends(require_super_admin)) -> list[dict[str, str]]:
     _ = admin
     return [
         {"id": k, "label": NETWORK_LABELS.get(k, k.upper()), "service_id": v}
@@ -115,7 +115,7 @@ async def list_networks(admin: dict[str, Any] = Depends(get_current_admin)) -> l
 
 @admin_router.get("/amounts", response_model=list[AirtimePlanOut])
 async def list_amounts(
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> list[AirtimePlanOut]:
     _ = admin
@@ -127,7 +127,7 @@ async def list_amounts(
 @admin_router.put("/amounts", response_model=list[AirtimePlanOut])
 async def save_amounts(
     payload: AirtimePlansUpdate,
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> list[AirtimePlanOut]:
     _ = admin
@@ -149,7 +149,7 @@ async def save_amounts(
 
 @admin_router.get("/credits", response_model=list[AirtimeCreditOut])
 async def admin_list_credits(
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> list[AirtimeCreditOut]:
     _ = admin

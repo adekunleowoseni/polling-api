@@ -7,6 +7,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from .auth import get_current_admin, get_current_agent
+from .admin_bootstrap import admin_state
 from .database import get_db
 from .models import POLLING_UNITS_COLLECTION, VOTE_RESULTS_COLLECTION
 from .schemas import (
@@ -277,8 +278,11 @@ async def admin_results_summary(
     admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> VoteResultsSummary:
-    _ = admin
-    cursor = db[VOTE_RESULTS_COLLECTION].find()
+    query: dict[str, Any] = {}
+    state = admin_state(admin)
+    if state:
+        query["state"] = state
+    cursor = db[VOTE_RESULTS_COLLECTION].find(query)
     docs = await cursor.to_list(length=5000)
     codes = [d["code"] for d in docs]
     people_by_code: dict[str, int] = {}

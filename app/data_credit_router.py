@@ -8,7 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from .app_settings import get_app_settings
-from .auth import get_current_admin, get_current_agent
+from .auth import get_current_agent, require_super_admin
 from .database import get_db
 from .models import AGENTS_COLLECTION, DATA_CREDITS_COLLECTION, DATA_PLANS_COLLECTION
 from .schemas import (
@@ -102,7 +102,7 @@ def _credit_doc_to_out(doc: dict[str, Any], agent: dict[str, Any] | None = None)
 
 
 @admin_router.get("/networks")
-async def list_networks(admin: dict[str, Any] = Depends(get_current_admin)) -> list[dict[str, str]]:
+async def list_networks(admin: dict[str, Any] = Depends(require_super_admin)) -> list[dict[str, str]]:
     _ = admin
     return [{"id": k, "label": v, "service_id": NETWORK_SERVICE_IDS[k]} for k, v in NETWORK_LABELS.items()]
 
@@ -110,7 +110,7 @@ async def list_networks(admin: dict[str, Any] = Depends(get_current_admin)) -> l
 @admin_router.get("/catalog/{network}", response_model=list[DataPlanOut])
 async def catalog_for_network(
     network: str,
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
 ) -> list[DataPlanOut]:
     _ = admin
     if not vtpass_configured():
@@ -137,7 +137,7 @@ async def catalog_for_network(
 
 @admin_router.get("/plans", response_model=list[DataPlanOut])
 async def list_enabled_plans(
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> list[DataPlanOut]:
     _ = admin
@@ -149,7 +149,7 @@ async def list_enabled_plans(
 @admin_router.put("/plans", response_model=list[DataPlanOut])
 async def save_enabled_plans(
     payload: DataPlansUpdate,
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> list[DataPlanOut]:
     _ = admin
@@ -176,7 +176,7 @@ async def save_enabled_plans(
 
 @admin_router.get("/credits", response_model=list[DataCreditOut])
 async def admin_list_credits(
-    admin: dict[str, Any] = Depends(get_current_admin),
+    admin: dict[str, Any] = Depends(require_super_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> list[DataCreditOut]:
     _ = admin
@@ -192,7 +192,7 @@ async def admin_list_credits(
 
 
 @admin_router.get("/status")
-async def vtpass_status(admin: dict[str, Any] = Depends(get_current_admin)) -> dict[str, Any]:
+async def vtpass_status(admin: dict[str, Any] = Depends(require_super_admin)) -> dict[str, Any]:
     _ = admin
     return {"configured": vtpass_configured()}
 
