@@ -84,3 +84,12 @@ Global, admin-controlled application settings (single doc, _id="global"):
   - strict_one_airtime_claim_per_phone (bool): a phone can claim airtime only once
   - updated_at
 """
+
+VOTE_RESULTS_COLLECTION = "vote_results"
+"""
+Agent-entered election results per polling unit (one row per unit):
+  - polling_unit_id, code, polling_unit_name, state, ward, lga, agent_id
+  - votes (integer vote count entered by the agent)
+  - people_count_at_submit (snapshot of unit people_count when saved)
+  - created_at, updated_at
+"""

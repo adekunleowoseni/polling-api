@@ -192,7 +192,70 @@ class AdminOverview(BaseModel):
     feed_snapshots: int
     agents: int
     form_registrations: int
+    total_votes: int = 0
+    units_with_results: int = 0
     updated_at: datetime
+
+
+class VoteResultSubmit(BaseModel):
+    code: str = Field(..., min_length=2, max_length=80)
+    votes: int = Field(..., ge=0, le=1_000_000)
+
+
+class VoteResultOut(BaseModel):
+    id: str
+    polling_unit_id: str
+    code: str
+    polling_unit_name: str
+    state: str
+    ward: str
+    lga: str
+    votes: int
+    people_count: int = 0
+    people_count_at_submit: int = 0
+    updated_at: datetime
+    agent_id: str | None = None
+
+
+class VoteUnitStat(BaseModel):
+    code: str
+    name: str
+    lga: str
+    ward: str
+    state: str = ""
+    votes: int
+    people_count: int
+    difference: int
+    comparison_note: str
+
+
+class VotePlaceStat(BaseModel):
+    label: str
+    lga: str = ""
+    ward: str = ""
+    votes: int
+    people_count: int
+    unit_count: int
+    difference: int
+    comparison_note: str
+
+
+class VoteResultsSummary(BaseModel):
+    total_votes: int
+    units_with_results: int
+    total_people_counted: int
+    overall_difference: int
+    overall_note: str
+    plain_summary: str
+    by_polling_unit: list[VoteUnitStat]
+    by_lga: list[VotePlaceStat]
+    by_ward: list[VotePlaceStat]
+    highest_unit: VoteUnitStat | None = None
+    lowest_unit: VoteUnitStat | None = None
+    highest_lga: VotePlaceStat | None = None
+    lowest_lga: VotePlaceStat | None = None
+    highest_ward: VotePlaceStat | None = None
+    lowest_ward: VotePlaceStat | None = None
 
 
 class AdminPasswordUpdate(BaseModel):

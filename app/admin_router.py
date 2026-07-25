@@ -25,6 +25,7 @@ from .models import (
     FEED_SNAPS_COLLECTION,
     POLLING_UNITS_COLLECTION,
     REGISTRATIONS_COLLECTION,
+    VOTE_RESULTS_COLLECTION,
 )
 from .geo_data import OGUN_LGAS, validate_ogun_ward
 from .osun_geo_data import OSUN_LGAS, validate_osun_ward
@@ -198,6 +199,10 @@ async def admin_overview(
     units = [_doc_to_out(d) for d in docs]
     live_feeds = sum(1 for u in units if u.stream_status == "live")
     total_people = sum(u.people_count for u in units if u.stream_status == "live")
+    vote_pipeline = await db[VOTE_RESULTS_COLLECTION].aggregate(
+        [{"$group": {"_id": None, "total": {"$sum": "$votes"}, "units": {"$sum": 1}}}]
+    ).to_list(length=1)
+    vote_totals = vote_pipeline[0] if vote_pipeline else {"total": 0, "units": 0}
 
     return AdminOverview(
         live_feeds=live_feeds,
@@ -206,6 +211,8 @@ async def admin_overview(
         feed_snapshots=await db[FEED_SNAPS_COLLECTION].count_documents({}),
         agents=await db[AGENTS_COLLECTION].count_documents({}),
         form_registrations=await db[REGISTRATIONS_COLLECTION].count_documents({}),
+        total_votes=int(vote_totals.get("total") or 0),
+        units_with_results=int(vote_totals.get("units") or 0),
         updated_at=now,
     )
 

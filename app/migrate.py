@@ -14,6 +14,7 @@ from .models import (
     FEED_SNAPS_COLLECTION,
     POLLING_UNITS_COLLECTION,
     REGISTRATIONS_COLLECTION,
+    VOTE_RESULTS_COLLECTION,
 )
 from .settings import settings
 
@@ -49,6 +50,11 @@ async def ensure_schema(db: AsyncIOMotorDatabase) -> None:
     await db[AIRTIME_CREDITS_COLLECTION].create_index("request_id", unique=True)
     await db[AIRTIME_CREDITS_COLLECTION].create_index([("created_at", -1)])
     await db[AIRTIME_CREDITS_COLLECTION].create_index([("phone", 1), ("status", 1)])
+    await db[VOTE_RESULTS_COLLECTION].create_index("code", unique=True)
+    await db[VOTE_RESULTS_COLLECTION].create_index("polling_unit_id", unique=True)
+    await db[VOTE_RESULTS_COLLECTION].create_index("agent_id")
+    await db[VOTE_RESULTS_COLLECTION].create_index([("lga", 1), ("ward", 1)])
+    await db[VOTE_RESULTS_COLLECTION].create_index([("updated_at", -1)])
 
 
 async def run_migration() -> str:

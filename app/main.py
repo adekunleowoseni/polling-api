@@ -27,6 +27,8 @@ from .data_credit_router import agent_router as data_agent_router
 from .airtime_router import admin_router as airtime_admin_router
 from .airtime_router import agent_router as airtime_agent_router
 from .airtime_bootstrap import ensure_airtime_defaults
+from .vote_results_router import admin_router as results_admin_router
+from .vote_results_router import agent_router as results_agent_router
 from .schemas import (
     DailyTrend,
     LiveActivity,
@@ -67,6 +69,8 @@ app.include_router(data_agent_router)
 app.include_router(data_admin_router)
 app.include_router(airtime_agent_router)
 app.include_router(airtime_admin_router)
+app.include_router(results_agent_router)
+app.include_router(results_admin_router)
 
 
 @app.get("/health")
