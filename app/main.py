@@ -29,6 +29,11 @@ from .airtime_router import agent_router as airtime_agent_router
 from .airtime_bootstrap import ensure_airtime_defaults
 from .vote_results_router import admin_router as results_admin_router
 from .vote_results_router import agent_router as results_agent_router
+from .result_sheet_storage import ensure_result_sheets_dir
+from .result_sheets_router import admin_router as result_sheets_admin_router
+from .result_sheets_router import agent_router as result_sheets_agent_router
+from .irev_router import router as irev_router
+from .irev_watchdog import irev_watchdog_loop
 from .schemas import (
     DailyTrend,
     LiveActivity,
@@ -43,6 +48,7 @@ from .settings import settings
 logger = logging.getLogger(__name__)
 _db_ready = False
 _recording_sweeper_task: asyncio.Task | None = None
+_irev_watchdog_task: asyncio.Task | None = None
 RECORDING_SWEEP_INTERVAL_SECONDS = 15
 
 app = FastAPI(title="Registration Scanner API")
@@ -71,6 +77,9 @@ app.include_router(airtime_agent_router)
 app.include_router(airtime_admin_router)
 app.include_router(results_agent_router)
 app.include_router(results_admin_router)
+app.include_router(result_sheets_agent_router)
+app.include_router(result_sheets_admin_router)
+app.include_router(irev_router)
 
 
 @app.get("/health")
@@ -104,18 +113,23 @@ async def _recording_sweeper() -> None:
 
 @app.on_event("startup")
 async def on_startup() -> None:
-    global _recording_sweeper_task
+    global _recording_sweeper_task, _irev_watchdog_task
     ensure_snaps_dir()
     ensure_recordings_dir()
+    ensure_result_sheets_dir()
     # Do not block HTTP startup on MongoDB (Railway healthcheck needs /health quickly).
     asyncio.create_task(_init_database())
     _recording_sweeper_task = asyncio.create_task(_recording_sweeper())
+    # Inert until settings.irev_api_base/irev_election_id are configured for a live election.
+    _irev_watchdog_task = asyncio.create_task(irev_watchdog_loop(get_database))
 
 
 @app.on_event("shutdown")
 async def on_shutdown() -> None:
     if _recording_sweeper_task is not None:
         _recording_sweeper_task.cancel()
+    if _irev_watchdog_task is not None:
+        _irev_watchdog_task.cancel()
     try:
         await finalize_all_recordings(get_database())
     except Exception:

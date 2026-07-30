@@ -93,3 +93,30 @@ Agent-entered election results per polling unit (one row per unit):
   - people_count_at_submit (snapshot of unit people_count when saved)
   - created_at, updated_at
 """
+
+RESULT_SHEETS_COLLECTION = "result_sheets"
+"""
+Immutable, append-only EC8A result-sheet captures per polling unit.
+Agents never edit or overwrite a submitted row — a correction inserts a new
+document with supersedes_id pointing at the one it replaces, so the full
+history stays intact:
+  - polling_unit_id, code, polling_unit_name, state, ward, lga, agent_id
+  - votes (candidate's vote count as read from the EC8A)
+  - accredited_voters, registered_voters (optional, agent-observed at the unit)
+  - photo_filename (stored under storage/result_sheets/<_id>.jpg), sha256
+  - captured_lat, captured_lng, captured_accuracy_m (nullable; best-effort GPS)
+  - device_captured_at (client-reported capture time), received_at (server time)
+  - people_count_at_capture (snapshot of unit people_count when saved)
+  - supersedes_id (ObjectId of the row this correction replaces, or None)
+  - official_votes, official_source ("manual" | "irev_auto"),
+    official_checked_at, official_note — filled in later for comparison,
+    never touches the agent-submitted fields above
+  - created_at
+"""
+
+IREV_PU_MAP_COLLECTION = "irev_pu_map"
+"""
+One-time mapping of our polling_unit `code` to INEC IReV's internal ids,
+built by an admin-triggered sync once IReV is live for a given election:
+  - code, ward_irev_id, pu_irev_id, matched_name, matched_at
+"""

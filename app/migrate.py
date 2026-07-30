@@ -12,8 +12,10 @@ from .models import (
     DETECTED_FACES_COLLECTION,
     FEED_RECORDINGS_COLLECTION,
     FEED_SNAPS_COLLECTION,
+    IREV_PU_MAP_COLLECTION,
     POLLING_UNITS_COLLECTION,
     REGISTRATIONS_COLLECTION,
+    RESULT_SHEETS_COLLECTION,
     VOTE_RESULTS_COLLECTION,
 )
 from .settings import settings
@@ -55,6 +57,11 @@ async def ensure_schema(db: AsyncIOMotorDatabase) -> None:
     await db[VOTE_RESULTS_COLLECTION].create_index("agent_id")
     await db[VOTE_RESULTS_COLLECTION].create_index([("lga", 1), ("ward", 1)])
     await db[VOTE_RESULTS_COLLECTION].create_index([("updated_at", -1)])
+    # Append-only: many rows can share a code (corrections), so no unique index here.
+    await db[RESULT_SHEETS_COLLECTION].create_index([("code", 1), ("created_at", -1)])
+    await db[RESULT_SHEETS_COLLECTION].create_index("agent_id")
+    await db[RESULT_SHEETS_COLLECTION].create_index([("state", 1), ("lga", 1), ("created_at", -1)])
+    await db[IREV_PU_MAP_COLLECTION].create_index("code", unique=True)
 
 
 async def run_migration() -> str:

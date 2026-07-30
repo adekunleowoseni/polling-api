@@ -263,6 +263,42 @@ class VoteResultsSummary(BaseModel):
     lowest_ward: VotePlaceStat | None = None
 
 
+class ResultSheetOut(BaseModel):
+    id: str
+    polling_unit_id: str
+    code: str
+    polling_unit_name: str
+    state: str
+    ward: str
+    lga: str
+    agent_id: str | None = None
+    votes: int
+    accredited_voters: int | None = None
+    registered_voters: int | None = None
+    sha256: str
+    captured_lat: float | None = None
+    captured_lng: float | None = None
+    captured_accuracy_m: float | None = None
+    device_captured_at: datetime | None = None
+    received_at: datetime
+    people_count_at_capture: int = 0
+    supersedes_id: str | None = None
+    version: int = 1
+    official_votes: int | None = None
+    official_source: str | None = None
+    official_checked_at: datetime | None = None
+    official_note: str | None = None
+    created_at: datetime
+    over_accreditation: bool = False
+    official_diff: int | None = None
+    discrepancy_note: str | None = None
+
+
+class ResultSheetOfficialUpdate(BaseModel):
+    official_votes: int = Field(..., ge=0, le=1_000_000)
+    official_note: str | None = Field(default=None, max_length=500)
+
+
 class AdminPasswordUpdate(BaseModel):
     current_password: str
     new_password: str = Field(..., min_length=8, max_length=128)
@@ -366,11 +402,19 @@ class AirtimeCreditOut(BaseModel):
 class AppSettingsOut(BaseModel):
     strict_one_data_claim_per_phone: bool = False
     strict_one_airtime_claim_per_phone: bool = False
+    irev_enabled: bool = False
+    irev_api_base: str = ""
+    irev_election_id: str = ""
+    irev_poll_interval_seconds: int = 300
 
 
 class AppSettingsUpdate(BaseModel):
     strict_one_data_claim_per_phone: bool | None = None
     strict_one_airtime_claim_per_phone: bool | None = None
+    irev_enabled: bool | None = None
+    irev_api_base: str | None = Field(default=None, max_length=200)
+    irev_election_id: str | None = Field(default=None, max_length=100)
+    irev_poll_interval_seconds: int | None = Field(default=None, ge=60, le=3600)
 
 
 class AgentPollingUnitOut(PollingUnitOut):

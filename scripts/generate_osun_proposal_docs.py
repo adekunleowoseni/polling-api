@@ -1,4 +1,4 @@
-"""Generate ACCORD Osun proposal with detailed convincing ₦38m tech breakdown."""
+"""Generate ACCORD Osun proposal with detailed convincing ₦88m tech breakdown."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -13,36 +13,42 @@ OUT.mkdir(parents=True, exist_ok=True)
 
 GREEN = RGBColor(0x14, 0x53, 0x2D)
 
-# Detailed technology line items totaling 38,000,000
+TECH_TOTAL = 88_000_000
+DEV_TOTAL = 42_000_000
+HOST_TOTAL = 23_000_000
+LIVE_TOTAL = 23_000_000
+FIELD_TOTAL = 18_000_000
+
+# Detailed technology line items totaling 88,000,000
 DEV_ITEMS = [
-    ("Requirements, architecture & Osun deployment design", 1_500_000),
-    ("Agent portal (register, claim airtime/data, unit management)", 2_500_000),
-    ("Admin/command dashboard (feeds, agents, evidence, settings)", 3_000_000),
-    ("Osun geo catalog (30 LGAs, 332 wards, polling-unit mapping)", 2_000_000),
-    ("Live relay / streaming client integration", 2_000_000),
-    ("Evidence module (snapshots, recordings, playback, download)", 1_800_000),
-    ("Airtime/data claim engine + VTpass integration + anti-abuse rules", 1_700_000),
-    ("ACCORD–Osun branding, UI polish & mobile responsiveness", 1_200_000),
-    ("QA, security review, UAT & election-readiness testing", 1_300_000),
-    ("Documentation, admin training materials & technical handover", 1_000_000),
-]  # 18,000,000
+    ("Requirements, architecture & Osun deployment design", 3_500_000),
+    ("Agent portal (register, claim airtime/data, unit management)", 5_800_000),
+    ("Admin/command dashboard (feeds, agents, evidence, settings)", 7_000_000),
+    ("Osun geo catalog (30 LGAs, 332 wards, polling-unit mapping)", 4_600_000),
+    ("Live relay / streaming client integration", 4_600_000),
+    ("Evidence module (snapshots, recordings, playback, download)", 4_200_000),
+    ("Airtime/data claim engine + VTpass integration + anti-abuse rules", 4_000_000),
+    ("ACCORD–Osun branding, UI polish & mobile responsiveness", 2_800_000),
+    ("QA, security review, UAT & election-readiness testing", 3_000_000),
+    ("Documentation, admin training materials & technical handover", 2_500_000),
+]  # 42,000,000
 
 HOST_ITEMS = [
-    ("Production API/application hosting (election-grade uptime)", 2_500_000),
-    ("Managed database hosting & high-availability configuration", 1_800_000),
-    ("Media/recordings object storage & retention capacity", 2_200_000),
-    ("SSL, domain, CDN & secure access layer", 800_000),
-    ("Security hardening, monitoring, alerts & intrusion protection", 1_400_000),
-    ("Automated backups, disaster recovery & restore drills", 1_300_000),
-]  # 10,000,000
+    ("Production API/application hosting (election-grade uptime)", 5_800_000),
+    ("Managed database hosting & high-availability configuration", 4_100_000),
+    ("Media/recordings object storage & retention capacity", 5_100_000),
+    ("SSL, domain, CDN & secure access layer", 1_800_000),
+    ("Security hardening, monitoring, alerts & intrusion protection", 3_200_000),
+    ("Automated backups, disaster recovery & restore drills", 3_000_000),
+]  # 23,000,000
 
 LIVE_ITEMS = [
-    ("LiveKit / WebRTC realtime media infrastructure", 3_200_000),
-    ("Concurrent statewide stream capacity (peak election day)", 2_800_000),
-    ("Bandwidth / media relay & TURN capacity for mobile networks", 2_000_000),
-    ("Stream reliability, reconnect handling & quality controls", 1_200_000),
-    ("Livestream load testing, tuning & election-week surge buffer", 800_000),
-]  # 10,000,000
+    ("LiveKit / WebRTC realtime media infrastructure", 7_400_000),
+    ("Concurrent statewide stream capacity (peak election day)", 6_500_000),
+    ("Bandwidth / media relay & TURN capacity for mobile networks", 4_600_000),
+    ("Stream reliability, reconnect handling & quality controls", 2_800_000),
+    ("Livestream load testing, tuning & election-week surge buffer", 1_700_000),
+]  # 23,000,000
 
 FIELD_ITEMS = [
     ("Field agent support wallet (airtime/data)", 8_000_000),
@@ -111,10 +117,11 @@ def section_rows(items, start_sn: int):
 
 
 def build_one_pager() -> Path:
-    assert sum(a for _, a in DEV_ITEMS) == 18_000_000
-    assert sum(a for _, a in HOST_ITEMS) == 10_000_000
-    assert sum(a for _, a in LIVE_ITEMS) == 10_000_000
-    assert sum(a for _, a in FIELD_ITEMS) == 18_000_000
+    assert sum(a for _, a in DEV_ITEMS) == DEV_TOTAL
+    assert sum(a for _, a in HOST_ITEMS) == HOST_TOTAL
+    assert sum(a for _, a in LIVE_ITEMS) == LIVE_TOTAL
+    assert sum(a for _, a in FIELD_ITEMS) == FIELD_TOTAL
+    assert DEV_TOTAL + HOST_TOTAL + LIVE_TOTAL == TECH_TOTAL
 
     doc = Document()
     for s in doc.sections:
@@ -125,10 +132,10 @@ def build_one_pager() -> Path:
 
     add_para(doc, "ACCORD · OSUN STATE", bold=True, size=11, align="center", color=GREEN, space_after=1)
     add_para(doc, "ONE-PAGE EXECUTIVE BRIEF", bold=True, size=14, align="center", space_after=1)
-    add_para(doc, "Technology Package — Detailed ₦38,000,000 Breakdown", bold=True, size=11, align="center", space_after=1)
+    add_para(doc, f"Technology Package — Detailed ₦{money(TECH_TOTAL)} Breakdown", bold=True, size=11, align="center", space_after=1)
     add_para(
         doc,
-        "Osun State Only (30 LGAs · 332 Wards)  |  Field Operations ₦18m presented separately",
+        f"Osun State Only (30 LGAs · 332 Wards)  |  Field Operations ₦{FIELD_TOTAL // 1_000_000}m presented separately",
         bold=True,
         size=9,
         align="center",
@@ -140,49 +147,57 @@ def build_one_pager() -> Path:
         doc,
         ["Pillar", "Amount (₦)", "%"],
         [
-            ["A. Platform Development & Customization", "18,000,000", "47.4%"],
-            ["B. Hosting, Storage & Security", "10,000,000", "26.3%"],
-            ["C. Livestreaming Infrastructure", "10,000,000", "26.3%"],
-            ["TOTAL TECHNOLOGY PACKAGE", "38,000,000", "100%"],
+            ["A. Platform Development & Customization", money(DEV_TOTAL), "47.7%"],
+            ["B. Hosting, Storage & Security", money(HOST_TOTAL), "26.1%"],
+            ["C. Livestreaming Infrastructure", money(LIVE_TOTAL), "26.1%"],
+            ["TOTAL TECHNOLOGY PACKAGE", money(TECH_TOTAL), "100%"],
         ],
         col_widths=[4.4, 1.4, 0.8],
     )
 
-    add_para(doc, "A. Development — ₦18,000,000", bold=True, size=10, color=GREEN, space_before=5, space_after=2)
+    add_para(doc, f"A. Development — ₦{money(DEV_TOTAL)}", bold=True, size=10, color=GREEN, space_before=5, space_after=2)
     add_table(
         doc,
         ["#", "Line Item", "₦"],
-        section_rows(DEV_ITEMS, 1) + [["", "Subtotal — Development", "18,000,000"]],
+        section_rows(DEV_ITEMS, 1) + [["", "Subtotal — Development", money(DEV_TOTAL)]],
         col_widths=[0.35, 5.3, 1.1],
     )
 
-    add_para(doc, "B. Hosting — ₦10,000,000", bold=True, size=10, color=GREEN, space_before=5, space_after=2)
+    add_para(doc, f"B. Hosting — ₦{money(HOST_TOTAL)}", bold=True, size=10, color=GREEN, space_before=5, space_after=2)
     add_table(
         doc,
         ["#", "Line Item", "₦"],
-        section_rows(HOST_ITEMS, 1) + [["", "Subtotal — Hosting", "10,000,000"]],
+        section_rows(HOST_ITEMS, 1) + [["", "Subtotal — Hosting", money(HOST_TOTAL)]],
         col_widths=[0.35, 5.3, 1.1],
     )
 
-    add_para(doc, "C. Livestreaming — ₦10,000,000", bold=True, size=10, color=GREEN, space_before=5, space_after=2)
+    add_para(doc, f"C. Livestreaming — ₦{money(LIVE_TOTAL)}", bold=True, size=10, color=GREEN, space_before=5, space_after=2)
     add_table(
         doc,
         ["#", "Line Item", "₦"],
-        section_rows(LIVE_ITEMS, 1) + [["", "Subtotal — Livestreaming", "10,000,000"]],
+        section_rows(LIVE_ITEMS, 1) + [["", "Subtotal — Livestreaming", money(LIVE_TOTAL)]],
         col_widths=[0.35, 5.3, 1.1],
     )
 
-    add_para(doc, "Separate Field Operations — ₦18,000,000 (not in ₦38m)", bold=True, size=10, color=GREEN, space_before=5, space_after=2)
+    add_para(
+        doc,
+        f"Separate Field Operations — ₦{money(FIELD_TOTAL)} (not in ₦{TECH_TOTAL // 1_000_000}m)",
+        bold=True,
+        size=10,
+        color=GREEN,
+        space_before=5,
+        space_after=2,
+    )
     add_table(
         doc,
         ["Line Item", "₦"],
-        [[n, money(a)] for n, a in FIELD_ITEMS] + [["TOTAL FIELD OPS (SEPARATE)", "18,000,000"]],
+        [[n, money(a)] for n, a in FIELD_ITEMS] + [["TOTAL FIELD OPS (SEPARATE)", money(FIELD_TOTAL)]],
         col_widths=[5.5, 1.2],
     )
 
     add_para(
         doc,
-        "Decision: Approve Technology Package ₦38,000,000. Separately consider Field Ops ₦18,000,000.",
+        f"Decision: Approve Technology Package ₦{money(TECH_TOTAL)}. Separately consider Field Ops ₦{money(FIELD_TOTAL)}.",
         bold=True,
         size=9,
         space_before=5,
@@ -190,15 +205,19 @@ def build_one_pager() -> Path:
     )
     add_para(doc, "Approved by: Name _____________ Signature _____________ Date _________", size=9, space_after=1)
 
-    path = OUT / "ACCORD_Osun_Executive_Brief_38m.docx"
+    path = OUT / "ACCORD_Osun_Executive_Brief_88m.docx"
     doc.save(path)
     return path
 
 
 def build_full_proposal() -> Path:
-    assert sum(a for _, a in DEV_ITEMS) == 18_000_000
-    assert sum(a for _, a in HOST_ITEMS) == 10_000_000
-    assert sum(a for _, a in LIVE_ITEMS) == 10_000_000
+    assert sum(a for _, a in DEV_ITEMS) == DEV_TOTAL
+    assert sum(a for _, a in HOST_ITEMS) == HOST_TOTAL
+    assert sum(a for _, a in LIVE_ITEMS) == LIVE_TOTAL
+
+    tranche1 = int(TECH_TOTAL * 0.40)
+    tranche2 = int(TECH_TOTAL * 0.35)
+    tranche3 = TECH_TOTAL - tranche1 - tranche2
 
     doc = Document()
     for s in doc.sections:
@@ -216,9 +235,9 @@ def build_full_proposal() -> Path:
     add_para(doc, "Election Monitoring, Command", bold=True, size=18, align="center", space_after=2)
     add_para(doc, "& Vote Protection Platform", bold=True, size=18, align="center", space_after=10)
     add_para(doc, "Technology Package (Detailed Breakdown)", bold=True, size=12, align="center", space_after=2)
-    add_para(doc, "₦38,000,000", bold=True, size=22, align="center", color=GREEN, space_after=2)
-    add_para(doc, "(Thirty-Eight Million Naira Only)", bold=True, size=11, align="center", space_after=8)
-    add_para(doc, "Separate Field Operations Budget: ₦18,000,000", bold=True, size=11, align="center", space_after=10)
+    add_para(doc, f"₦{money(TECH_TOTAL)}", bold=True, size=22, align="center", color=GREEN, space_after=2)
+    add_para(doc, "(Eighty-Eight Million Naira Only)", bold=True, size=11, align="center", space_after=8)
+    add_para(doc, f"Separate Field Operations Budget: ₦{money(FIELD_TOTAL)}", bold=True, size=11, align="center", space_after=10)
     add_para(doc, "Coverage: Osun State Only · 30 LGAs · 332 Wards", size=11, align="center", space_after=14)
     add_para(doc, "Presented to: ACCORD Leadership / Campaign Council", size=11, align="center", space_after=2)
     add_para(doc, "Prepared by: _______________________________", size=11, align="center", space_after=2)
@@ -231,11 +250,11 @@ def build_full_proposal() -> Path:
         "1. Executive Summary",
         "2. Why a Detailed Technology Breakdown Matters",
         "3. Scope (Osun State Only)",
-        "4. Technology Package Summary — ₦38,000,000",
-        "5. Pillar A — Platform Development (₦18,000,000)",
-        "6. Pillar B — Hosting, Storage & Security (₦10,000,000)",
-        "7. Pillar C — Livestreaming Infrastructure (₦10,000,000)",
-        "8. Separate Field Operations Budget — ₦18,000,000",
+        f"4. Technology Package Summary — ₦{money(TECH_TOTAL)}",
+        f"5. Pillar A — Platform Development (₦{money(DEV_TOTAL)})",
+        f"6. Pillar B — Hosting, Storage & Security (₦{money(HOST_TOTAL)})",
+        f"7. Pillar C — Livestreaming Infrastructure (₦{money(LIVE_TOTAL)})",
+        f"8. Separate Field Operations Budget — ₦{money(FIELD_TOTAL)}",
         "9. Implementation Timeline",
         "10. Disbursement Schedule",
         "11. Decision Request",
@@ -247,10 +266,10 @@ def build_full_proposal() -> Path:
     add_h(doc, "1. EXECUTIVE SUMMARY")
     add_para(
         doc,
-        "This proposal requests approval of ₦38,000,000 for the Technology Package of ACCORD’s "
-        "Osun State Election Monitoring Platform. To support transparent leadership review, the "
-        "₦38 million is broken into three clear pillars — Development, Hosting, and Livestreaming — "
-        "with detailed line items under each pillar. Field operations (₦18,000,000) remain a separate budget.",
+        f"This proposal requests approval of ₦{money(TECH_TOTAL)} for the Technology Package of ACCORD’s "
+        f"Osun State Election Monitoring Platform. To support transparent leadership review, the "
+        f"₦{TECH_TOTAL // 1_000_000} million is broken into three clear pillars — Development, Hosting, and Livestreaming — "
+        f"with detailed line items under each pillar. Field operations (₦{money(FIELD_TOTAL)}) remain a separate budget.",
         size=11,
         align="justify",
         space_after=10,
@@ -274,28 +293,28 @@ def build_full_proposal() -> Path:
         [
             ["State", "Osun State only"],
             ["LGAs / Wards", "30 LGAs · 332 Wards"],
-            ["Technology Package", "₦38,000,000 (Development + Hosting + Livestreaming)"],
-            ["Field Operations", "₦18,000,000 (separate approval)"],
+            ["Technology Package", f"₦{money(TECH_TOTAL)} (Development + Hosting + Livestreaming)"],
+            ["Field Operations", f"₦{money(FIELD_TOTAL)} (separate approval)"],
         ],
         col_widths=[2.3, 4.2],
     )
     add_para(doc, "", space_after=8)
 
-    add_h(doc, "4. TECHNOLOGY PACKAGE SUMMARY — ₦38,000,000")
+    add_h(doc, f"4. TECHNOLOGY PACKAGE SUMMARY — ₦{money(TECH_TOTAL)}")
     add_table(
         doc,
         ["Pillar", "Amount (₦)", "Share", "What it buys"],
         [
-            ["A. Platform Development & Customization", "18,000,000", "47.4%", "Build/adapt the full ACCORD–Osun system"],
-            ["B. Hosting, Storage & Security", "10,000,000", "26.3%", "Keep the system online, secure, and backed up"],
-            ["C. Livestreaming Infrastructure", "10,000,000", "26.3%", "Carry concurrent live feeds on election day"],
-            ["TOTAL", "38,000,000", "100%", ""],
+            ["A. Platform Development & Customization", money(DEV_TOTAL), "47.7%", "Build/adapt the full ACCORD–Osun system"],
+            ["B. Hosting, Storage & Security", money(HOST_TOTAL), "26.1%", "Keep the system online, secure, and backed up"],
+            ["C. Livestreaming Infrastructure", money(LIVE_TOTAL), "26.1%", "Carry concurrent live feeds on election day"],
+            ["TOTAL", money(TECH_TOTAL), "100%", ""],
         ],
         col_widths=[2.6, 1.2, 0.8, 1.9],
     )
     add_para(doc, "", space_after=8)
 
-    add_h(doc, "5. PILLAR A — PLATFORM DEVELOPMENT (₦18,000,000)")
+    add_h(doc, f"5. PILLAR A — PLATFORM DEVELOPMENT (₦{money(DEV_TOTAL)})")
     add_para(
         doc,
         "This pillar funds the actual product ACCORD will use: portals, dashboards, Osun mapping, "
@@ -307,7 +326,7 @@ def build_full_proposal() -> Path:
     add_table(
         doc,
         ["S/N", "Detailed Line Item", "Amount (₦)"],
-        section_rows(DEV_ITEMS, 1) + [["", "SUBTOTAL — DEVELOPMENT", "18,000,000"]],
+        section_rows(DEV_ITEMS, 1) + [["", "SUBTOTAL — DEVELOPMENT", money(DEV_TOTAL)]],
         col_widths=[0.5, 4.6, 1.4],
     )
     add_para(doc, "", space_after=6)
@@ -321,7 +340,7 @@ def build_full_proposal() -> Path:
         space_after=10,
     )
 
-    add_h(doc, "6. PILLAR B — HOSTING, STORAGE & SECURITY (₦10,000,000)")
+    add_h(doc, f"6. PILLAR B — HOSTING, STORAGE & SECURITY (₦{money(HOST_TOTAL)})")
     add_para(
         doc,
         "This pillar funds the production environment that must stay available through the election "
@@ -333,7 +352,7 @@ def build_full_proposal() -> Path:
     add_table(
         doc,
         ["S/N", "Detailed Line Item", "Amount (₦)"],
-        section_rows(HOST_ITEMS, 1) + [["", "SUBTOTAL — HOSTING & SECURITY", "10,000,000"]],
+        section_rows(HOST_ITEMS, 1) + [["", "SUBTOTAL — HOSTING & SECURITY", money(HOST_TOTAL)]],
         col_widths=[0.5, 4.6, 1.4],
     )
     add_para(doc, "", space_after=6)
@@ -347,7 +366,7 @@ def build_full_proposal() -> Path:
         space_after=10,
     )
 
-    add_h(doc, "7. PILLAR C — LIVESTREAMING INFRASTRUCTURE (₦10,000,000)")
+    add_h(doc, f"7. PILLAR C — LIVESTREAMING INFRASTRUCTURE (₦{money(LIVE_TOTAL)})")
     add_para(
         doc,
         "This pillar funds realtime video capacity for agents streaming from polling units across "
@@ -359,7 +378,7 @@ def build_full_proposal() -> Path:
     add_table(
         doc,
         ["S/N", "Detailed Line Item", "Amount (₦)"],
-        section_rows(LIVE_ITEMS, 1) + [["", "SUBTOTAL — LIVESTREAMING", "10,000,000"]],
+        section_rows(LIVE_ITEMS, 1) + [["", "SUBTOTAL — LIVESTREAMING", money(LIVE_TOTAL)]],
         col_widths=[0.5, 4.6, 1.4],
     )
     add_para(doc, "", space_after=6)
@@ -373,10 +392,10 @@ def build_full_proposal() -> Path:
         space_after=10,
     )
 
-    add_h(doc, "8. SEPARATE FIELD OPERATIONS BUDGET — ₦18,000,000")
+    add_h(doc, f"8. SEPARATE FIELD OPERATIONS BUDGET — ₦{money(FIELD_TOTAL)}")
     add_para(
         doc,
-        "These items are intentionally outside the ₦38 million Technology Package so leadership can "
+        f"These items are intentionally outside the ₦{TECH_TOTAL // 1_000_000} million Technology Package so leadership can "
         "approve technology first and field logistics separately.",
         size=11,
         align="justify",
@@ -386,10 +405,17 @@ def build_full_proposal() -> Path:
         doc,
         ["S/N", "Line Item", "Amount (₦)"],
         [[str(i), n, money(a)] for i, (n, a) in enumerate(FIELD_ITEMS, 1)]
-        + [["", "TOTAL FIELD OPERATIONS (SEPARATE)", "18,000,000"]],
+        + [["", "TOTAL FIELD OPERATIONS (SEPARATE)", money(FIELD_TOTAL)]],
         col_widths=[0.5, 4.6, 1.4],
     )
-    add_para(doc, "Combined if both packages approved: ₦56,000,000", bold=True, size=11, space_before=6, space_after=10)
+    add_para(
+        doc,
+        f"Combined if both packages approved: ₦{money(TECH_TOTAL + FIELD_TOTAL)}",
+        bold=True,
+        size=11,
+        space_before=6,
+        space_after=10,
+    )
 
     add_h(doc, "9. IMPLEMENTATION TIMELINE")
     add_table(
@@ -406,15 +432,15 @@ def build_full_proposal() -> Path:
     )
     add_para(doc, "", space_after=8)
 
-    add_h(doc, "10. DISBURSEMENT SCHEDULE — TECHNOLOGY ₦38m")
+    add_h(doc, f"10. DISBURSEMENT SCHEDULE — TECHNOLOGY ₦{TECH_TOTAL // 1_000_000}m")
     add_table(
         doc,
         ["Tranche", "%", "Amount (₦)", "Trigger"],
         [
-            ["1", "40%", "15,200,000", "Approval + development kickoff"],
-            ["2", "35%", "13,300,000", "Hosting live + livestream staging verified"],
-            ["3", "25%", "9,500,000", "Statewide technical readiness / final delivery"],
-            ["", "100%", "38,000,000", ""],
+            ["1", "40%", money(tranche1), "Approval + development kickoff"],
+            ["2", "35%", money(tranche2), "Hosting live + livestream staging verified"],
+            ["3", "25%", money(tranche3), "Statewide technical readiness / final delivery"],
+            ["", "100%", money(TECH_TOTAL), ""],
         ],
         col_widths=[1.0, 0.8, 1.5, 3.2],
     )
@@ -423,8 +449,8 @@ def build_full_proposal() -> Path:
     add_h(doc, "11. DECISION REQUEST")
     for i, item in enumerate(
         [
-            "Approve Technology Package ₦38,000,000 with the detailed pillar breakdown above",
-            "Separately consider Field Operations Package ₦18,000,000",
+            f"Approve Technology Package ₦{money(TECH_TOTAL)} with the detailed pillar breakdown above",
+            f"Separately consider Field Operations Package ₦{money(FIELD_TOTAL)}",
             "Authorize milestone-based disbursement",
             "Nominate Osun LGA focal persons",
             "Schedule leadership demonstration within 7 days of approval",
@@ -436,21 +462,38 @@ def build_full_proposal() -> Path:
 
     doc.add_page_break()
     add_h(doc, "12. SIGNATURE AND APPROVAL PAGE", 14)
-    add_para(doc, "A. Technology Package — ₦38,000,000", bold=True, size=12, color=GREEN, space_after=4)
-    add_para(doc, "Development ₦18,000,000 · Hosting ₦10,000,000 · Livestreaming ₦10,000,000", size=10, space_after=8)
+    add_para(doc, f"A. Technology Package — ₦{money(TECH_TOTAL)}", bold=True, size=12, color=GREEN, space_after=4)
+    add_para(
+        doc,
+        f"Development ₦{money(DEV_TOTAL)} · Hosting ₦{money(HOST_TOTAL)} · Livestreaming ₦{money(LIVE_TOTAL)}",
+        size=10,
+        space_after=8,
+    )
     add_para(doc, "Prepared By: Name ______________ Signature ______________ Date ________", size=10, space_after=4)
     add_para(doc, "Reviewed By: Name ______________ Signature ______________ Date ________", size=10, space_after=4)
     add_para(doc, "Approved By (ACCORD Leadership):", bold=True, size=11, space_after=4)
     add_para(doc, "Name ______________ Title ______________ Signature ______________ Date ________", size=10, space_after=4)
-    add_para(doc, "Amount Approved: ₦38,000,000 (Technology Package — Osun Only)", bold=True, size=11, space_after=12)
+    add_para(
+        doc,
+        f"Amount Approved: ₦{money(TECH_TOTAL)} (Technology Package — Osun Only)",
+        bold=True,
+        size=11,
+        space_after=12,
+    )
 
-    add_para(doc, "B. Field Operations Package — ₦18,000,000 (Separate)", bold=True, size=12, color=GREEN, space_after=4)
+    add_para(doc, f"B. Field Operations Package — ₦{money(FIELD_TOTAL)} (Separate)", bold=True, size=12, color=GREEN, space_after=4)
     add_para(doc, "Wallet ₦8m · Command Centre ₦4.5m · Standby Team ₦3.5m · Devices ₦2m", size=10, space_after=8)
     add_para(doc, "Approved By: Name ______________ Signature ______________ Date ________", size=10, space_after=4)
-    add_para(doc, "Amount Approved: ₦18,000,000 (Field Operations — Separate / Optional)", bold=True, size=11, space_after=8)
+    add_para(
+        doc,
+        f"Amount Approved: ₦{money(FIELD_TOTAL)} (Field Operations — Separate / Optional)",
+        bold=True,
+        size=11,
+        space_after=8,
+    )
     add_para(doc, "Official Stamp / Seal: _______________________________", size=11)
 
-    path = OUT / "ACCORD_Osun_Formal_Proposal_38m_Detailed_Tech.docx"
+    path = OUT / "ACCORD_Osun_Formal_Proposal_88m_Detailed_Tech.docx"
     doc.save(path)
     return path
 

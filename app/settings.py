@@ -40,6 +40,10 @@ class Settings(BaseSettings):
     vtpass_secret_key: str = ""
     # Use https://sandbox.vtpass.com/api for testing.
     vtpass_base_url: str = "https://vtpass.com/api"
+    # INEC IReV watchdog config (api_base/election_id/poll_interval/enabled)
+    # is managed live by a super admin via /admin/settings — see
+    # backend/app/app_settings.py and backend/app/irev_client.py — not here,
+    # since it changes per election and shouldn't need a redeploy.
 
     @property
     def cors_origin_list(self) -> list[str]:
