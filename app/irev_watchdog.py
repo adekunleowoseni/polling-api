@@ -156,18 +156,18 @@ async def poll_once(db: AsyncIOMotorDatabase) -> int:
         if not mapping:
             continue
         result = await irev_client.fetch_official_result(config, mapping["pu_irev_id"])
-        if result is None or result.votes is None:
+        if result is None:
             continue
-        await db[RESULT_SHEETS_COLLECTION].update_one(
-            {"_id": doc["_id"]},
-            {
-                "$set": {
-                    "official_votes": result.votes,
-                    "official_source": "irev_auto",
-                    "official_checked_at": datetime.now(timezone.utc),
-                }
-            },
-        )
+
+        update: dict[str, Any] = {
+            "irev_image_uploaded": result.image_uploaded,
+            "official_checked_at": datetime.now(timezone.utc),
+        }
+        if result.votes is not None:
+            update["official_votes"] = result.votes
+            update["official_source"] = "irev_auto"
+
+        await db[RESULT_SHEETS_COLLECTION].update_one({"_id": doc["_id"]}, {"$set": update})
         updated += 1
     return updated
 

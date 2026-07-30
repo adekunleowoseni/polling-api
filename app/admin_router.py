@@ -15,7 +15,8 @@ from .admin_bootstrap import (
     admin_allowed_tabs,
     admin_state,
 )
-from .agent_helpers import agent_doc_to_out
+from .accreditation_storage import accreditation_file_path
+from .agent_helpers import _as_utc, agent_doc_to_out, state_for_lga
 from .app_settings import get_app_settings, update_app_settings
 from .auth import hash_password, get_current_admin, require_super_admin, verify_password
 from .database import get_db
@@ -40,6 +41,8 @@ from .recordings import delete_recordings_for_unit, finalize_recording
 from .recording_storage import recording_file_path
 from .vtpass_client import fetch_wallet_balance, vtpass_configured
 from .schemas import (
+    AccreditationRejectRequest,
+    AdminAccreditationOut,
     AdminAgentOut,
     AdminAgentSummary,
     AdminAgentUnitOut,
@@ -655,6 +658,122 @@ async def admin_set_airtime_claim_limit(
     if not updated:
         raise HTTPException(status_code=500, detail="Failed to read updated agent.")
     return await _build_admin_agent_out(updated, db)
+
+
+def _accreditation_admin_out(doc: dict[str, Any]) -> AdminAccreditationOut:
+    lga = doc.get("lga")
+    return AdminAccreditationOut(
+        agent_id=str(doc["_id"]),
+        agent_name=doc.get("name") or "",
+        agent_email=doc.get("email") or "",
+        lga=lga,
+        ward=doc.get("ward"),
+        state=state_for_lga(lga),
+        accreditation_status=doc.get("accreditation_status") or "none",
+        accreditation_number=doc.get("accreditation_number"),
+        party_name=doc.get("party_name"),
+        is_ec8a_signatory=doc.get("is_ec8a_signatory"),
+        submitted_at=_as_utc(doc.get("submitted_at")),
+        reviewed_at=_as_utc(doc.get("reviewed_at")),
+        rejection_reason=doc.get("rejection_reason"),
+    )
+
+
+@router.get("/accreditation/pending", response_model=list[AdminAccreditationOut])
+async def admin_list_pending_accreditation(
+    admin: dict[str, Any] = Depends(require_super_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> list[AdminAccreditationOut]:
+    cursor = db[AGENTS_COLLECTION].find({"accreditation_status": "pending"}).sort("submitted_at", 1)
+    docs = await cursor.to_list(length=1000)
+    return [_accreditation_admin_out(d) for d in docs]
+
+
+@router.get("/agents/{agent_id}/accreditation/document")
+async def admin_get_accreditation_document(
+    agent_id: str,
+    admin: dict[str, Any] = Depends(require_super_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> FileResponse:
+    try:
+        oid = ObjectId(agent_id)
+    except InvalidId as exc:
+        raise HTTPException(status_code=400, detail="Invalid agent id.") from exc
+
+    agent = await db[AGENTS_COLLECTION].find_one({"_id": oid})
+    if not agent or not agent.get("accreditation_doc_filename"):
+        raise HTTPException(status_code=404, detail="No accreditation document on file.")
+
+    filename = agent["accreditation_doc_filename"]
+    ext = filename.rsplit(".", 1)[-1].lower()
+    media_type = {"pdf": "application/pdf", "png": "image/png"}.get(ext, "image/jpeg")
+    path = accreditation_file_path(agent_id, ext)
+    if not path.is_file():
+        raise HTTPException(status_code=404, detail="Accreditation document file missing.")
+    return FileResponse(path, media_type=media_type)
+
+
+@router.post("/agents/{agent_id}/accreditation/approve", response_model=AdminAccreditationOut)
+async def admin_approve_accreditation(
+    agent_id: str,
+    admin: dict[str, Any] = Depends(require_super_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> AdminAccreditationOut:
+    try:
+        oid = ObjectId(agent_id)
+    except InvalidId as exc:
+        raise HTTPException(status_code=400, detail="Invalid agent id.") from exc
+
+    agent = await db[AGENTS_COLLECTION].find_one({"_id": oid})
+    if not agent:
+        raise HTTPException(status_code=404, detail="Agent not found.")
+    if not agent.get("accreditation_doc_filename"):
+        raise HTTPException(status_code=400, detail="Agent has not submitted an accreditation document.")
+
+    await db[AGENTS_COLLECTION].update_one(
+        {"_id": oid},
+        {
+            "$set": {
+                "accreditation_status": "approved",
+                "reviewed_by": admin["_id"],
+                "reviewed_at": datetime.now(timezone.utc),
+                "rejection_reason": None,
+            }
+        },
+    )
+    updated = await db[AGENTS_COLLECTION].find_one({"_id": oid})
+    return _accreditation_admin_out(updated or {})
+
+
+@router.post("/agents/{agent_id}/accreditation/reject", response_model=AdminAccreditationOut)
+async def admin_reject_accreditation(
+    agent_id: str,
+    payload: AccreditationRejectRequest,
+    admin: dict[str, Any] = Depends(require_super_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> AdminAccreditationOut:
+    try:
+        oid = ObjectId(agent_id)
+    except InvalidId as exc:
+        raise HTTPException(status_code=400, detail="Invalid agent id.") from exc
+
+    agent = await db[AGENTS_COLLECTION].find_one({"_id": oid})
+    if not agent:
+        raise HTTPException(status_code=404, detail="Agent not found.")
+
+    await db[AGENTS_COLLECTION].update_one(
+        {"_id": oid},
+        {
+            "$set": {
+                "accreditation_status": "rejected",
+                "reviewed_by": admin["_id"],
+                "reviewed_at": datetime.now(timezone.utc),
+                "rejection_reason": payload.reason,
+            }
+        },
+    )
+    updated = await db[AGENTS_COLLECTION].find_one({"_id": oid})
+    return _accreditation_admin_out(updated or {})
 
 
 @router.get("/vtpass/balance")

@@ -10,7 +10,7 @@ from typing import Any
 
 import hashlib
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
@@ -18,7 +18,7 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from .accreditation_storage import accreditation_file_path, ensure_accreditation_dir
 
-from .agent_helpers import agent_doc_to_out
+from .agent_helpers import _as_utc, agent_doc_to_out
 
 from .auth import get_current_agent, hash_password, new_api_token, verify_password
 
@@ -186,8 +186,8 @@ def _accreditation_out(doc: dict) -> AccreditationOut:
         accreditation_number=doc.get("accreditation_number"),
         party_name=doc.get("party_name"),
         is_ec8a_signatory=doc.get("is_ec8a_signatory"),
-        submitted_at=doc.get("submitted_at"),
-        reviewed_at=doc.get("reviewed_at"),
+        submitted_at=_as_utc(doc.get("submitted_at")),
+        reviewed_at=_as_utc(doc.get("reviewed_at")),
         rejection_reason=doc.get("rejection_reason"),
         has_document=bool(doc.get("accreditation_doc_filename")),
     )
@@ -200,9 +200,9 @@ async def get_my_accreditation(agent: dict = Depends(get_current_agent)) -> Accr
 
 @router.post("/me/accreditation", response_model=AccreditationOut, status_code=201)
 async def submit_my_accreditation(
-    accreditation_number: str | None = None,
-    party_name: str | None = None,
-    is_ec8a_signatory: bool = False,
+    accreditation_number: str | None = Form(default=None, max_length=80),
+    party_name: str | None = Form(default=None, max_length=120),
+    is_ec8a_signatory: bool = Form(default=False),
     document: UploadFile = File(...),
     agent: dict = Depends(get_current_agent),
     db: AsyncIOMotorDatabase = Depends(get_db),

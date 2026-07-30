@@ -541,3 +541,61 @@ class DataCreditOut(BaseModel):
     agent_id: str | None = None
     agent_name: str | None = None
     agent_email: str | None = None
+
+
+class WitnessPersonPresent(BaseModel):
+    name: str = Field(..., min_length=1, max_length=120)
+    role: str | None = Field(default=None, max_length=120)
+    phone: str | None = Field(default=None, max_length=30)
+
+
+class WitnessStatementOut(BaseModel):
+    id: str
+    polling_unit_id: str
+    code: str
+    polling_unit_name: str
+    state: str
+    ward: str
+    lga: str
+    agent_id: str | None = None
+    agent_name: str | None = None
+    result_sheet_id: str | None = None
+    incident_category: str
+    narrative: str
+    people_present: list[WitnessPersonPresent] = []
+    occurred_at: datetime | None = None
+    submitted_at: datetime
+    captured_lat: float | None = None
+    captured_lng: float | None = None
+    supersedes_id: str | None = None
+    version: int = 1
+
+
+class TribunalReportOut(BaseModel):
+    code: str
+    polling_unit_name: str
+    state: str
+    ward: str
+    lga: str
+    registered_voters: int | None = None
+    accredited_voters: int | None = None
+    agent_votes: int | None = None
+    official_votes: int | None = None
+    official_source: str | None = None
+    irev_image_uploaded: bool | None = None
+    external_pvt_source: str | None = None
+    external_pvt_votes: int | None = None
+    result_sheets: list[ResultSheetOut] = []
+    witness_statements: list[WitnessStatementOut] = []
+    irregularity_summary: list[str] = []
+    generated_at: datetime
+
+
+class FlaggedUnitOut(BaseModel):
+    code: str
+    polling_unit_name: str
+    state: str
+    ward: str
+    lga: str
+    flags: list[str]
+    severity: int
