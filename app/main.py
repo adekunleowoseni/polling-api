@@ -36,6 +36,9 @@ from .irev_router import router as irev_router
 from .irev_watchdog import irev_watchdog_loop
 from .ledger_router import router as ledger_router
 from .accreditation_storage import ensure_accreditation_dir
+from .witness_statements_router import admin_router as witness_statements_admin_router
+from .witness_statements_router import agent_router as witness_statements_agent_router
+from .tribunal_router import router as tribunal_router
 from .schemas import (
     DailyTrend,
     LiveActivity,
@@ -83,6 +86,9 @@ app.include_router(result_sheets_agent_router)
 app.include_router(result_sheets_admin_router)
 app.include_router(irev_router)
 app.include_router(ledger_router)
+app.include_router(witness_statements_agent_router)
+app.include_router(witness_statements_admin_router)
+app.include_router(tribunal_router)
 
 
 @app.get("/health")
