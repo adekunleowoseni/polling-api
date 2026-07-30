@@ -34,6 +34,8 @@ from .result_sheets_router import admin_router as result_sheets_admin_router
 from .result_sheets_router import agent_router as result_sheets_agent_router
 from .irev_router import router as irev_router
 from .irev_watchdog import irev_watchdog_loop
+from .ledger_router import router as ledger_router
+from .accreditation_storage import ensure_accreditation_dir
 from .schemas import (
     DailyTrend,
     LiveActivity,
@@ -80,6 +82,7 @@ app.include_router(results_admin_router)
 app.include_router(result_sheets_agent_router)
 app.include_router(result_sheets_admin_router)
 app.include_router(irev_router)
+app.include_router(ledger_router)
 
 
 @app.get("/health")
@@ -117,6 +120,7 @@ async def on_startup() -> None:
     ensure_snaps_dir()
     ensure_recordings_dir()
     ensure_result_sheets_dir()
+    ensure_accreditation_dir()
     # Do not block HTTP startup on MongoDB (Railway healthcheck needs /health quickly).
     asyncio.create_task(_init_database())
     _recording_sweeper_task = asyncio.create_task(_recording_sweeper())

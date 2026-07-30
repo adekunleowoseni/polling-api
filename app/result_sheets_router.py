@@ -4,17 +4,26 @@ import hashlib
 from datetime import datetime, timezone
 from typing import Any
 
-from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, UploadFile
+from fastapi import APIRouter, Depends, File, Form, HTTPException, Query, Request, UploadFile
 from fastapi.responses import FileResponse
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
+from . import hash_ledger
+from .access_log import list_access_log, log_access
 from .auth import get_current_admin, get_current_agent
 from .admin_bootstrap import admin_state
 from .database import get_db
 from .models import RESULT_SHEETS_COLLECTION
 from .polling_units_router import _get_owned_unit
 from .result_sheet_storage import ensure_result_sheets_dir, result_sheet_file_path
-from .schemas import ResultSheetOfficialUpdate, ResultSheetOut
+from .schemas import (
+    AccessLogEntryOut,
+    LedgerEntryOut,
+    ResultSheetCertificateOut,
+    ResultSheetExternalPvtUpdate,
+    ResultSheetOfficialUpdate,
+    ResultSheetOut,
+)
 
 agent_router = APIRouter(prefix="/agents/me/result-sheets", tags=["result-sheets"])
 admin_router = APIRouter(prefix="/admin/result-sheets", tags=["admin-result-sheets"])
@@ -26,6 +35,13 @@ def _as_utc(dt: datetime | None) -> datetime | None:
     if dt.tzinfo is None:
         return dt.replace(tzinfo=timezone.utc)
     return dt.astimezone(timezone.utc)
+
+
+def _client_ip(request: Request) -> str | None:
+    forwarded = request.headers.get("x-forwarded-for")
+    if forwarded:
+        return forwarded.split(",")[0].strip()
+    return request.client.host if request.client else None
 
 
 def _discrepancy_note(doc: dict[str, Any]) -> tuple[bool, int | None, str | None]:
@@ -50,6 +66,8 @@ def _discrepancy_note(doc: dict[str, Any]) -> tuple[bool, int | None, str | None
                 f"Our figure ({votes:,}) differs from the official figure "
                 f"({int(official):,}) by {abs(official_diff):,}."
             )
+    if doc.get("irev_image_uploaded") is False:
+        note_parts.append("No result-sheet image found on IReV for this unit.")
 
     return over_accreditation, official_diff, " ".join(note_parts) or None
 
@@ -74,6 +92,8 @@ def _doc_to_out(doc: dict[str, Any]) -> ResultSheetOut:
         captured_accuracy_m=doc.get("captured_accuracy_m"),
         device_captured_at=_as_utc(doc.get("device_captured_at")),
         received_at=_as_utc(doc.get("received_at")) or doc["received_at"],
+        device_id=doc.get("device_id"),
+        app_version=doc.get("app_version"),
         people_count_at_capture=int(doc.get("people_count_at_capture") or 0),
         supersedes_id=str(doc["supersedes_id"]) if doc.get("supersedes_id") else None,
         version=int(doc.get("version") or 1),
@@ -81,6 +101,13 @@ def _doc_to_out(doc: dict[str, Any]) -> ResultSheetOut:
         official_source=doc.get("official_source"),
         official_checked_at=_as_utc(doc.get("official_checked_at")),
         official_note=doc.get("official_note"),
+        irev_image_uploaded=doc.get("irev_image_uploaded"),
+        external_pvt_source=doc.get("external_pvt_source"),
+        external_pvt_votes=doc.get("external_pvt_votes"),
+        external_pvt_note=doc.get("external_pvt_note"),
+        agent_accreditation_number=doc.get("agent_accreditation_number"),
+        agent_is_ec8a_signatory=doc.get("agent_is_ec8a_signatory"),
+        agent_party_name=doc.get("agent_party_name"),
         created_at=_as_utc(doc.get("created_at")) or doc["received_at"],
         over_accreditation=over_accreditation,
         official_diff=official_diff,
@@ -98,10 +125,22 @@ async def submit_result_sheet(
     lng: float | None = Form(default=None, ge=-180, le=180),
     accuracy_m: float | None = Form(default=None, ge=0),
     device_captured_at: datetime | None = Form(default=None),
+    device_id: str | None = Form(default=None, max_length=200),
+    app_version: str | None = Form(default=None, max_length=40),
     photo: UploadFile = File(...),
     agent: dict[str, Any] = Depends(get_current_agent),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> ResultSheetOut:
+    if agent.get("accreditation_status") != "approved":
+        raise HTTPException(
+            status_code=403,
+            detail=(
+                "Your party accreditation has not been approved yet. Upload your "
+                "accreditation document and wait for admin approval before submitting "
+                "result sheets."
+            ),
+        )
+
     unit = await _get_owned_unit(code, agent, db)
 
     if photo.content_type not in {"image/jpeg", "image/png", "image/jpg"}:
@@ -137,6 +176,8 @@ async def submit_result_sheet(
         "captured_accuracy_m": accuracy_m,
         "device_captured_at": device_captured_at,
         "received_at": now,
+        "device_id": device_id,
+        "app_version": app_version,
         "people_count_at_capture": int(unit.get("people_count") or 0),
         "supersedes_id": previous["_id"] if previous else None,
         "version": version,
@@ -144,6 +185,13 @@ async def submit_result_sheet(
         "official_source": None,
         "official_checked_at": None,
         "official_note": None,
+        "irev_image_uploaded": None,
+        "external_pvt_source": None,
+        "external_pvt_votes": None,
+        "external_pvt_note": None,
+        "agent_accreditation_number": agent.get("accreditation_number"),
+        "agent_is_ec8a_signatory": agent.get("is_ec8a_signatory"),
+        "agent_party_name": agent.get("party_name"),
         "created_at": now,
     }
     result = await db[RESULT_SHEETS_COLLECTION].insert_one(doc)
@@ -151,6 +199,8 @@ async def submit_result_sheet(
 
     ensure_result_sheets_dir()
     result_sheet_file_path(sheet_id).write_bytes(raw)
+
+    await hash_ledger.append_entry(db, entity_type="result_sheet", entity_id=sheet_id, entity_sha256=sha256)
 
     inserted = await db[RESULT_SHEETS_COLLECTION].find_one({"_id": result.inserted_id})
     if not inserted:
@@ -185,6 +235,7 @@ async def list_my_result_sheets(
 @agent_router.get("/{sheet_id}/photo")
 async def get_my_result_sheet_photo(
     sheet_id: str,
+    request: Request,
     agent: dict[str, Any] = Depends(get_current_agent),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> FileResponse:
@@ -203,6 +254,17 @@ async def get_my_result_sheet_photo(
     path = result_sheet_file_path(sheet_id)
     if not path.is_file():
         raise HTTPException(status_code=404, detail="Result sheet image file missing.")
+
+    await log_access(
+        db,
+        entity_type="result_sheet",
+        entity_id=sheet_id,
+        actor_type="agent",
+        actor_id=str(agent["_id"]),
+        actor_name=agent.get("name") or agent.get("email") or "agent",
+        action="view",
+        ip=_client_ip(request),
+    )
     return FileResponse(path, media_type="image/jpeg")
 
 
@@ -243,6 +305,7 @@ async def admin_list_result_sheets(
 @admin_router.get("/{sheet_id}/photo")
 async def admin_get_result_sheet_photo(
     sheet_id: str,
+    request: Request,
     admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> FileResponse:
@@ -261,6 +324,17 @@ async def admin_get_result_sheet_photo(
     path = result_sheet_file_path(sheet_id)
     if not path.is_file():
         raise HTTPException(status_code=404, detail="Result sheet image file missing.")
+
+    await log_access(
+        db,
+        entity_type="result_sheet",
+        entity_id=sheet_id,
+        actor_type="admin",
+        actor_id=str(admin["_id"]),
+        actor_name=admin.get("name") or admin.get("email") or "admin",
+        action="view",
+        ip=_client_ip(request),
+    )
     return FileResponse(path, media_type="image/jpeg")
 
 
@@ -268,6 +342,7 @@ async def admin_get_result_sheet_photo(
 async def set_official_figure(
     sheet_id: str,
     payload: ResultSheetOfficialUpdate,
+    request: Request,
     admin: dict[str, Any] = Depends(get_current_admin),
     db: AsyncIOMotorDatabase = Depends(get_db),
 ) -> ResultSheetOut:
@@ -295,7 +370,116 @@ async def set_official_figure(
             }
         },
     )
+    await log_access(
+        db,
+        entity_type="result_sheet",
+        entity_id=sheet_id,
+        actor_type="admin",
+        actor_id=str(admin["_id"]),
+        actor_name=admin.get("name") or admin.get("email") or "admin",
+        action="edit",
+        ip=_client_ip(request),
+    )
     updated = await db[RESULT_SHEETS_COLLECTION].find_one({"_id": oid})
     if not updated:
         raise HTTPException(status_code=500, detail="Failed to read updated result sheet.")
     return _doc_to_out(updated)
+
+
+@admin_router.patch("/{sheet_id}/external-pvt", response_model=ResultSheetOut)
+async def set_external_pvt_figure(
+    sheet_id: str,
+    payload: ResultSheetExternalPvtUpdate,
+    request: Request,
+    admin: dict[str, Any] = Depends(get_current_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> ResultSheetOut:
+    from bson import ObjectId
+    from bson.errors import InvalidId
+
+    try:
+        oid = ObjectId(sheet_id)
+    except InvalidId as exc:
+        raise HTTPException(status_code=404, detail="Result sheet not found.") from exc
+
+    doc = await db[RESULT_SHEETS_COLLECTION].find_one({"_id": oid})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Result sheet not found.")
+
+    await db[RESULT_SHEETS_COLLECTION].update_one(
+        {"_id": oid},
+        {
+            "$set": {
+                "external_pvt_source": payload.external_pvt_source,
+                "external_pvt_votes": payload.external_pvt_votes,
+                "external_pvt_note": payload.external_pvt_note,
+            }
+        },
+    )
+    await log_access(
+        db,
+        entity_type="result_sheet",
+        entity_id=sheet_id,
+        actor_type="admin",
+        actor_id=str(admin["_id"]),
+        actor_name=admin.get("name") or admin.get("email") or "admin",
+        action="edit",
+        ip=_client_ip(request),
+    )
+    updated = await db[RESULT_SHEETS_COLLECTION].find_one({"_id": oid})
+    if not updated:
+        raise HTTPException(status_code=500, detail="Failed to read updated result sheet.")
+    return _doc_to_out(updated)
+
+
+@admin_router.get("/{sheet_id}/certificate", response_model=ResultSheetCertificateOut)
+async def get_result_sheet_certificate(
+    sheet_id: str,
+    request: Request,
+    admin: dict[str, Any] = Depends(get_current_admin),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> ResultSheetCertificateOut:
+    from bson import ObjectId
+    from bson.errors import InvalidId
+
+    from .models import AGENTS_COLLECTION
+
+    try:
+        oid = ObjectId(sheet_id)
+    except InvalidId as exc:
+        raise HTTPException(status_code=404, detail="Result sheet not found.") from exc
+
+    doc = await db[RESULT_SHEETS_COLLECTION].find_one({"_id": oid})
+    if not doc:
+        raise HTTPException(status_code=404, detail="Result sheet not found.")
+
+    ledger_entry = await hash_ledger.get_entry_for_entity(db, sheet_id)
+    access_entries = await list_access_log(db, sheet_id)
+
+    agent_name = None
+    agent_email = None
+    if doc.get("agent_id"):
+        agent_doc = await db[AGENTS_COLLECTION].find_one({"_id": doc["agent_id"]})
+        if agent_doc:
+            agent_name = agent_doc.get("name")
+            agent_email = agent_doc.get("email")
+
+    await log_access(
+        db,
+        entity_type="result_sheet",
+        entity_id=sheet_id,
+        actor_type="admin",
+        actor_id=str(admin["_id"]),
+        actor_name=admin.get("name") or admin.get("email") or "admin",
+        action="view",
+        ip=_client_ip(request),
+    )
+
+    return ResultSheetCertificateOut(
+        result_sheet=_doc_to_out(doc),
+        ledger_entry=LedgerEntryOut(**ledger_entry) if ledger_entry else None,
+        access_log=[AccessLogEntryOut(**entry) for entry in access_entries],
+        agent_name=agent_name,
+        agent_email=agent_email,
+        generated_at=datetime.now(timezone.utc),
+    )

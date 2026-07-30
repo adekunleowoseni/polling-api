@@ -3,6 +3,7 @@
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 from .models import (
+    ACCESS_LOG_COLLECTION,
     ADMINS_COLLECTION,
     AGENTS_COLLECTION,
     AIRTIME_CREDITS_COLLECTION,
@@ -12,11 +13,13 @@ from .models import (
     DETECTED_FACES_COLLECTION,
     FEED_RECORDINGS_COLLECTION,
     FEED_SNAPS_COLLECTION,
+    HASH_LEDGER_COLLECTION,
     IREV_PU_MAP_COLLECTION,
     POLLING_UNITS_COLLECTION,
     REGISTRATIONS_COLLECTION,
     RESULT_SHEETS_COLLECTION,
     VOTE_RESULTS_COLLECTION,
+    WITNESS_STATEMENTS_COLLECTION,
 )
 from .settings import settings
 
@@ -62,6 +65,13 @@ async def ensure_schema(db: AsyncIOMotorDatabase) -> None:
     await db[RESULT_SHEETS_COLLECTION].create_index("agent_id")
     await db[RESULT_SHEETS_COLLECTION].create_index([("state", 1), ("lga", 1), ("created_at", -1)])
     await db[IREV_PU_MAP_COLLECTION].create_index("code", unique=True)
+    await db[HASH_LEDGER_COLLECTION].create_index("seq", unique=True)
+    await db[HASH_LEDGER_COLLECTION].create_index("entity_id")
+    await db[ACCESS_LOG_COLLECTION].create_index([("entity_id", 1), ("created_at", 1)])
+    # Append-only: many rows can share a code (corrections), so no unique index here.
+    await db[WITNESS_STATEMENTS_COLLECTION].create_index([("code", 1), ("created_at", -1)])
+    await db[WITNESS_STATEMENTS_COLLECTION].create_index("agent_id")
+    await db[WITNESS_STATEMENTS_COLLECTION].create_index([("state", 1), ("lga", 1), ("created_at", -1)])
 
 
 async def run_migration() -> str:

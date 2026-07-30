@@ -8,11 +8,15 @@ from typing import Any
 
 
 
-from fastapi import APIRouter, Depends, HTTPException
+import hashlib
+
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
 
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
 
+
+from .accreditation_storage import accreditation_file_path, ensure_accreditation_dir
 
 from .agent_helpers import agent_doc_to_out
 
@@ -27,7 +31,15 @@ from .models import AGENTS_COLLECTION
 
 from .polling_units_router import _doc_to_out
 
-from .schemas import AgentLogin, AgentOut, AgentPollingUnitOut, AgentRegister, AgentSessionOut
+from .schemas import (
+    AccreditationOut,
+    AgentLogin,
+    AgentOut,
+    AgentPollingUnitOut,
+    AgentRegister,
+    AgentSessionOut,
+)
+from datetime import datetime, timezone
 
 
 
@@ -89,6 +101,8 @@ async def register_agent(
         "ward": ward,
 
         "created_at": now,
+
+        "accreditation_status": "none",
 
     }
 
@@ -164,5 +178,69 @@ async def list_my_polling_units(
         )
         for d in docs
     ]
+
+
+def _accreditation_out(doc: dict) -> AccreditationOut:
+    return AccreditationOut(
+        accreditation_status=doc.get("accreditation_status") or "none",
+        accreditation_number=doc.get("accreditation_number"),
+        party_name=doc.get("party_name"),
+        is_ec8a_signatory=doc.get("is_ec8a_signatory"),
+        submitted_at=doc.get("submitted_at"),
+        reviewed_at=doc.get("reviewed_at"),
+        rejection_reason=doc.get("rejection_reason"),
+        has_document=bool(doc.get("accreditation_doc_filename")),
+    )
+
+
+@router.get("/me/accreditation", response_model=AccreditationOut)
+async def get_my_accreditation(agent: dict = Depends(get_current_agent)) -> AccreditationOut:
+    return _accreditation_out(agent)
+
+
+@router.post("/me/accreditation", response_model=AccreditationOut, status_code=201)
+async def submit_my_accreditation(
+    accreditation_number: str | None = None,
+    party_name: str | None = None,
+    is_ec8a_signatory: bool = False,
+    document: UploadFile = File(...),
+    agent: dict = Depends(get_current_agent),
+    db: AsyncIOMotorDatabase = Depends(get_db),
+) -> AccreditationOut:
+    if document.content_type not in {"image/jpeg", "image/png", "image/jpg", "application/pdf"}:
+        raise HTTPException(status_code=400, detail="Accreditation document must be a JPEG, PNG, or PDF.")
+
+    raw = await document.read()
+    if not raw:
+        raise HTTPException(status_code=400, detail="Empty document.")
+
+    agent_id = str(agent["_id"])
+    ext_by_type = {"application/pdf": "pdf", "image/png": "png", "image/jpeg": "jpg", "image/jpg": "jpg"}
+    ext = ext_by_type[document.content_type]
+    sha256 = hashlib.sha256(raw).hexdigest()
+
+    ensure_accreditation_dir()
+    accreditation_file_path(agent_id, ext).write_bytes(raw)
+
+    now = datetime.now(timezone.utc)
+    await db[AGENTS_COLLECTION].update_one(
+        {"_id": agent["_id"]},
+        {
+            "$set": {
+                "accreditation_status": "pending",
+                "accreditation_doc_filename": f"{agent_id}.{ext}",
+                "accreditation_doc_sha256": sha256,
+                "accreditation_number": accreditation_number,
+                "party_name": party_name,
+                "is_ec8a_signatory": is_ec8a_signatory,
+                "submitted_at": now,
+                "reviewed_by": None,
+                "reviewed_at": None,
+                "rejection_reason": None,
+            }
+        },
+    )
+    updated = await db[AGENTS_COLLECTION].find_one({"_id": agent["_id"]})
+    return _accreditation_out(updated or {})
 
 

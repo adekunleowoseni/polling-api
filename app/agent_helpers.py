@@ -38,4 +38,5 @@ def agent_doc_to_out(doc: dict[str, Any]) -> AgentOut:
         ward=doc.get("ward"),
         state=state_for_lga(lga) or doc.get("state"),
         created_at=_as_utc(doc["created_at"]) or doc["created_at"],
+        accreditation_status=doc.get("accreditation_status") or "none",
     )

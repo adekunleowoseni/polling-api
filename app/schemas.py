@@ -127,6 +127,7 @@ class AgentOut(BaseModel):
     ward: str | None = None
     state: str | None = None
     created_at: datetime
+    accreditation_status: str = "none"
 
 
 class AgentAssignmentUpdate(BaseModel):
@@ -137,6 +138,37 @@ class AgentAssignmentUpdate(BaseModel):
 class AgentSessionOut(BaseModel):
     agent: AgentOut
     api_token: str
+
+
+class AccreditationOut(BaseModel):
+    accreditation_status: str = "none"
+    accreditation_number: str | None = None
+    party_name: str | None = None
+    is_ec8a_signatory: bool | None = None
+    submitted_at: datetime | None = None
+    reviewed_at: datetime | None = None
+    rejection_reason: str | None = None
+    has_document: bool = False
+
+
+class AccreditationRejectRequest(BaseModel):
+    reason: str = Field(..., min_length=2, max_length=500)
+
+
+class AdminAccreditationOut(BaseModel):
+    agent_id: str
+    agent_name: str
+    agent_email: str
+    lga: str | None = None
+    ward: str | None = None
+    state: str | None = None
+    accreditation_status: str
+    accreditation_number: str | None = None
+    party_name: str | None = None
+    is_ec8a_signatory: bool | None = None
+    submitted_at: datetime | None = None
+    reviewed_at: datetime | None = None
+    rejection_reason: str | None = None
 
 
 class FeedSnapOut(BaseModel):
@@ -281,6 +313,8 @@ class ResultSheetOut(BaseModel):
     captured_accuracy_m: float | None = None
     device_captured_at: datetime | None = None
     received_at: datetime
+    device_id: str | None = None
+    app_version: str | None = None
     people_count_at_capture: int = 0
     supersedes_id: str | None = None
     version: int = 1
@@ -288,6 +322,13 @@ class ResultSheetOut(BaseModel):
     official_source: str | None = None
     official_checked_at: datetime | None = None
     official_note: str | None = None
+    irev_image_uploaded: bool | None = None
+    external_pvt_source: str | None = None
+    external_pvt_votes: int | None = None
+    external_pvt_note: str | None = None
+    agent_accreditation_number: str | None = None
+    agent_is_ec8a_signatory: bool | None = None
+    agent_party_name: str | None = None
     created_at: datetime
     over_accreditation: bool = False
     official_diff: int | None = None
@@ -297,6 +338,45 @@ class ResultSheetOut(BaseModel):
 class ResultSheetOfficialUpdate(BaseModel):
     official_votes: int = Field(..., ge=0, le=1_000_000)
     official_note: str | None = Field(default=None, max_length=500)
+
+
+class ResultSheetExternalPvtUpdate(BaseModel):
+    external_pvt_source: str = Field(..., min_length=1, max_length=120)
+    external_pvt_votes: int = Field(..., ge=0, le=1_000_000)
+    external_pvt_note: str | None = Field(default=None, max_length=500)
+
+
+class AccessLogEntryOut(BaseModel):
+    action: str
+    actor_type: str
+    actor_name: str
+    ip: str | None = None
+    created_at: datetime
+
+
+class LedgerEntryOut(BaseModel):
+    seq: int
+    entity_type: str
+    entity_id: str
+    entity_sha256: str
+    prev_ledger_hash: str
+    ledger_hash: str
+    created_at: datetime
+
+
+class LedgerVerifyOut(BaseModel):
+    valid: bool
+    entries: int
+    broken_at_seq: int | None = None
+
+
+class ResultSheetCertificateOut(BaseModel):
+    result_sheet: ResultSheetOut
+    ledger_entry: LedgerEntryOut | None = None
+    access_log: list[AccessLogEntryOut] = []
+    agent_name: str | None = None
+    agent_email: str | None = None
+    generated_at: datetime
 
 
 class AdminPasswordUpdate(BaseModel):
